@@ -27,8 +27,15 @@ RUN pip3 install tensorflow \
 RUN pip3 install h5py \
     keras
 
+# Install misc
+RUN apt-get install -y graphviz
 
-RUN useradd docker -u 1001 -s /bin/bash -m
+RUN pip3 install pydot
+
+
+
+
+RUN useradd docker -u 1000 -s /bin/bash -m
 USER docker
 
 # Set working directory
