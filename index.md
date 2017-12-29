@@ -15,6 +15,13 @@ layout: page
 そこで「とりあえずこの位知っている事を前提に話をします」というような前提をここに記しておきます。
 自分に不足しているな、と思う所があれば、以下を適当に参考にしてください。
 
+## これだけ知っていれば大丈夫、という自己診断
+
+- 「https://github.com/karino2/tensorflow-introduction/ をgit cloneしてsourcesの中を見て」と言われて出来る
+- [CS231nのPython Numpyチュートリアル](http://cs231n.github.io/python-numpy-tutorial/) を見て大体分かる (分からない場合は以下の「Pythonの最低限の基礎知識」を参考の事）
+- [本家の Getting Started](https://www.tensorflow.org/get_started/get_started)の「Complete program」の所にあるコードを見て、似たようなコードに見覚えがある（初めて見た！という人は「Tensorflowを全く触った事が無い、という人はまず何をやるべきか？」を参考の事）
+
+とりあえずこの3つが分かるなら、後述の事前準備から初めて問題ありません。
 
 ## Pythonの最低限の知識
 
@@ -55,7 +62,19 @@ Getting startedをはじめ見た人で、さっぱりなんだか分からな�
 
 ここまで見て、良く分からない！という人が対象の話となります。
 
+# 事前準備
 
+動画に入る前に少し触ってみた事はある、という事を前提にしたいと思うので、
+以下くらいをやってみて欲しいと思います。
+
+1. tensorflowとjupyter notebookのセットアップ（してなければ）
+2. 2つのkoansを解いておく
+   - 分離直線を求める [koans_linear_classifier.ipynb](https://github.com/karino2/tensorflow-introduction/blob/master/sources/koans_linear_classifier.ipynb)
+      - [解答](https://github.com/karino2/tensorflow-introduction/blob/master/sources/koans_linear_classifier_answer.ipynb)
+   - 多項式フィッティング [koans_curve_fitting.ipynb](https://github.com/karino2/tensorflow-introduction/blob/master/sources/koans_curve_fitting.ipynb)
+      - [解答](https://github.com/karino2/tensorflow-introduction/blob/master/sources/koans_curve_fitting_answer.ipynb)
+
+なお、上記のkoansには必要なDockerfileが入っているので、Docker分かる人はそれを使ってもらっても構いません（分からない人は無視してもらってもOKです）
 
 # Tensorflow入門
 
