@@ -8,4 +8,12 @@ def assertEquals(expect, actual, epsilon=1e-3):
     if not success:
         print("FAILED!!! expect ({}), but actual ({})".format(expect, actual))
 
+def assertTrue(cond, msg=None):
+    if not cond:
+        if msg == None:
+            print("FAILED!!! assertTrue receives non-True value")
+        else:
+            print("FAILED!!! assertTrue: {}".format(msg))
+
+         
 
