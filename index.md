@@ -78,6 +78,8 @@ Getting startedをはじめ見た人で、さっぱりなんだか分からな�
 
 # Tensorflow入門
 
+自分が喋る用のメモ。
+
 - CPUとGPUの違い
    - マニュアルとベルトコンベア
 - Tensorflowとは何か
@@ -93,6 +95,35 @@ Getting startedをはじめ見た人で、さっぱりなんだか分からな�
   - assign
 
 
+ops.GraphKeys.TRAINABLE_VARIABLESは
+```
+TRAINABLE_VARIABLES = "trainable_variables"
+```
+
+ops.add_to_colectionsはdefault_graphのadd_to_collectionsを呼ぶ
+
+Graphは_collectionsというメンバ変数の辞書に、このキーで変数を保持する。
+
+
+Optimizerのminimimzeはcomnpute_gradsした後にapply_gradientsした結果を返す。
+
+
+```
+var_list = (
+          variables.trainable_variables() +
+          ops.get_collection(ops.GraphKeys.TRAINABLE_RESOURCE_VARIABLES))
+```
+
+
+が微分対象
+
+variables.trainable_variables()は
+
+```
+ops.get_collection(ops.GraphKeys.TRAINABLE_VARIABLES, scope)
+```
+
+で、だいたいdefault_graphから取ってくる。
 
 ---
 
