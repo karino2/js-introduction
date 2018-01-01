@@ -80,11 +80,18 @@ Getting startedをはじめ見た人で、さっぱりなんだか分からな�
 
 - CPUとGPUの違い
    - マニュアルとベルトコンベア
-- 自動微分
-- Computation Graphは設計図
+- Tensorflowとは何か
+   - コアはグラフを分散実行するライブラリ
+      - Computation Graphは設計図
+      - 何故グラフか？
+   - Python部は自動微分やOptimizer
+- tf.Variableとtf.Placeholder
+   - global registryとtrainnable
 - Pythonにおける足し算とシンタックスシュガー
-- assign
-- global registryとtrainnable
+- Optimizerとは何なのか？
+  - 自動微分
+  - assign
+
 
 
 ---
