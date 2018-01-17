@@ -80,15 +80,18 @@ Getting startedをはじめ見た人で、さっぱりなんだか分からな�
 
 自分が喋る用のメモ。
 
-- CPUとGPUの違い
-   - マニュアルとベルトコンベア
+
 - Tensorflowとは何か
    - コアはグラフを分散実行するライブラリ
       - Computation Graphは設計図
       - 何故グラフか？
+      - ノードはop、エッジはtensorが流れる
+      - client, master, worker
    - Python部は自動微分やOptimizer
+- CPUとGPUの違い
+   - マニュアルとベルトコンベア
 - tf.Variableとtf.Placeholder
-   - global registryとtrainnable
+   - グラフのcollectionsとtrainnable
 - Pythonにおける足し算とシンタックスシュガー
 - Optimizerとは何なのか？
   - 自動微分
