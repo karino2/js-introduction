@@ -76,10 +76,24 @@ Getting startedをはじめ見た人で、さっぱりなんだか分からな�
 
 なお、上記のkoansには必要なDockerfileが入っているので、Docker分かる人はそれを使ってもらっても構いません（分からない人は無視してもらってもOKです）
 
-# Tensorflow入門
+# ゆるふわTensorflow入門
 
-自分が喋る用のメモ。
+tensorflowの基礎を説明する入門動画のシリーズです。karino2が ＠Ikeda_yu にTensorflolwを教える、という形をとった、Tensorflow解説動画シリーズです。
 
+このサイトをここまで見てきた事を前提に、少し分かりにくい所などを説明していきます。
+
+[ゆるふわTensorflow 全五回 再生リスト](https://www.youtube.com/playlist?list=PL3J_mLcl4YCfQsBbQ2dHiAb3feX9EN6Qv)
+
+
+
+## 第一回 はじめに
+
+第一回はこのシリーズの狙いと、聞き手の ＠Ikeda_yu の簡単な自己紹介です。
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/iodVFlGqdio?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
+
+## 第二回 Tensorflow概要
 
 - Tensorflowとは何か
    - コアはグラフを分散実行するライブラリ
@@ -88,15 +102,39 @@ Getting startedをはじめ見た人で、さっぱりなんだか分からな�
       - ノードはop、エッジはtensorが流れる
       - client, master, worker
    - Python部は自動微分やOptimizer
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/b8u8mmrtyY0?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
+
+## 第三回 CPUとGPUってなーに？
+
 - CPUとGPUの違い
    - マニュアルとベルトコンベア
+
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/bHCK0DL7SJc?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
+
+## 第四回 PlaceholderとVariable
+
 - tf.Variableとtf.Placeholder
    - グラフのcollectionsとtrainnable
 - Pythonにおける足し算とシンタックスシュガー
-- Optimizerとは何なのか？
-  - 自動微分
-  - assign
 
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/tiKRJbvvLoM?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
+
+## 第五回 train_opってなんなのさ？
+
+- Optimizerとは何なのか？
+  - compute_grads
+  - apply_gradsとassign
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/ccCIGpCyIAM?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
+
+## 自分用メモ
 
 ops.GraphKeys.TRAINABLE_VARIABLESは
 ```
