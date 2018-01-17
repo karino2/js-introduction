@@ -1,5 +1,5 @@
 ---
-title: "Tensorflow入門ページ"
+title: "ゆるふわTensorflow入門ページ"
 layout: page
 ---
 
