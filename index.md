@@ -3,6 +3,9 @@ title: "ゆるふわTensorflow入門ページ"
 layout: page
 ---
 
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> 
+
+
 既存のTensorflow入門が気に食わないので自分で動画の説明を作ろうと思い、そのための補助教材置き場です。
 少し触ってみたけど良く分からない、という人向けに、エッセンスを話すのを目的とします。
 
