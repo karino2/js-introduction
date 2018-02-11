@@ -151,6 +151,7 @@ tensorflowの基礎を説明する入門動画のシリーズです。karino2が
 - forwardは上に書く、backwardは下に書く。今回はforwardは緑、backwardは赤にする。
 - backwardの最初はいつも1
 - 最終的には、細かい事はどうでもいい（あくまで計算に使うツールなので、計算さえ出来ればどうでも構わない）
+    - +1はどうする？-xか*-1か、etc.
 
 
 ### バックプロパゲーション
@@ -179,6 +180,7 @@ tensorflowの基礎を説明する入門動画のシリーズです。karino2が
 2. $$f(a, b, x, y) = y-a*x-b $$ を $$ (a, b, x, y) = 2, 3, 1, 5 $$で
     - -1の扱い方
 3. $$ f(w_0, w_1, w_2, x_0, x_1) = \frac{1}{1 + e^{-(w_0 \cdot x_0+w_1 \cdot x_1+w_2}} $$で、$$(w_0, w_1, w_2, x_0, x_1) = (2, -3, -3, -1, -2)$$。$$\sigma (x) = \frac{1}{1+e^{-x}}$$の微分を使ったパターンも考える。
+    - この辺でlocal gradientの話とか
 4. $$ f(x, y, w, z) = 2 \cdot (x \cdot y+max(w, z)) $$を$$ (x, y, w, z) = (3, -4, -1, 2) $$で。
 5. $$ y\_pred = a+b \cdot x+c \cdot x^2 $$で、 $$ loss = tf.reduce\_sum((y\_pred-y\_label)^2)$$ の時で、
 たとえば $$ (a, b, c, x, y\_label) = ((1, 1), (2, 2), (3, 3) , (2, 4), (5, 20) $$の時
