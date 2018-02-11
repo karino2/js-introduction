@@ -134,6 +134,51 @@ tensorflowの基礎を説明する入門動画のシリーズです。karino2が
 <iframe width="560" height="315" src="https://www.youtube.com/embed/ccCIGpCyIAM?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 
 
+## Computation graph
+
+[CS231n](http://cs231n.stanford.edu)のLecture 4あたりにある話。
+
+
+### 定義
+
+- 葉は変数。四角で描く
+- 間はオペレーション
+- オペレーションの後には中間変数を置く（backpropagationする場合）
+- forwardは上に書く、backwardは下に書く
+- backwardの最初はいつも1
+
+
+### バックプロパゲーション
+
+- まずは具体例から。問題1をやってみる
+    - まずは解析的に
+    - 次にbackpropagationで
+- 次に一つのノードに着目
+    - forwardの値と、そのノードの前の微分の結果だけを使って、そのノードの微分を計算する
+    - local gradientとupstream gradient
+    - みんなChain Ruleって言うけどさ
+- 良く使うパターンを導出する
+   - x + y
+   - x * y
+   - -x
+   - 1/x
+   - max
+   - exp
+   - $$\sigma(x)$$
+   - カーネルも実際この単位
+
+
+### 問題
+1. $$f(x, y, z) = (x+y)z $$を $$ x,y,z = -2, 5, -4$$で
+2. $$f(a, b, x, y) = y-a*x-b $$ を $$ (a, b, x, y) = 2, 3, 1, 5 $$で
+3. $$ y_pred = a+b*x+c*x^2 $$で、 $$ loss = tf.reduce_sum((y_pred-y_label)^2)$$ の時で、
+たとえば $$ (a, b, c, x, y_label) = ((1, 1), (2, 2), (3, 3) , (2, 4), (5, 3) $$の時（数字は適当なので変だったら後で変える）
+4. $$ f(w_0, w_1, w_2, x_0, x_1) = \frac{1}{1 + e^{-(w_0*x_0+w_1*x_1+w_2}} $$で、$$(w_0, w_1, w_2, x_0, x_1) = (2, -3, -3, -1, -2)$$。$$\sigma (x) = \frac{1}{1+e^{-x}}$$の微分を使ったパターンも考える。
+5. $$ f(x, y, w, z) = 2*(x*y+max(w, z)) $$を$$ 3, -4, -1, 2 $$で。
+
+答えはだいたい[CS231nのLecture note](http://cs231n.github.io/optimization-2/)にある。
+
+
 ## 自分用メモ
 
 ops.GraphKeys.TRAINABLE_VARIABLESは
