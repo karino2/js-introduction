@@ -137,7 +137,10 @@ tensorflowの基礎を説明する入門動画のシリーズです。karino2が
 <iframe width="560" height="315" src="https://www.youtube.com/embed/ccCIGpCyIAM?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 
 
-# 作って分かる、computation graph！（ゆるふわTensorflow入門、番外編）
+## 番外編
+
+
+[つくってわかる！computation graph](https://karino2.github.io/tensorflow-introduction/computation_graph.html)（ゆるふわTensorflow入門、番外編）
 
 computation graphが良く分からない、というフィードバックがあったので、computation graphの補講を作ってみる事にしました。
 
