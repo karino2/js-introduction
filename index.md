@@ -139,10 +139,11 @@ tensorflowの基礎を説明する入門動画のシリーズです。karino2が
 
 ## 番外編
 
+computation graphが良く分からない、というフィードバックがあったので、computation graphの補講を作ってみました！
 
 [つくってわかる！computation graph](https://karino2.github.io/tensorflow-introduction/computation_graph.html)（ゆるふわTensorflow入門、番外編）
 
-computation graphが良く分からない、というフィードバックがあったので、computation graphの補講を作ってみる事にしました。
+結構頑張って作ったので、こちらも見ていただけたら幸いです。（ただしちょっと本シリーズよりは難し目の内容です）。
 
 
 ----
@@ -178,10 +179,6 @@ ops.get_collection(ops.GraphKeys.TRAINABLE_VARIABLES, scope)
 ```
 
 で、だいたいdefault_graphから取ってくる。
-
-
-
-
 
 
 ---
