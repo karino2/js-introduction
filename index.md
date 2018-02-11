@@ -137,10 +137,25 @@ tensorflowの基礎を説明する入門動画のシリーズです。karino2が
 <iframe width="560" height="315" src="https://www.youtube.com/embed/ccCIGpCyIAM?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 
 
-## Computation graph
+# 作って分かる、computation graph！（ゆるふわTensorflow入門、番外編）
+
+computation graphが良く分からない、というフィードバックがあったので、computation graphの補講を作ってみる事にしました。
+
+computation graphは説明を受けてもいまいち分かったような分かってないような気になるだけだと思うので、
+今回は演習メインで行きたいと思います。
+自分でもぜひやってみて下さい。
 
 [CS231n](http://cs231n.stanford.edu)のLecture 4あたりにある話。
 
+
+## 第一回、まずはcomputation graphを書いてみよう
+
+第一回はcomputation graphって何？という話をしていきます。
+back propagationの事は忘れて、computation graphを実際に自分で書いてみよう。
+
+foward propagationもここでやります。
+
+とりあえず以下の問題のforward propagationを幾つか書いてみよう。
 
 ### 定義
 
@@ -154,7 +169,9 @@ tensorflowの基礎を説明する入門動画のシリーズです。karino2が
     - +1はどうする？-xか*-1か、etc.
 
 
-### バックプロパゲーション
+
+## 第二回、三回 backpropagation
+
 
 - まずは具体例から。問題1をやってみる
     - まずは解析的に
@@ -174,6 +191,21 @@ tensorflowの基礎を説明する入門動画のシリーズです。karino2が
    - $$\sigma(x)$$
    - カーネルも実際この単位
 
+## 第四回（？） tensorflowとの関係
+
+```python
+  l = y-a*x-b
+  loss = tf.reduce_sum((l-y_label)**2)
+  g = tf.gradients(loss, [a, b])
+
+  opt = tf.train.GradientDescentOptimizer(0.001)
+  grad_vars = list(zip(g, [a, b]))
+  opt.apply_gradients(grad_vars)
+
+  # だいたいは以下
+  train_op = [assign_op(v, v-grad*0.001) for v, grad in grad_vars]
+```
+
 
 ### 問題
 1. $$f(x, y, z) = (x+y)z $$を $$ (x,y,z) = (-2, 5, -4)$$で
@@ -183,7 +215,7 @@ tensorflowの基礎を説明する入門動画のシリーズです。karino2が
     - この辺でlocal gradientの話とか
 4. $$ f(x, y, w, z) = 2 \cdot (x \cdot y+max(w, z)) $$を$$ (x, y, w, z) = (3, -4, -1, 2) $$で。
 5. $$ y\_pred = a+b \cdot x+c \cdot x^2 $$で、 $$ loss = tf.reduce\_sum((y\_pred-y\_label)^2)$$ の時で、
-たとえば $$ (a, b, c, x, y\_label) = ((1, 1), (2, 2), (3, 3) , (2, 4), (5, 20) $$の時
+たとえば $$ (a, b, c, x, y\_label) = ((1, 1), (2, 2), (3, 3) , (2, 4), (5, 20)） $$の時
     - 行列の扱い
     - 複数回同じ変数が使われる場合
     - 毎回自力で出す
@@ -226,20 +258,6 @@ ops.get_collection(ops.GraphKeys.TRAINABLE_VARIABLES, scope)
 
 
 
-tf.gradients
-
-```python
-  l = y-a*x-b
-  loss = tf.reduce_sum((l-y_label)**2)
-  g = tf.gradients(loss, [a, b])
-
-  opt = tf.train.GradientDescentOptimizer(0.001)
-  grad_vars = list(zip(g, [a, b]))
-  opt.apply_gradients(grad_vars)
-
-  # だいたいは以下
-  train_op = assign_op(v, v-grad*0.001)
-```
 
 
 
