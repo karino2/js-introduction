@@ -16,6 +16,10 @@ computation graphは説明を受けてもいまいち分かったような分か
 
 [CS231n](http://cs231n.stanford.edu)のLecture 4あたりにある話。
 
+動画の再生リストは以下です。
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/videoseries?list=PL3J_mLcl4YCe7rPLONT5hULT9bOzf9Mnj" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
 
 ### 問題一覧
 
