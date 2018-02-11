@@ -109,39 +109,22 @@ $$ f(w_0, w_1, w_2, x_0, x_1) = \frac{1}{1 + e^{-(w_0 \cdot x_0+w_1 \cdot x_1+w_
 
 $$ f(x, y, w, z) = 2 \cdot (x \cdot y+max(w, z)) $$を$$ (x, y, w, z) = (3, -4, -1, 2) $$
 
+を計算してみましょう。
+ここで登場するmaxを題材に、back propagationについて、変数が変わった時のエラーへの影響という視点からも考えてみます。
+
 <iframe width="560" height="315" src="https://www.youtube.com/embed/N8yFvqONAS0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 
 
 ## 第六回 Tensorflowの視点から
 
+第五回まででComputation graphを書いてみる、という話をしてきました。
+
+第六回では、最後にTensorflowの典型的なコードとの対応関係を簡単に話していきたいと思います。
+
+
 <iframe width="560" height="315" src="https://www.youtube.com/embed/NnbMWXOI664" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 
-----
-
-### 以下個人用メモ
-
-
-
-- まずは具体例から。問題1をやってみる
-    - まずは解析的に
-    - 次にbackpropagationで
-- 次に一つのノードに着目
-    - forwardの値と、そのノードの前の微分の結果だけを使って、そのノードの微分を計算する
-    - local gradientとupstream gradient(ある程度やってみたあとに）
-    - みんなChain Ruleって言うけどさ
-    - 掛け算のケースで意味する所を考える。
-- 良く使うパターンを導出する
-   - x + y
-   - x * y
-   - -x
-   - 1/x
-   - max
-   - exp
-   - $$\sigma(x)$$
-   - カーネルも実際この単位
-
-
-
+コードとしては、だいたい以下のようなコードの話をします。
 
 ```python
   l = y-a*x-b
@@ -152,9 +135,6 @@ $$ f(x, y, w, z) = 2 \cdot (x \cdot y+max(w, z)) $$を$$ (x, y, w, z) = (3, -4, 
   grad_vars = list(zip(g, [a, b]))
   opt.apply_gradients(grad_vars)
 
-  # だいたいは以下
+  # 上のブロックは、だいたいは以下と同じ
   train_op = [assign_op(v, v-grad*0.001) for v, grad in grad_vars]
 ```
-
-
-
