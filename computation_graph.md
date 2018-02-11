@@ -143,14 +143,6 @@ $$ f(x, y, w, z) = 2 \cdot (x \cdot y+max(w, z)) $$を$$ (x, y, w, z) = (3, -4, 
 
 
 
-back propagationの事は忘れて、computation graphを実際に自分で書いてみよう。
-foward propagationもここでやります。
-
-とりあえず以下の問題のforward propagationを幾つか書いてみよう。
-
-
-## 第四回（？） tensorflowとの関係
-
 ```python
   l = y-a*x-b
   loss = tf.reduce_sum((l-y_label)**2)
