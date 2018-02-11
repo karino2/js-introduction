@@ -145,7 +145,9 @@ tensorflowの基礎を説明する入門動画のシリーズです。karino2が
 computation graphが良く分からない、というフィードバックがあったので、computation graphの補講を作ってみる事にしました。
 
 
-## 自分用メモ
+----
+
+### 以下自分用メモ
 
 ops.GraphKeys.TRAINABLE_VARIABLESは
 ```
