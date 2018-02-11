@@ -222,6 +222,13 @@ tf.gradients
   l = y-a*x-b
   loss = tf.reduce_sum((l-y_label)**2)
   g = tf.gradients(loss, [a, b])
+
+  opt = tf.train.GradientDescentOptimizer(0.001)
+  grad_vars = list(zip(g, [a, b]))
+  opt.apply_gradients(grad_vars)
+
+  # だいたいは以下
+  train_op = assign_op(v, v-grad*0.001)
 ```
 
 
