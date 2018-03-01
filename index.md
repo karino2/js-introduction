@@ -65,8 +65,7 @@ JavaScriptって昨今はそういう拡張系の用途が結構あって、そ�
 
 <input type="button" id="ex1-button" value="実行" />
 <textarea id="ex1-tarea">
-3+4
-</textarea><br>
+3+4</textarea>
 結果: <span id="ex1-console"></span>
 
 こうなります。「+」の前後の空白は無くても構いません。
