@@ -7,8 +7,8 @@ layout: page
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.35.0/codemirror.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.35.0/mode/javascript/javascript.js"></script>
 <style>
-        .CodeMirror { height: auto; border: 1px solid #ddd; }
-        .console { border: 1px solid #333; color: rgb(48, 68, 216);  }
+    .CodeMirror { height: auto; border: 1px solid #ddd; }
+    .console { border: 1px solid #333; color: rgb(48, 68, 216); padding: 0px 5px 0px 5px; }
 </style>
 
 <script type="text/javascript" src="https://rawgit.com/karino2/js-introduction/master/scripts/env.js"></script>
@@ -74,6 +74,8 @@ JavaScriptって昨今はそういう拡張系の用途が結構あって、そ�
 
 こうなります。「+」の前後の空白は無くても構いません。「実行」ボタン押してみてください。「結果」の所に7と表示されたはずです。
 3たす4は7、という事ですね。
+
+なお、テキストエリアは変更して実行する事が出来るので、いろいろ変えて試してみてください。
 
 では次に掛け算です。「5掛ける12」は以下のようになります。
 
