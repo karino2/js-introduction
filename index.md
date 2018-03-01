@@ -13,7 +13,7 @@ layout: page
 <script type="text/javascript" src="https://rawgit.com/karino2/js-introduction/master/scripts/env.js"></script>
 <script>
   document.body.onload = function() {
-    var idlist = ["ex1", "ex2];
+    var idlist = ["ex1", "ex2"];
     setupAll(idlist);
   }
 </script>
