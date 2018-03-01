@@ -14,7 +14,7 @@ layout: page
 <script type="text/javascript" src="https://rawgit.com/karino2/js-introduction/master/scripts/env.js"></script>
 <script>
   document.body.onload = function() {
-    var idlist = ["ex1", "ex2"];
+    var idlist = ["ex1", "ex2", "ex3", "ex4", "ex5", "ex6", "ex7", "ex8", "q1", "q2", "q3", "q4"];
     setupAll(idlist);
   }
 </script>
@@ -90,9 +90,12 @@ JavaScriptって昨今はそういう拡張系の用途が結構あって、そ�
 掛けるはJavaScriptでは「*」で表します。なお、割り算は「/」です。
 つなげて書く事も出来ます。
 
-```
-5*2-3
-```
+<div id="ex3">
+<input type="button" value="実行" />
+<textarea>
+ 5*2-3</textarea>
+<b>結果:</b> <span class="console"></span><br>
+</div>
 
 こうやって普通に計算する事が出来ます。
 
@@ -101,16 +104,21 @@ JavaScriptって昨今はそういう拡張系の用途が結構あって、そ�
 
 以上を参考に、8たす4を計算してみてください。
 
-TODO: ここに問題を書く
-
+<div id="q1">
+<input type="button" value="実行" />
 <textarea>
-3+4
-テキストエリアのテスト。
 </textarea>
+<b>結果:</b> <span class="console"></span><br>
+</div>
 
 ### 課題2. 8割る2を計算せよ
 
-TODO: ここに問題を書く
+<div id="q2">
+<input type="button" value="実行" />
+<textarea>
+</textarea>
+<b>結果:</b> <span class="console"></span><br>
+</div>
 
 
 ## 文字を作ろう
@@ -120,37 +128,67 @@ TODO: ここに問題を書く
 
 例えば、「ぬっくぬくなこーしー」という文字は、以下のように表します。
 
-```
-"ぬっくぬくなこーしー"
-```
+<div id="ex4">
+<input type="button" value="実行" />
+<textarea>
+ "ぬっくぬくなこーしー"</textarea>
+<b>結果:</b> <span class="console"></span><br>
+</div>
 
 JavaScriptでは、文字はダブルクオート、「"」で囲むという決まりになっています。
 文字は英語でも日本語でもこうやってダブルクオートで囲んで書く事が出来ます。
 
-```
-"しゅるしゅるする"
-```
+<div id="ex5">
+<input type="button" value="実行" />
+<textarea>
+ "しゅるしゅるする"</textarea>
+<b>結果:</b> <span class="console"></span><br>
+</div>
 
-```
-"Second Life"
-```
+<div id="ex6">
+<input type="button" value="実行" />
+<textarea>
+ "Second Life"</textarea>
+<b>結果:</b> <span class="console"></span><br>
+</div>
 
-```
-"むぇ〜〜〜"
-```
+<div id="ex7">
+<input type="button" value="実行" />
+<textarea>
+ "むぇ〜〜〜"</textarea>
+<b>結果:</b> <span class="console"></span><br>
+</div>
 
 文字は「+」でつなげる事が出来ます。
 
-```
-"ぬくぬくなこーしーを"+"しゅるしゅるする"
-```
+<div id="ex8">
+<input type="button" value="実行" />
+<textarea>
+ "ぬくぬくなこーしーを"+"しゅるしゅるする"</textarea>
+<b>結果:</b> <span class="console"></span><br>
+</div>
 
 結果では「+」がなくなって、ダブルクオートも全体がくくられているだけになりましたね。
 今はなんだか良く分からなくても、そんな事もある、と思っておいてください。
 
 ### 課題1. 「筋トレしろ！」という文字を作れ
 
+<div id="q3">
+<input type="button" value="実行" />
+<textarea>
+</textarea>
+<b>結果:</b> <span class="console"></span><br>
+</div>
+
+
 ### 課題2. 「自意識チェックを」という文字と「しろ！」という文字を連結せよ
+
+<div id="q4">
+<input type="button" value="実行" />
+<textarea>
+</textarea>
+<b>結果:</b> <span class="console"></span><br>
+</div>
 
 
 ## 文字を表示しよう
