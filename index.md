@@ -13,7 +13,7 @@ layout: page
 <script type="text/javascript" src="https://rawgit.com/karino2/js-introduction/master/scripts/env.js"></script>
 <script>
   document.body.onload = function() {
-    var idlist = ["ex1"];
+    var idlist = ["ex1", "ex2];
     setupAll(idlist);
   }
 </script>
@@ -63,18 +63,25 @@ JavaScriptって昨今はそういう拡張系の用途が結構あって、そ�
 
 まずは「3たす4」を計算してみましょう。
 
-<input type="button" id="ex1-button" value="実行" />
-<textarea id="ex1-tarea">
-3+4</textarea>
-結果: <span id="ex1-console"></span>
+<div id="ex1">
+<input type="button" value="実行" />
+<textarea>
+3+4</textarea><br>
+結果: <span class="console"></span>
+</div>
+
 
 こうなります。「+」の前後の空白は無くても構いません。
 
 では次に掛け算です。「5掛ける12」は以下のようになります。
 
-```
-5*12
-```
+<div id="ex2">
+<input type="button" value="実行" />
+<textarea>
+5*12</textarea><br>
+結果: <span class="console"></span>
+</div>
+
 
 掛けるはJavaScriptでは「*」で表します。なお、割り算は「/」です。
 つなげて書く事も出来ます。

@@ -1,9 +1,10 @@
 function setupREPL(id) {
-    var editor = CodeMirror.fromTextArea(document.getElementById(id+"-tarea"), {
+    var holder = document.getElementById(id);
+    var button = holder.getElementsByTagName("input")[0];
+    var editor = CodeMirror.fromTextArea(holder.getElementsByTagName("textarea")[0], {
         lineNumbers: true,
     })
-    var cons = document.getElementById(id+"-console")
-    var button = document.getElementById(id+"-button");
+    var cons = holder.getElementsByClassName("console")[0]
     button.onclick = function() { 
         try {
             var res = eval(editor.getValue());
