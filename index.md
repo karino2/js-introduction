@@ -8,6 +8,7 @@ layout: page
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.35.0/mode/javascript/javascript.js"></script>
 <style>
         .CodeMirror { height: auto; border: 1px solid #ddd; }
+        .console { border: 1px solid #333; color: rgb(48, 68, 216);  }
 </style>
 
 <script type="text/javascript" src="https://rawgit.com/karino2/js-introduction/master/scripts/env.js"></script>
@@ -67,7 +68,7 @@ JavaScriptって昨今はそういう拡張系の用途が結構あって、そ�
 <input type="button" value="実行" />
 <textarea>
  3 + 4</textarea>
-**結果**: <span class="console"></span>
+<b>結果:</b> <span class="console"></span><br>
 </div>
 
 
@@ -80,7 +81,7 @@ JavaScriptって昨今はそういう拡張系の用途が結構あって、そ�
 <input type="button" value="実行" />
 <textarea>
  5*12</textarea>
-**結果**: <span class="console"></span>
+<b>結果:</b> <span class="console"></span><br>
 </div>
 
 
