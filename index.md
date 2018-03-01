@@ -66,20 +66,21 @@ JavaScriptって昨今はそういう拡張系の用途が結構あって、そ�
 <div id="ex1">
 <input type="button" value="実行" />
 <textarea>
-3+4</textarea><br>
-結果: <span class="console"></span>
+ 3 + 4</textarea>
+**結果**: <span class="console"></span>
 </div>
 
 
-こうなります。「+」の前後の空白は無くても構いません。
+こうなります。「+」の前後の空白は無くても構いません。「実行」ボタン押してみてください。「結果」の所に7と表示されたはずです。
+3たす4は7、という事ですね。
 
 では次に掛け算です。「5掛ける12」は以下のようになります。
 
 <div id="ex2">
 <input type="button" value="実行" />
 <textarea>
-5*12</textarea><br>
-結果: <span class="console"></span>
+ 5*12</textarea>
+**結果**: <span class="console"></span>
 </div>
 
 
