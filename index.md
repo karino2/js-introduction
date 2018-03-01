@@ -3,7 +3,7 @@ title: "算数で挫折した人向けのJavaScript入門"
 layout: page
 ---
 
-<script type="text/javascript/" src="{{site.url}}/scripts/hello.js"></script>
+<script type="text/javascript">{% asset hello %}</script>
 
 # はじめに
 
