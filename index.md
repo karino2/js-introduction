@@ -147,8 +147,8 @@ JavaScriptでは、文字はダブルクオート、「"」で囲むという決
 <b>結果:</b> <span class="console"></span><br>
 </div>
 
-英語の文字とか、
 
+英語の文字とか、
 <div id="ex6">
 <input type="button" value="実行" />
 <textarea>
@@ -156,8 +156,8 @@ JavaScriptでは、文字はダブルクオート、「"」で囲むという決
 <b>結果:</b> <span class="console"></span><br>
 </div>
 
-鳴き声（？）やら、
 
+鳴き声（？）やら、
 <div id="ex7">
 <input type="button" value="実行" />
 <textarea>
@@ -168,7 +168,6 @@ JavaScriptでは、文字はダブルクオート、「"」で囲むという決
 もこういう風に書けます。
 
 さらに、文字は「+」でつなげる事が出来ます。
-
 <div id="ex8">
 <input type="button" value="実行" />
 <textarea>
