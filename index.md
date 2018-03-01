@@ -138,12 +138,16 @@ JavaScriptって昨今はそういう拡張系の用途が結構あって、そ�
 JavaScriptでは、文字はダブルクオート、「"」で囲むという決まりになっています。
 文字は英語でも日本語でもこうやってダブルクオートで囲んで書く事が出来ます。
 
+例えばこんなのや、
+
 <div id="ex5">
 <input type="button" value="実行" />
 <textarea>
  "しゅるしゅるする"</textarea>
 <b>結果:</b> <span class="console"></span><br>
 </div>
+
+英語の文字とか、
 
 <div id="ex6">
 <input type="button" value="実行" />
@@ -152,6 +156,8 @@ JavaScriptでは、文字はダブルクオート、「"」で囲むという決
 <b>結果:</b> <span class="console"></span><br>
 </div>
 
+鳴き声（？）やら、
+
 <div id="ex7">
 <input type="button" value="実行" />
 <textarea>
@@ -159,7 +165,9 @@ JavaScriptでは、文字はダブルクオート、「"」で囲むという決
 <b>結果:</b> <span class="console"></span><br>
 </div>
 
-文字は「+」でつなげる事が出来ます。
+もこういう風に書けます。
+
+さらに、文字は「+」でつなげる事が出来ます。
 
 <div id="ex8">
 <input type="button" value="実行" />
@@ -168,7 +176,7 @@ JavaScriptでは、文字はダブルクオート、「"」で囲むという決
 <b>結果:</b> <span class="console"></span><br>
 </div>
 
-結果では「+」がなくなって、ダブルクオートも全体がくくられているだけになりましたね。
+結果では「+」がなくなって一つの文になりましたね。
 今はなんだか良く分からなくても、そんな事もある、と思っておいてください。
 
 ### 課題1. 「筋トレしろ！」という文字を作れ
