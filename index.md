@@ -3,7 +3,20 @@ title: "算数で挫折した人向けのJavaScript入門"
 layout: page
 ---
 
-<script type="text/javascript" src="https://rawgit.com/karino2/js-introduction/master/scripts/hello.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.35.0/codemirror.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.35.0/codemirror.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.35.0/mode/javascript/javascript.js"></script>
+<style>
+        .CodeMirror { height: auto; border: 1px solid #ddd; }
+</style>
+
+<script type="text/javascript" src="https://rawgit.com/karino2/js-introduction/master/scripts/env.js"></script>
+<script>
+  document.body.onload = function() {
+    var idlist = ["ex1"];
+    setupAll(idlist);
+  }
+</script>
 
 # あらすじ（モチベーション）
 
@@ -50,9 +63,11 @@ JavaScriptって昨今はそういう拡張系の用途が結構あって、そ�
 
 まずは「3たす4」を計算してみましょう。
 
-```
-3 + 4
-```
+<input type="button" id="ex1-button" value="実行" />
+<textarea id="ex1-tarea">
+3+4
+</textarea><br>
+結果: <span id="ex1-console"></span>
 
 こうなります。「+」の前後の空白は無くても構いません。
 
