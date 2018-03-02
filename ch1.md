@@ -87,6 +87,12 @@ var questions = [];
 
 以上を参考に、8たす4を計算してみてください。
 
+これが記念すべき初の課題となるので、課題の解き方を説明します。
+
+下のテキスト入力する所に、コードを書いて実行を押してください。
+正解なら「正解です」と表示されます。
+
+また、答えを見たい時は「答えを見る」のボタンを押してください。
 
 <script>
   questions.push({
@@ -119,14 +125,39 @@ var questions = [];
 </div>        
 </div>
 
+もう一つやってみます。
 
 ### 課題2. 8割る2を計算せよ
+
+<script>
+  questions.push({
+    id: "q2",
+    verifyScript: function(str) {
+        if(str.indexOf("/") != -1){
+            return true;
+        }
+        return "/を使ってください。"
+    },
+    verifyAnswer: function(val) {
+        if(val == 4) {
+            return true;
+        }
+        return "結果が違います。"
+    }
+  });
+ </script>
 
 <div id="q2">
 <input type="button" value="実行" />
 <textarea>
 </textarea>
 <b>結果:</b> <span class="console"></span><br>
+<span class="result"></span><br>
+<input type="button" value="答えを見る" />
+<div class="answer hideanswer">
+答え:<br>
+8/2
+</div>        
 </div>
 
 
@@ -189,12 +220,33 @@ JavaScriptでは、文字はダブルクオート、「"」で囲むという決
 
 ### 課題1. 「筋トレしろ！」という文字を作れ
 
+
+<script>
+  questions.push({
+    id: "q3",
+    verifyScript: function(str) { return true; },
+    verifyAnswer: function(val) {
+        if(val == "筋トレしろ！") {
+            return true;
+        }
+        return "結果が違います。"
+    }
+  });
+ </script>
+
 <div id="q3">
 <input type="button" value="実行" />
 <textarea>
 </textarea>
 <b>結果:</b> <span class="console"></span><br>
+<span class="result"></span><br>
+<input type="button" value="答えを見る" />
+<div class="answer hideanswer">
+答え:<br>
+"筋トレしろ！"
+</div>        
 </div>
+
 
 
 ### 課題2. 「自意識チェックを」という文字と「しろ！」という文字を連結せよ
