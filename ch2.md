@@ -1,5 +1,5 @@
 ---
-title: "算数で挫折した人向けのJavaScript入門"
+title: "第二章: "
 layout: page
 ---
 
