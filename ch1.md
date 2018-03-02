@@ -21,7 +21,6 @@ layout: page
 <script type="text/javascript" src="https://rawgit.com/karino2/js-introduction/master/scripts/env.js"></script>
 <script>
 var questions = [];
-// , "q1", "q2", "q3", "q4"
 
   document.body.onload = function() {
     var idlist = ["ex1", "ex2", "ex3", "ex4", "ex5", "ex6", "ex7", "ex8"];
@@ -38,10 +37,10 @@ var questions = [];
 ただ、プログラムは最初が一番難しい。
 プログラムの最初は、ちゃんと説明するといろいろ複雑です。
 
-そこで、最初は分からないまま動かす方が簡単です。
+そこで、最初は分からないまま動かしてみましょう。
 動かしているうちになんとなく分かっていくものです。
 
-そういう訳で、この最初の章では、あまり理屈は考えずに、とにかくいろいろ動かしてみる所から始めたいと思います。
+そういう訳で、この第一回では、あまり理屈は考えずに、とにかくいろいろ動かしてみる所から始めたいと思います。
 
 ## 計算をしてみよう
 
@@ -54,6 +53,7 @@ var questions = [];
 <b>結果:</b> <span class="console"></span><br>
 </div>
 
+　  
 
 こうなります。「+」の前後の空白は無くても構いません。「実行」ボタン押してみてください。「結果」の所に7と表示されたはずです。
 3たす4は7、という事ですね。
@@ -69,6 +69,7 @@ var questions = [];
 <b>結果:</b> <span class="console"></span><br>
 </div>
 
+　  
 
 掛けるはJavaScriptでは「*」で表します。なお、割り算は「/」です。
 つなげて書く事も出来ます。
@@ -79,6 +80,8 @@ var questions = [];
  5*2-3</textarea>
 <b>結果:</b> <span class="console"></span><br>
 </div>
+
+　  
 
 こうやって普通に計算する事が出来ます。
 ではここまでを踏まえて、問題を解いてみましょう。
@@ -180,6 +183,8 @@ var questions = [];
 <b>結果:</b> <span class="console"></span><br>
 </div>
 
+　  
+
 JavaScriptでは、文字はダブルクオート、「"」で囲むという決まりになっています。
 文字は英語でも日本語でもこうやってダブルクオートで囲んで書く事が出来ます。
 
@@ -192,6 +197,8 @@ JavaScriptでは、文字はダブルクオート、「"」で囲むという決
 <b>結果:</b> <span class="console"></span><br>
 </div>
 
+　  
+
 
 英語の文字とか、
 <div id="ex6">
@@ -201,6 +208,7 @@ JavaScriptでは、文字はダブルクオート、「"」で囲むという決
 <b>結果:</b> <span class="console"></span><br>
 </div>
 
+　  
 
 鳴き声（？）やら、
 <div id="ex7">
@@ -209,6 +217,8 @@ JavaScriptでは、文字はダブルクオート、「"」で囲むという決
  "むぇ〜〜〜"</textarea>
 <b>結果:</b> <span class="console"></span><br>
 </div>
+
+　  
 
 もこういう風に書けます。
 
@@ -220,8 +230,12 @@ JavaScriptでは、文字はダブルクオート、「"」で囲むという決
 <b>結果:</b> <span class="console"></span><br>
 </div>
 
+　  
+
 結果では「+」がなくなって一つの文になりましたね。
 今はなんだか良く分からなくても、そんな事もある、と思っておいてください。
+
+それでは文字の問題もやってみましょう。
 
 ### 課題1. 「筋トレしろ！」という文字を作れ
 
