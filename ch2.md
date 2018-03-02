@@ -15,7 +15,7 @@ layout: page
 <script>
   document.body.onload = function() {
     var idlist = ["ex1", "ex2", "ex3", "ex4", "ex5"];
-    setupAll(idlist);
+    setupAllRepls(idlist);
   }
 </script>
 

@@ -9,13 +9,25 @@ layout: page
 <style>
     .CodeMirror { height: auto; border: 1px solid #ddd; }
     .console { border: 1px solid #333; color: rgb(48, 68, 216); padding: 0px 5px 0px 5px; }
+
+    .answer {color: red;  }
+    .hideanswer { display: none; }
+    .result {font-size: large;}
+    .wrong {color: red;  }
+    .correct {color: rgb(0, 89, 255);  }
+
 </style>
 
 <script type="text/javascript" src="https://rawgit.com/karino2/js-introduction/master/scripts/env.js"></script>
 <script>
+var questions = [];
+// , "q1", "q2", "q3", "q4"
+
   document.body.onload = function() {
-    var idlist = ["ex1", "ex2", "ex3", "ex4", "ex5", "ex6", "ex7", "ex8", "q1", "q2", "q3", "q4"];
-    setupAll(idlist);
+    var idlist = ["ex1", "ex2", "ex3", "ex4", "ex5", "ex6", "ex7", "ex8"];
+    setupAllRepls(idlist);
+
+    setupAllQuestions(questions);
   }
 </script>
 
@@ -75,12 +87,38 @@ layout: page
 
 以上を参考に、8たす4を計算してみてください。
 
+
+<script>
+  questions.push({
+    id: "q1",
+    verifyScript: function(str) {
+        if(str.indexOf("+") != -1){
+            return true;
+        }
+        return "+を使ってください。"
+    },
+    verifyAnswer: function(val) {
+        if(val == 12) {
+            return true;
+        }
+        return "結果が違います。"
+    }
+  });
+ </script>
+
 <div id="q1">
 <input type="button" value="実行" />
 <textarea>
 </textarea>
 <b>結果:</b> <span class="console"></span><br>
+<span class="result"></span><br>
+<input type="button" value="答えを見る" />
+<div class="answer hideanswer">
+答え:<br>
+8+4
+</div>        
 </div>
+
 
 ### 課題2. 8割る2を計算せよ
 
