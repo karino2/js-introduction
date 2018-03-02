@@ -125,6 +125,8 @@ var questions = [];
 </div>        
 </div>
 
+  
+
 もう一つやってみます。
 
 ### 課題2. 8割る2を計算せよ
@@ -159,6 +161,8 @@ var questions = [];
 8/2
 </div>        
 </div>
+
+  
 
 
 ## 文字を作ろう
@@ -251,12 +255,39 @@ JavaScriptでは、文字はダブルクオート、「"」で囲むという決
 
 ### 課題2. 「自意識チェックを」という文字と「しろ！」という文字を連結せよ
 
+<script>
+  questions.push({
+    id: "q4",
+    verifyScript: function(str) {
+        if(str.indexOf("+") != -1){
+            return true;
+        }
+        return "+を使ってください。"
+    },
+    verifyAnswer: function(val) {
+        if(val == "自意識チェックをしろ！") {
+            return true;
+        }
+        return "結果が違います。"
+    }
+  });
+ </script>
+
 <div id="q4">
 <input type="button" value="実行" />
 <textarea>
 </textarea>
 <b>結果:</b> <span class="console"></span><br>
+<span class="result"></span><br>
+<input type="button" value="答えを見る" />
+<div class="answer hideanswer">
+答え:<br>
+"自意識チェックを"+"しろ！"
+</div>        
 </div>
+
+  
+以上で第一回は終わりです。お疲れさまでした。
 
 
 # 第一回まとめ
