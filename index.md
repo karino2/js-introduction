@@ -5,7 +5,7 @@ layout: page
 
 全くプログラムを知らないが、プラグインなどでJavaScriptを使いたい人向けの入門ページです。
 
-- [第一章: はじめてのJavaScriptプログラム](ch1.md)
+- [第一回: はじめてのJavaScriptプログラム](ch1.md)
 - [工事中](ch2.md)
 
 
