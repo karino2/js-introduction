@@ -154,10 +154,10 @@ function setupQuestion2(qobj) {
     var id = qobj.id;
     var [runButton, editor, cons, resultSpan] = setupQuestionElems(id);
 
-    messageBoxShowLogs = []
 
     runButton.onclick = function() { 
         try {
+            messageBoxShowLogs = []
             var scr = editor.getValue();
             var verify = qobj.verifyScript(scr);
             if(verify!= true) {

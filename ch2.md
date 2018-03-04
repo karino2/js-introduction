@@ -169,9 +169,12 @@ MessageBox.show("一つ目！"); MessageBox.show("二つ目！");</textarea>
 あまり同じ行に並べても良い事はありませんが、こんな事も出来ますよ、という事で。   
 
 **セミコロンっているの？**  
-セミコロンをつけるかどうかは、JavaScriptでは少し論争のある所です。だいたいの人はつけていると思いますが、JavaScriptには「セミコロンオートインサーション」という、セミコロンを忘れてるっぽかったら勝手につけて解釈する、という機能があり、これが意図的につけないコードをつけ忘れと勘違いして、非常に分かりにくいバグを生んだりします。そこで最初からつけない方が良いのでは無いのか、という人も居ます。
-このシリーズではつける事にしました。理由としては、このコースの目的が、JavaScriptだけでなく、JavaScriptに「似た」プラグイン等を書く場合も視野に入れているからです。
-JavaScripに似た言語、例えばUnit Scriptや吉里吉里のTJS、SecondLifeのLSLなどは、普通セミコロンが必須となっています。何も考えずにつけておくのがゆとりの生き様って奴だと思います。
+セミコロンをつけるかどうかは、JavaScriptでは少し論争のある所です。  
+だいたいの人はつけていると思いますが、JavaScriptには「セミコロンオートインサーション」という、セミコロンを忘れてるっぽかったら勝手につけて解釈する、という機能があり、これが意図的につけないコードをつけ忘れと勘違いして、非常に分かりにくいバグを生んだりします。  
+そこで最初からつけない方が良いのでは無いのか、という人も居ます。  
+ですが、このシリーズでは全てつける事にしました。理由としては、このコースの目的が、JavaScriptだけでなく、JavaScriptに「似た」プラグイン等を書く場合も視野に入れているからです。  
+JavaScripに似た言語、例えばUnit Scriptや吉里吉里のTJS、SecondLifeのLSLなどは、普通セミコロンが必須となっています。  
+何も考えずにつけておくのがゆとりの生き様って奴だと思います。
 {: .column}
 
 # コメントをつけよう
@@ -241,7 +244,7 @@ MessageBox.show("ここも表示される"); </textarea>
         if(str.indexOf('MessageBox.show("ここの行をコメントせよ");') != -1){
             return true;
         }
-        return 'MessageBox.show("ここの行をコメントせよ"); の行はコメントで残してください。';
+        return '「MessageBox.show("ここの行をコメントせよ");」 の行はコメントで残してください。';
     },
     verifyAnswer: function(val) {
         if(messageBoxShowLogs.length != 2) {
@@ -267,8 +270,8 @@ MessageBox.show("ここも表示させたまま");</textarea>
 <input type="button" value="答えを見る" />
 <div class="answer hideanswer">
 答え:<br>
-MessageBox.show("ここは表示させたまま");
-// MessageBox.show("ここの行をコメントせよ");
+MessageBox.show("ここは表示させたまま");<br>
+// MessageBox.show("ここの行をコメントせよ");<br>
 MessageBox.show("ここも表示させたまま");
 </div>        
 </div>
