@@ -22,8 +22,8 @@ layout: page
   document.body.onload = function() {
     myInterpreter = new Interpreter('MessageBox = {show: SmokeAlert};', initFunc);
 
-    
-    setupAllRREPL2(10);
+
+    setupAllREPL2(10);
   }
 </script>
 
