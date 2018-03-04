@@ -83,3 +83,66 @@ function setupAllRepls(idlist) {
         setupREPL(idlist[i]);
     }
 }
+
+
+
+
+var runInterpreterProgress = ()=>{};
+
+function setupAllREPL2(eidNum) {
+    for(var i =1; i <= eidNum; i++) {
+        setupREPL2("ex" + i);
+    }
+}
+
+
+function setupREPL2(id) {
+    var holder = document.getElementById(id);
+    var button = holder.getElementsByTagName("input")[0];
+    var editor = CodeMirror.fromTextArea(holder.getElementsByTagName("textarea")[0], {
+        lineNumbers: true,
+    })
+    var cons = holder.getElementsByClassName("console")[0]
+    button.onclick = function() { 
+        try {
+            myInterpreter.appendCode(editor.getValue());
+            runInterpreterProgress = () => {
+                try {
+                    if(myInterpreter.run()) {
+                        return true;
+                    }
+                    var res = myInterpreter.value
+                    if(res != undefined){
+                        cons.innerText = res;
+                    } else {
+                        cons.innerText = "";
+                    }
+                    return false;
+                }catch(err) {
+                    cons.innerText = "なにかおかしいです。 (" + err.message + ")";
+                    return false;
+                }
+
+            }
+            runInterpreterProgress();
+        }catch(err) {
+            cons.innerText = "なにかおかしいです。 (" + err.message + ")";                
+        }
+    };
+}
+
+function smokeAlert(msg, callback) {
+    smoke.alert(msg, e=>{callback(), setTimeout(()=>runInterpreterProgress())} );
+}
+
+
+
+function initFunc(interpreter, scope) {
+    interpreter.setProperty(scope, 'SmokeAlert',
+          interpreter.createAsyncFunction(smokeAlert));
+};
+
+
+
+var myInterpreter;
+

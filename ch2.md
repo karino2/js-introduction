@@ -10,12 +10,20 @@ layout: page
     .CodeMirror { height: auto; border: 1px solid #ddd; }
     .console { border: 1px solid #333; color: rgb(48, 68, 216); padding: 0px 5px 0px 5px; }
 </style>
+<link rel="stylesheet" href="https://rawgit.com/karino2/js-introduction/master/scripts/smoke.css" />
+<script src="https://rawgit.com/karino2/js-introduction/master/scripts/smoke.min.js"></script>                    
+<script src="https://neil.fraser.name/software/JS-Interpreter/acorn_interpreter.js"></script>
 
 <script type="text/javascript" src="https://rawgit.com/karino2/js-introduction/master/scripts/env.js"></script>
+
+
+
 <script>
   document.body.onload = function() {
-    var idlist = ["ex1", "ex2", "ex3", "ex4", "ex5"];
-    setupAllRepls(idlist);
+    myInterpreter = new Interpreter('MessageBox = {show: SmokeAlert};', initFunc);
+
+    
+    setupAllRREPL2(10);
   }
 </script>
 
