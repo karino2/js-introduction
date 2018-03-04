@@ -43,7 +43,7 @@ var questions = [];
     myInterpreter = new Interpreter('MessageBox = {show: SmokeAlert};', initFunc);
 
 
-    setupAllREPL2(10);
+    setupAllREPL2(11);
     setupAllQuestions2(questions);
   }
 </script>
@@ -337,7 +337,7 @@ MessageBox.show("ここはコメントではありません。");</textarea>
 
         for(var i = 0; i < mustExists.length; i++) {
           var cur = mustExists[i];
-          if(str.indexOf(cur) ＝= -1){
+          if(str.indexOf(cur) == -1){
             return '「' + cur + '」 の行はコメントで残してください。';
           }
         }
