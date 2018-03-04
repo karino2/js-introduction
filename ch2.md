@@ -9,6 +9,15 @@ layout: page
 <style>
     .CodeMirror { height: auto; border: 1px solid #ddd; }
     .console { border: 1px solid #333; color: rgb(48, 68, 216); padding: 0px 5px 0px 5px; }
+
+    .column{
+        padding: 0.5em 1em;
+        margin: 2em 0;
+        color: #5d627b;
+        background: white;
+        border-top: solid 5px #5d627b;
+        box-shadow: 0 3px 5px rgba(0, 0, 0, 0.22);
+    }    
 </style>
 <link rel="stylesheet" href="https://rawgit.com/karino2/js-introduction/master/scripts/smoke.css" />
 <script src="https://rawgit.com/karino2/js-introduction/master/scripts/smoke.min.js"></script>                    
@@ -150,8 +159,8 @@ MessageBox.show("一つ目！"); MessageBox.show("二つ目！");</textarea>
 セミコロンっているの？  
 セミコロンをつけるかどうかは、JavaScriptでは少し論争のある所です。だいたいの人はつけていると思いますが、JavaScriptには「セミコロンオートインサーション」という、セミコロンを忘れてるっぽかったら勝手につけて解釈する、という機能があり、これが意図的につけないコードをつけ忘れと勘違いして、非常に分かりにくいバグを生んだりします。そこで最初からつけない方が良いのでは無いのか、という人も居ます。
 このシリーズではつける事にしました。理由としては、このコースの目的が、JavaScriptだけでなく、JavaScriptに「似た」プラグイン等を書く場合も視野に入れているからです。
-JavaScripに似た言語、例えばUnit Scriptや吉里吉里のTJS、SecondLifeのLSLなどは、普通セミコロンが必須となっています。セミコロンはつけてなくて怒られる事は無いので初心者は何も考えずにつけておくのが良いんじゃないでしょうか。
-{: .bkggreen}
+JavaScripに似た言語、例えばUnit Scriptや吉里吉里のTJS、SecondLifeのLSLなどは、普通セミコロンが必須となっています。何も考えずにつけておくのがゆとりの生き様って奴だと思います。
+{: .column}
 
 # コメントをつけよう
 
