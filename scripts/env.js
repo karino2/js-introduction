@@ -132,7 +132,7 @@ function setupREPL2(id) {
 }
 
 function smokeAlert(msg, callback) {
-    smoke.alert(msg, e=>{callback(), setTimeout(()=>runInterpreterProgress())} );
+    smoke.alert(msg.toString(), e=>{callback(), setTimeout(()=>runInterpreterProgress())} );
 }
 
 
