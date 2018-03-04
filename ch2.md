@@ -137,6 +137,41 @@ MessageBox.show("こーしーを"+"しゅるしゅるする")</textarea>
 
 ここでも表示されるのは、つなげた結果になっていますね。
 
+### 課題: 「もぅ、しみっしみ、もぅ」と表示してみよう
+
+`MessageBox.show`を使って、`もぅ、しみっしみ、もぅ`と表示してみて下さい。
+
+<script>
+  questions.push({
+    id: "q3",
+    verifyScript: function(str) {
+        return true;
+    },
+    verifyAnswer: function(val) {
+        if(messageBoxShowLogs.length != 1) {
+          return "結果が違います。"          
+        }
+        if(messageBoxShowLogs[0] == "もぅ、しみっしみ、もぅ"){
+            return true;
+        }
+        return "結果が違います。"
+    }
+  });
+ </script>
+
+<div id="q3">
+<input type="button" value="実行" />
+<textarea>
+</textarea>
+<b>結果:</b> <span class="console"></span><br>
+<span class="result"></span><br>
+<input type="button" value="答えを見る" />
+<div class="answer hideanswer">
+答え:<br>
+MessageBox.show("もぅ、しみっしみ、もぅ");
+</div>        
+</div>
+
 
 **JavaScriptでは文字は表示出来ない！？（環境ってなんなのさ）**  
 実は、JavaScriptには文字を表示する機能はありません。  
