@@ -231,4 +231,19 @@ JavaScriptには二種類コメントがあります。これまで見てきた�
 ここでは複数行コメントを見ていきましょう。
 
 複数行コメントは、`/*`から始まって、`*/`で終わります。間に挟まれた物はコメントとなります。
-例
+例を見てみましょう。
+
+<div id="ex11">
+<input type="button" value="実行" />
+<textarea>
+/* ここはコメント
+この行もコメント
+
+MessageBox.show("この行もコメント");
+ここまでコメント。
+*/
+MessageBox.show("ここはコメントではありません。");</textarea>
+<b>結果:</b> <span class="console"></span><br>
+</div>
+
+
