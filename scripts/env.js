@@ -9,13 +9,21 @@ function findREPLElems(id) {
     return [button, editor, cons];    
 }
 
+function showConsole(cons, res) {
+    if(res != undefined){
+        cons.innerText = res;
+    } else {
+        cons.innerText = "";
+    }
+}
+
 function setupREPL(id) {
     var [button, editor, cons] = findREPLElems(id);
 
     button.onclick = function() { 
         try {
             var res = eval(editor.getValue());
-            cons.innerText = res;
+            showConsole(cons, res);
         }catch(err) {
             cons.innerText = "なにかおかしいです。 (" + err.message + ")";
         }
@@ -70,7 +78,7 @@ function setupQuestion(qobj) {
                 return;
             }
             var res = eval(scr);
-            cons.innerText = res;
+            showConsole(cons, res);
             verify = qobj.verifyAnswer(res);
             if(verify == true) {
                 resultCorrect(resultSpan);
@@ -117,6 +125,7 @@ function setupAllREPL2(eidNum) {
 }
 
 
+
 function setupREPL2(id) {
     var [button, editor, cons] = findREPLElems(id);
 
@@ -130,11 +139,7 @@ function setupREPL2(id) {
                         return true;
                     }
                     var res = myInterpreter.value
-                    if(res != undefined){
-                        cons.innerText = res;
-                    } else {
-                        cons.innerText = "";
-                    }
+                    showConsole(cons, res);
                     return false;
                 }catch(err) {
                     cons.innerText = "なにかおかしいです。 (" + err.message + ")";
@@ -174,7 +179,8 @@ function setupQuestion2(qobj) {
                         return true;
                     }
                     var res = myInterpreter.value
-                    cons.innerText = res;
+                    showConsole(cons, res);
+
                     verify = qobj.verifyAnswer(res);
                     if(verify == true) {
                         resultCorrect(resultSpan);
