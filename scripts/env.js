@@ -105,6 +105,7 @@ function setupREPL2(id) {
     var cons = holder.getElementsByClassName("console")[0]
     button.onclick = function() { 
         try {
+            myInterpreter.value = undefined;
             myInterpreter.appendCode(editor.getValue());
             runInterpreterProgress = () => {
                 try {
