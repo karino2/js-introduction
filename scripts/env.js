@@ -1,10 +1,17 @@
-function setupREPL(id) {
+
+function findREPLElems(id) {
     var holder = document.getElementById(id);
     var button = holder.getElementsByTagName("input")[0];
     var editor = CodeMirror.fromTextArea(holder.getElementsByTagName("textarea")[0], {
         lineNumbers: true,
-    })
-    var cons = holder.getElementsByClassName("console")[0]
+    });
+    var cons = holder.getElementsByClassName("console")[0];
+    return [button, editor, cons];    
+}
+
+function setupREPL(id) {
+    var [button, editor, cons] = findREPLElems(id);
+
     button.onclick = function() { 
         try {
             var res = eval(editor.getValue());
@@ -97,12 +104,8 @@ function setupAllREPL2(eidNum) {
 
 
 function setupREPL2(id) {
-    var holder = document.getElementById(id);
-    var button = holder.getElementsByTagName("input")[0];
-    var editor = CodeMirror.fromTextArea(holder.getElementsByTagName("textarea")[0], {
-        lineNumbers: true,
-    })
-    var cons = holder.getElementsByClassName("console")[0]
+    var [button, editor, cons] = findREPLElems(id);
+    
     button.onclick = function() { 
         try {
             myInterpreter.value = undefined;
