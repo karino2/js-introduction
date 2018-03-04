@@ -10,6 +10,14 @@ layout: page
     .CodeMirror { height: auto; border: 1px solid #ddd; }
     .console { border: 1px solid #333; color: rgb(48, 68, 216); padding: 0px 5px 0px 5px; }
 
+    .answer {color: red;  }
+    .hideanswer { display: none; }
+    .result {font-size: large;}
+    .wrong {color: red;  }
+    .correct {color: rgb(0, 89, 255);  }
+
+
+
     .column{
         padding: 0.5em 1em;
         margin: 2em 0;
@@ -28,11 +36,15 @@ layout: page
 
 
 <script>
+var questions = [];
+
+
   document.body.onload = function() {
     myInterpreter = new Interpreter('MessageBox = {show: SmokeAlert};', initFunc);
 
 
     setupAllREPL2(10);
+    setupAllQuestions2(questions);
   }
 </script>
 
@@ -221,13 +233,46 @@ MessageBox.show("ここも表示される"); </textarea>
 ### 課題: 間の行をコメントせよ
 
 
-TODO: REPL2の課題化
 
-```
+<script>
+  questions.push({
+    id: "q1",
+    verifyScript: function(str) {
+        if(str.indexOf('MessageBox.show("ここの行をコメントせよ");') != -1){
+            return true;
+        }
+        return 'MessageBox.show("ここの行をコメントせよ"); の行はコメントで残してください。';
+    },
+    verifyAnswer: function(val) {
+        if(messageBoxShowLogs.length != 2) {
+          return "結果が違います。"          
+        }
+        if(messageBoxShowLogs[0] == "ここは表示させたまま" &&
+        messageBoxShowLogs[1] == "ここも表示させたまま"){
+            return true;
+        }
+        return "結果が違います。"
+    }
+  });
+ </script>
+
+<div id="q1">
+<input type="button" value="実行" />
+<textarea>
 MessageBox.show("ここは表示させたまま");
 MessageBox.show("ここの行をコメントせよ");
+MessageBox.show("ここも表示させたまま");</textarea>
+<b>結果:</b> <span class="console"></span><br>
+<span class="result"></span><br>
+<input type="button" value="答えを見る" />
+<div class="answer hideanswer">
+答え:<br>
+MessageBox.show("ここは表示させたまま");
+// MessageBox.show("ここの行をコメントせよ");
 MessageBox.show("ここも表示させたまま");
-```
+</div>        
+</div>
+
 
    
 

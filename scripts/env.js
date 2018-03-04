@@ -32,9 +32,7 @@ function resultWrong(span, msg) {
     span.innerText = msg;        
 }
 
-function setupQuestion(qobj) {
-    var id = qobj.id;
-
+function setupQuestionElems(id) {
     var holder = document.getElementById(id);
 
     var buttons = holder.getElementsByTagName("input");
@@ -54,6 +52,14 @@ function setupQuestion(qobj) {
     });
     var cons = holder.getElementsByClassName("console")[0];
     var resultSpan =holder.getElementsByClassName("result")[0];
+
+    return [runButton, editor, cons, resultSpan];
+}
+
+
+function setupQuestion(qobj) {
+    var id = qobj.id;
+    var [runButton, editor, cons, resultSpan] = setupQuestionElems(id);
 
     runButton.onclick = function() { 
         try {
@@ -85,6 +91,14 @@ function setupAllQuestions(qobjList) {
 
 }
 
+function setupAllQuestions2(qobjList) {
+    for(var i = 0; i < qobjList.length;i++) {
+        setupQuestion2(qobjList[i]);
+    }
+
+}
+
+
 function setupAllRepls(idlist) {
     for(var i = 0; i < idlist.length;i++) {
         setupREPL(idlist[i]);
@@ -105,7 +119,7 @@ function setupAllREPL2(eidNum) {
 
 function setupREPL2(id) {
     var [button, editor, cons] = findREPLElems(id);
-    
+
     button.onclick = function() { 
         try {
             myInterpreter.value = undefined;
@@ -135,7 +149,57 @@ function setupREPL2(id) {
     };
 }
 
+var messageBoxShowLogs = [];
+function setupQuestion2(qobj) {
+    var id = qobj.id;
+    var [runButton, editor, cons, resultSpan] = setupQuestionElems(id);
+
+    messageBoxShowLogs = []
+
+    runButton.onclick = function() { 
+        try {
+            var scr = editor.getValue();
+            var verify = qobj.verifyScript(scr);
+            if(verify!= true) {
+                resultWrong(resultSpan, verify);
+                return;
+            }
+
+            myInterpreter.value = undefined;
+            myInterpreter.appendCode(scr);
+
+            runInterpreterProgress = () => {
+                try {
+                    if(myInterpreter.run()) {
+                        return true;
+                    }
+                    var res = myInterpreter.value
+                    cons.innerText = res;
+                    verify = qobj.verifyAnswer(res);
+                    if(verify == true) {
+                        resultCorrect(resultSpan);
+                    } else {
+                        resultWrong(resultSpan, verify);
+                    }
+                    return false;
+    
+                }catch(err) {
+                    cons.innerText = "なにかおかしいです。 (" + err.message + ")";
+                    return false;
+                }
+            };
+            runInterpreterProgress();
+            
+        }catch(err) {
+            cons.innerText = "なにかおかしいです。 (" + err.message + ")";
+        }
+    };
+}
+
+
+
 function smokeAlert(msg, callback) {
+    messageBoxShowLogs.push(msg);
     smoke.alert(msg.toString(), e=>{callback(), setTimeout(()=>runInterpreterProgress())} );
 }
 
