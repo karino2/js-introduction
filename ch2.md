@@ -247,7 +247,7 @@ MessageBox.show("一つ！"); MessageBox.show("二つ！"); MessageBox.show("三
 そこで最初からつけない方が良いのでは無いのか、という人も結構居ます。  
 　  
 ですが、このシリーズでは全てつける事にしました。理由としては、このコースの目的が、JavaScriptだけでなく、JavaScriptに「似た」言語でプラグイン等を書く場合も視野に入れているからです。  
-JavaScripに似た言語、例えばUnit Scriptや吉里吉里のTJS、SecondLifeのLSLなどは、セミコロンが必須となっています。  
+JavaScripに似た言語、例えばUnity Scriptや吉里吉里のTJS、SecondLifeのLSLなどは、セミコロンが必須となっています。  
 　  
 何も考えずにつけておくのがゆとりの生き様って奴でしょう。
 {: .column}
