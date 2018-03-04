@@ -140,6 +140,7 @@ MessageBox.show("こーしーを"+"しゅるしゅるする")</textarea>
 ### 課題: 「もぅ、しみっしみ、もぅ」と表示してみよう
 
 `MessageBox.show`を使って、`もぅ、しみっしみ、もぅ`と表示してみて下さい。
+なお、この課題は第二回で一番難しいと思います！
 
 <script>
   questions.push({
@@ -175,7 +176,7 @@ MessageBox.show("もぅ、しみっしみ、もぅ");
 
 **JavaScriptでは文字は表示出来ない！？（環境ってなんなのさ）**  
 実は、JavaScriptには文字を表示する機能はありません。  
-このシリーズで使っている「MessageBox.show()」という物は、説明の為に私が作った物で、普通のJavaScriptには存在しません。  
+このシリーズで使っている「MessageBox.show」という物は、説明の為に私が作った物で、普通のJavaScriptには存在しません。  
 でもツクールMVでもwebでもSecond LifeでもUnityでも文字は表示しています。これはどうした事でしょう？    
 　  
 これらは、実はJavaScriptを動かす側が勝手に決める、という決まりになっています。動かす側、というのは、ツクールMVとかwebとかUnityとかSecond Lifeとかの事です。  
