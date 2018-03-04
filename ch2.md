@@ -329,9 +329,9 @@ MessageBox.show("ここはコメントではありません。");</textarea>
     verifyScript: function(str) {
         var mustExists = [
           'MessageBox.show("一行目、ここはコメントアウト");',
-          'MessageBox.show("二行目、ここはコメントアウト");',
-          'MessageBox.show("三行目、ここはコメントアウト");',
-          'MessageBox.show("四行目、ここはコメントアウト");',
+          'MessageBox.show("二行目、ここもコメントアウト");',
+          'MessageBox.show("三行目、ここもコメントアウト");',
+          'MessageBox.show("四行目、ここもコメントアウト");',
 
         ];
 
