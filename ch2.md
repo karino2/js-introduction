@@ -47,7 +47,7 @@ MessageBox.show("聴け！")</textarea>
 <b>結果:</b> <span class="console"></span><br>
 </div>
 
-   
+　  
 
 まず `MessageBox.show`と書いた後に、かっこ、つまり`(`と`)`をつけて、中に表示したい文字を入れます。
 突然難しくなりましたね。
@@ -63,12 +63,12 @@ MessageBox.show("むぇ〜〜〜")</textarea>
 <b>結果:</b> <span class="console"></span><br>
 </div>
 
-   
+　  
 
-なんだか難しそうなのは相変わらずですが、良く見ると一つ前の例とほとんど同じです。
-
+なんだか難しそうなのは相変わらずですが、良く見ると一つ前の例とほとんど同じです。  
 表示させたいメッセージを変えたい時には、どこを変えたらいいか分かるでしょうか？
-クラウド女学院、と表示させたければこうなります。
+
+もう一つ見てみましょう。`クラウド女学院`、と表示させたければこうなります。
 
 <div id="ex3">
 <input type="button" value="実行" />
@@ -77,7 +77,9 @@ MessageBox.show("クラウド女学院")</textarea>
 <b>結果:</b> <span class="console"></span><br>
 </div>
 
-   
+　  
+
+この位見ると、なんとなくどう使えばいいのか分かってきたでしょうか？   
 
 さて、第一回では文字を作る他に、もうひとつやった事があります。
 覚えていますか？数字の計算です。
@@ -92,7 +94,7 @@ MessageBox.show(12-3)</textarea>
 <b>結果:</b> <span class="console"></span><br>
 </div>
 
-   
+　  
 
 なんと、「12-3」と表示されずに、それを計算した結果である「9」が表示されてしまいました。
 JavaScriptでは、カッコの中を計算した結果が表示されます。
@@ -106,6 +108,8 @@ JavaScriptでは、カッコの中を計算した結果が表示されます。
 MessageBox.show("こーしーを"+"しゅるしゅるする")</textarea>
 <b>結果:</b> <span class="console"></span><br>
 </div>
+
+　  
 
 ここでも表示されるのは、つなげた結果になっていますね。
 
@@ -128,7 +132,7 @@ MessageBox.show("この行にはセミコロンが無い")</textarea>
 <b>結果:</b> <span class="console"></span><br>
 </div>
 
-   
+　  
 
 理由は話すと長くなるので話しませんが、本シリーズではこれ以後、セミコロンをつける事にします。
 
@@ -141,7 +145,7 @@ MessageBox.show("一つ目！"); MessageBox.show("二つ目！");</textarea>
 <b>結果:</b> <span class="console"></span><br>
 </div>
 
-   
+　  
 
 あまり同じ行に並べても良い事はありませんが、こんな事も出来ますよ、という事で。   
 
@@ -172,7 +176,7 @@ MessageBox.show("この行は実行される。");
 <b>結果:</b> <span class="console"></span><br>
 </div>
 
-   
+　  
 
 コメントの部分は実行されません。
 実行されない物になんの意味があるのか？と思うかもしれませんが、
@@ -190,8 +194,7 @@ MessageBox.show("この行は実行される。");
 <b>結果:</b> <span class="console"></span><br>
 </div>
 
-   
-
+　  
 
 なお、行の途中に「//」があると、そこより右側だけがコメントになります。
 
@@ -204,7 +207,7 @@ MessageBox.show("ここも表示される"); </textarea>
 <b>結果:</b> <span class="console"></span><br>
 </div>
 
-   
+　  
 
 コメントはメモを書いておけるだけで、別になんの意味もありません。
 
