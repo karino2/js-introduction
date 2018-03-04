@@ -194,6 +194,12 @@ JavaScriptにはコメントという物をつける事が出来ます。
 <div id="ex8">
 <input type="button" value="実行" />
 <textarea>
+// コメントには何を書いても平気です。
+// 
+// ゑゑですな
+// アテは搾菜を。
+// とかなんでもOK。
+//
 // MessageBox.show("この行にはコメントなので実行されない。");
 MessageBox.show("この行は実行される。");
 // MessageBox.show("この行も実行されない。");</textarea>
@@ -209,7 +215,7 @@ MessageBox.show("この行は実行される。");
 あとは、コードの一部を一時的に削りたいけど、すぐ後に戻せるようにしておきたい、
 という時にも、コードの一部をコメントにします。
 
-下のテキストの先頭の「//」をつけたりとったりして実行してみてください。
+下のテキストの先頭の`//`をつけたりとったりして実行してみてください。
 
 <div id="ex9">
 <input type="button" value="実行" />
@@ -219,8 +225,10 @@ MessageBox.show("この行は実行される。");
 </div>
 
 　  
+コードの一部をコメントにして実行されなくする事を、「コメントアウト」とか言ったりします。
+カタカナとか使ってなんか偉そうですよね。
 
-なお、行の途中に「//」があると、そこより右側だけがコメントになります。
+なお、行の途中に`//`があると、そこより右側だけがコメントになります。
 
 
 <div id="ex10">
@@ -238,7 +246,7 @@ MessageBox.show("ここも表示される"); </textarea>
 
 ### 課題: 間の行をコメントせよ
 
-
+以下の三行のプログラムのうち、二行目だけをコメントにしてみてください。
 
 <script>
   questions.push({
@@ -279,15 +287,15 @@ MessageBox.show("ここも表示させたまま");
 </div>        
 </div>
 
-
-   
+　  
 
 こんな風にプログラムの一部を一時的に無効にしたり、メモを書いたりするのがコメントです。
 
 ## 複数行コメント
 
-JavaScriptには二種類コメントがあります。これまで見てきた一行コメントと、もうひとつは複数行コメントです。
-ここでは複数行コメントを見ていきましょう。
+JavaScriptには二種類コメントがあります。
+
+これまで見てきたのは一行コメントとという物ですが、JavaScriptにはもうひとつ、複数行コメントという物があります。
 
 複数行コメントは、`/*`から始まって、`*/`で終わります。間に挟まれた物はコメントとなります。
 例を見てみましょう。
@@ -304,5 +312,93 @@ MessageBox.show("この行もコメント");
 MessageBox.show("ここはコメントではありません。");</textarea>
 <b>結果:</b> <span class="console"></span><br>
 </div>
+
+　  
+
+複数行コメントはその名の通り、複数行を一気にコメントに出来ます。
+複数行コメントもコメントなので、動作には影響がありません。
+
+
+### 課題: 上4行を一気にコメントせよ
+
+以下の五行のプログラムのうち、上四行を、複数行コメントを使ってコメントにしてみてください。
+
+<script>
+  questions.push({
+    id: "q2",
+    verifyScript: function(str) {
+        var mustExists = [
+          'MessageBox.show("一行目、ここはコメントアウト");',
+          'MessageBox.show("二行目、ここはコメントアウト");',
+          'MessageBox.show("三行目、ここはコメントアウト");',
+          'MessageBox.show("四行目、ここはコメントアウト");',
+
+        ];
+
+        for(var i = 0; i < mustExists.length; i++) {
+          var cur = mustExists[i];
+          if(str.indexOf(cur) ＝= -1){
+            return '「' + cur + '」 の行はコメントで残してください。';
+          }
+        }
+        if(str.indexOf("/*") == -1) {
+          return "複数行コメントを使って下さい。"
+        }
+        return true;
+    },
+    verifyAnswer: function(val) {
+        if(messageBoxShowLogs.length != 1) {
+          return "結果が違います。"          
+        }
+        if(messageBoxShowLogs[0] == "ここだけ残す"){
+            return true;
+        }
+        return "結果が違います。"
+    }
+  });
+ </script>
+
+<div id="q2">
+<input type="button" value="実行" />
+<textarea>
+MessageBox.show("一行目、ここはコメントアウト");
+MessageBox.show("二行目、ここもコメントアウト");
+MessageBox.show("三行目、ここもコメントアウト");
+MessageBox.show("四行目、ここもコメントアウト");
+MessageBox.show("ここだけ残す");</textarea>
+<b>結果:</b> <span class="console"></span><br>
+<span class="result"></span><br>
+<input type="button" value="答えを見る" />
+<div class="answer hideanswer">
+答え:<br>
+/*
+MessageBox.show("一行目、ここはコメントアウト");<br>
+MessageBox.show("二行目、ここもコメントアウト");<br>
+MessageBox.show("三行目、ここもコメントアウト");<br>
+MessageBox.show("四行目、ここもコメントアウト");<br>
+*/
+MessageBox.show("ここだけ残す");</div>        
+</div>
+
+　  
+このように、複数行コメントという物を使うと、プログラムの複数の行を一気にコメントに出来ます。
+一時的に無視したい時などに便利です。
+
+また、複数行コメントは長いメモを書くのにも便利です。
+昔は謎のアニメのSSなどがコメントで書かれていた事も多かったのですが、最近は減りましたね…
+
+
+**コメントに意味がある場合もある**  
+JavaScriptのコメントは動作に関係無い、というのは正しいのですが、世の中のプラグインなどではこっそりこのコメントに意味を持たせている環境もあります。  
+　  
+例えば、ツクールMVのプラグインでは、コメントの中に@plugindescとか@authorなど、アットマークで始まる行はプラグインの管理画面に表示されたり、@paramでパラメータを設定出来たりします。  
+これらはJavaScriptの機能という訳では無いので、JavaScriptの本などには使い方は載っていません。あくまでツクールMVが勝手にやっている事なので、ツクールMVのドキュメントでこれらの特殊なコメントの使い方は勉強する必要があります。  
+{: .column}
+
+
+# 第二回 まとめ
+
+まとめを書く。
+
 
 
