@@ -209,11 +209,29 @@ function smokeAlert(msg, callback) {
     smoke.alert(msg.toString(), e=>{callback(), setTimeout(()=>runInterpreterProgress())} );
 }
 
+function smokeYesNo(msg, yeslabel, nolabel, callback) {
+    smoke.confirm(msg, (e)=> {
+        if(e) {
+            callback(1);
+        } else {
+            callback(0);
+        }
+        setTimeout(()=>runInterpreterProgress());
+    }, 
+    {
+	ok: yeslabel,
+	cancel: nolabel,
+	classname: "custom-class",
+	reverseButtons: true
+    })
+}
 
 
 function initFunc(interpreter, scope) {
     interpreter.setProperty(scope, 'SmokeAlert',
           interpreter.createAsyncFunction(smokeAlert));
+    interpreter.setProperty(scope, 'SmokeYesNo',
+          interpreter.createAsyncFunction(smokeYesNo));
 };
 
 

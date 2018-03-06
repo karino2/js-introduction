@@ -40,7 +40,7 @@ var questions = [];
 
 
   document.body.onload = function() {
-    myInterpreter = new Interpreter('MessageBox = {show: SmokeAlert};', initFunc);
+    myInterpreter = new Interpreter('MessageBox = {show: SmokeAlert, yesNo: SmokeYesNo};', initFunc);
 
 
     setupAllREPL2(1);
@@ -48,7 +48,7 @@ var questions = [];
   }
 </script>
 
-# if文
+# 「はい」か「いいえ」を聞く
 
 なんか
 
@@ -64,14 +64,7 @@ var questions = [];
 <div id="ex1">
 <input type="button" value="実行" />
 <textarea>
-// messageという箱を作って、「一つ目のメッセージ」という文字を入れる
-var message = "1つ目のメッセージ";
-
-// 上で作った箱に、「2つ目のメッセージ」を入れる。
-message = "2つ目のメッセージ";
-
-// この時点ではmessageには「2つ目のメッセージ」が入っている。
-MessageBox.show(message);</textarea>
+MessageBox.yesNo("ついに念願のアイスソードを手に入れたぞ", "そう、関係無いね", "殺してでも奪い取る");</textarea>
 <b>結果:</b> <span class="console"></span><br>
 </div>
   
