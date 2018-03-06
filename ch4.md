@@ -53,21 +53,23 @@ var questions = [];
 なんか
 
 
-**コラム**  
-一行目。  
-　  
-二行目
-{: .column}
-
 
 
 <div id="ex1">
 <input type="button" value="実行" />
 <textarea>
-MessageBox.yesNo("ついに念願のアイスソードを手に入れたぞ", "そう、関係無いね", "殺してでも奪い取る");</textarea>
+MessageBox.yesNo("ついに念願のアイスソードを手に入れたぞ", 
+                 "そう、関係無いね", 
+                 "殺してでも奪い取る");</textarea>
 <b>結果:</b> <span class="console"></span><br>
 </div>
   
 　  
-実行してみると、「2つ目のメッセージ」しか表示されず、1つ目のメッセージはどこかに行ってしまいました。
+実行してみると、
+
+**コラム**  
+一行目。  
+　  
+二行目
+{: .column}
 
