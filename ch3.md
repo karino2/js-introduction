@@ -43,7 +43,7 @@ var questions = [];
     myInterpreter = new Interpreter('MessageBox = {show: SmokeAlert};', initFunc);
 
 
-    setupAllREPL2(2);
+    setupAllREPL2(6);
     setupAllQuestions2(questions);
   }
 </script>
