@@ -187,6 +187,7 @@ MessageBox.show(sentaku);</textarea>
   - ボタンは「はい」と「いいえ」です
 2. 結果を`sentaku`という変数で受け取ります
 3. sentakuに5を足した物を`MessageBox.show`で表示します
+  - ヒント: 第三回の「課題: aに3を足した物をaに入れよ」を思い出そう
 
 TODO: yesNoボックスの課題化
 
