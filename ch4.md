@@ -43,7 +43,7 @@ var questions = [];
     myInterpreter = new Interpreter('MessageBox = {show: SmokeAlert, yesNo: SmokeYesNo};', initFunc);
 
 
-    setupAllREPL2(1);
+    setupAllREPL2(4);
     setupAllQuestions2(questions);
   }
 </script>
@@ -126,7 +126,7 @@ JavaScriptを実行する人、つまりツクールMVとかUnityとかそうし
 Mac OS、Linux(厳密にはX）などもこの形式ですね。
 吉里吉里にもこの形のyesNoボックスがありますし、Unityも開発中にしか使えないデバッグ目的ですが、似たような機能があります。  
 専門用語ではこれらのスタイルを、「モーダルダイアログ」といいます。難しいカタカナを使うと長渕に怒られるのでこのシリーズではコラム以外ではこの用語は使いません。日本語バンザイ。  
-とにかく、Windowsのアプリを作ったりする時のスタイルです。
+とにかく、Windowsのアプリを作ったりする時のスタイルです。  
 　  
 さて、yesNoボックスにはもうひとつ流儀があって、「コールバック」スタイル、というものです。
 こちらは関数が必要となるので解説はこのシリーズの後半となりますが、残念な事にSecond LifeやツクールMVはコールバック型です。
