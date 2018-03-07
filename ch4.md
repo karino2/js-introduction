@@ -94,7 +94,7 @@ MessageBox.yesNo("最後の戦いだ。準備はいいかい？", "はい", ”�
 <div id="ex2">
 <input type="button" value="実行" />
 <textarea>
-MessageBox.yesNo("ついに念願のアイスソードを手に入れたぞ", "そう関係ないね", ”殺してでも奪い取る”);</textarea>
+MessageBox.yesNo("ついに念願のアイスソードを手に入れたぞ", "そう関係ないね", "殺してでも奪い取る");</textarea>
 <b>結果:</b> <span class="console"></span><br>
 </div>
   
@@ -107,7 +107,7 @@ MessageBox.yesNo("ついに念願のアイスソードを手に入れたぞ", "�
 <textarea>
 MessageBox.yesNo("ついに念願のアイスソードを手に入れたぞ",
                  "そう関係ないね",
-                 ”殺してでも奪い取る”);</textarea>
+                 "殺してでも奪い取る");</textarea>
 <b>結果:</b> <span class="console"></span><br>
 </div>
   
