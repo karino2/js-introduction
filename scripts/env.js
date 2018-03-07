@@ -154,7 +154,7 @@ function setupREPL2(id) {
     };
 }
 
-var messageBoxShowLogs = [];
+var functionCallLogs = [];
 function setupQuestion2(qobj) {
     var id = qobj.id;
     var [runButton, editor, cons, resultSpan] = setupQuestionElems(id);
@@ -162,7 +162,7 @@ function setupQuestion2(qobj) {
 
     runButton.onclick = function() { 
         try {
-            messageBoxShowLogs = []
+            functionCallLogs = []
             var scr = editor.getValue();
             var verify = qobj.verifyScript(scr);
             if(verify!= true) {
@@ -205,7 +205,7 @@ function setupQuestion2(qobj) {
 
 
 function smokeAlert(msg, callback) {
-    messageBoxShowLogs.push(msg);
+    functionCallLogs.push({name:"smokeAlert", val:msg});
     smoke.alert(msg.toString(), e=>{callback(), setTimeout(()=>runInterpreterProgress())} );
 }
 

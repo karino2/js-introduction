@@ -149,10 +149,10 @@ MessageBox.show("こーしーを"+"しゅるしゅるする")</textarea>
         return true;
     },
     verifyAnswer: function(val) {
-        if(messageBoxShowLogs.length != 1) {
+        if(functionCallLogs.length != 1) {
           return "結果が違います。"          
         }
-        if(messageBoxShowLogs[0] == "もぅ、しみっしみ、もぅ"){
+        if(functionCallLogs[0].val == "もぅ、しみっしみ、もぅ"){
             return true;
         }
         return "結果が違います。"
@@ -334,11 +334,11 @@ MessageBox.show("ここも表示される"); </textarea>
         return '「MessageBox.show("ここの行をコメントにせよ");」 の行はコメントで残してください。';
     },
     verifyAnswer: function(val) {
-        if(messageBoxShowLogs.length != 2) {
+        if(functionCallLogs.length != 2) {
           return "結果が違います。"          
         }
-        if(messageBoxShowLogs[0] == "ここは表示させたまま" &&
-        messageBoxShowLogs[1] == "ここも表示させたまま"){
+        if(functionCallLogs[0].val == "ここは表示させたまま" &&
+        functionCallLogs[1].val == "ここも表示させたまま"){
             return true;
         }
         return "結果が違います。"
@@ -422,10 +422,10 @@ MessageBox.show("ここはコメントではありません。");</textarea>
         return true;
     },
     verifyAnswer: function(val) {
-        if(messageBoxShowLogs.length != 1) {
+        if(functionCallLogs.length != 1) {
           return "結果が違います。"          
         }
-        if(messageBoxShowLogs[0] == "ここだけ残す"){
+        if(functionCallLogs[0].val == "ここだけ残す"){
             return true;
         }
         return "結果が違います。"
