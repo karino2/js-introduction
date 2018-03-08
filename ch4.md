@@ -41,10 +41,11 @@ var questions = [];
 
   document.body.onload = function() {
     myInterpreter = new Interpreter('MessageBox = {show: SmokeAlert, yesNo: SmokeYesNo};', initFunc);
+    scenarioPlayer = new Interpreter('MessageBox = {show: SmokeAlert, yesNo: SmokeYesNo};', initScnearioPlayerFunc);
 
 
-    setupAllREPL2(4);
-    setupAllQuestions2(questions);
+    setupAllREPL2(6);
+    setupAllQuestionsWithScnario(questions);
   }
 </script>
 
@@ -143,7 +144,58 @@ MessageBox.yesNo(msg, yesLabel, noLabel);</textarea>
 「あじゃはなんですか？」と聞いて、
 「ニワトリです」「餅です」の2つの選択肢をプレーヤーに出してください。
 
-TODO: 課題化
+（答え合わせ用スクリプトの都合で、必ず「はい」の方のラベルを「ニワトリです」にしてください。手抜きですまぬ…）
+
+<script>
+var q1obj = {
+    id: "q1",
+    scenarios: []
+}
+q1obj.scenarios.push({
+    setup: ()=> returnValues.push(1),
+    verify: () => {
+        if(scenarioLogs.length != 1) {
+          if(scenarioLogs.length == 0) {
+            return "質問されませんでした。";
+          }
+          return "質問一回以外の事がされてます";
+        }
+        // {name:"yesNo", val:{msg, yeslabel, nolabel}}
+        if(scenarioLogs[0].name != "yesNo") {
+          return "質問されてません。";
+        }
+        var res = scenarioLogs[0].val;
+        if(res.msg != "あじゃはなんですか？") {
+          return "メッセージが「あじゃはなんですか？」じゃありません。";
+        }
+        if(res.yeslabel != "ニワトリです") {
+          return "最初のボタンが「ニワトリです」じゃありません。";
+        }
+        if(res.nolabel != "餅です") {
+          return "二番目のボタンが「餅です」じゃありません。";
+        }
+        return true;
+
+    }
+});
+  questions.push(q1obj);
+ </script>
+
+
+<div id="q1">
+    <input type="button" value="実行" />
+    <textarea>
+</textarea>
+    <b>結果:</b> <span class="console"></span><br>
+    <span class="result"></span><br>
+    <input type="button" value="答えを見る" />
+    <div class="answer hideanswer">
+答え:<br>
+MessageBox.yesNo("あじゃはなんですか？", "ニワトリです", "餅です");
+    </div>        
+</div>
+  
+　  
 
 
 **yesNoボックスの2つの流儀**  
@@ -351,7 +403,7 @@ if(sentaku == 1) {
 <textarea>
 var sentaku = MessageBox.yesNo("最後の戦いだ。準備はいいかい？", "はい", "いいえ");
 if(sentaku == 1) {
-   MessageBox.show("「はい」が選ばれました。);
+   MessageBox.show("「はい」が選ばれました。");
 }</textarea>
 <b>結果:</b> <span class="console"></span><br>
 </div>
@@ -380,7 +432,7 @@ if(sentaku == 1) {
 }
 ```
 
-このコードで、「sentakuが1だったら`MessageBox.show("「はい」が選ばれました。);`が実行される」という意味になります。  
+このコードで、「sentakuが1だったら`MessageBox.show("「はい」が選ばれました。");`が実行される」という意味になります。  
 
 もう少し細かく見ていきましょう。
 
@@ -409,14 +461,14 @@ if文には3つの構成要素があります。
 
 ```
 if(sentaku == 1) {
-   MessageBox.show("「はい」が選ばれました。);
+   MessageBox.show("「はい」が選ばれました。");
 }
 ```
 
 だから
 ```
                 {
-   MessageBox.show("「はい」が選ばれました。);
+   MessageBox.show("「はい」が選ばれました。");
 }
 ```
 
