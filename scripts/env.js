@@ -106,6 +106,13 @@ function setupAllQuestions2(qobjList) {
 
 }
 
+function setupAllQuestionsWithScnario(qobjList) {
+    for(var i = 0; i < qobjList.length;i++) {
+        setupQuestionWithScnario(qobjList[i]);
+    }
+
+}
+
 
 function setupAllRepls(idlist) {
     for(var i = 0; i < idlist.length;i++) {
@@ -202,6 +209,15 @@ function setupQuestion2(qobj) {
     };
 }
 
+scenarioLogs= [];
+function scenarioAlert(msg) {
+    scenarioLogs.push({name:"alert", val:msg});    
+}
+returnValues = [];
+function scenarioYesNo(msg, yeslabel, nolabel) {
+    scenarioLogs.push({name:"yesNo", val:{msg, yeslabel, nolabel}});    
+    return returnValues.shift();
+}
 
 
 function smokeAlert(msg, callback) {
@@ -227,6 +243,15 @@ function smokeYesNo(msg, yeslabel, nolabel, callback) {
 }
 
 
+
+function initScnearioPlayerFunc(interpreter, scope) {
+    interpreter.setProperty(scope, 'SmokeAlert',
+          interpreter.createNativeFunction(scenarioAlert));
+    interpreter.setProperty(scope, 'SmokeYesNo',
+          interpreter.createNativeFunction(scenarioYesNo));
+};
+
+
 function initFunc(interpreter, scope) {
     interpreter.setProperty(scope, 'SmokeAlert',
           interpreter.createAsyncFunction(smokeAlert));
@@ -234,7 +259,70 @@ function initFunc(interpreter, scope) {
           interpreter.createAsyncFunction(smokeYesNo));
 };
 
+function setupQuestionWithScnario(qobj) {
+    var id = qobj.id;
+    var [runButton, editor, cons, resultSpan] = setupQuestionElems(id);
+
+
+    runButton.onclick = function() { 
+        try {
+
+            var scr = editor.getValue();
+
+            var scenarios = qobj.scenarios;
+            var resultSuccess = true;
+
+            for(var i = 0; i < scenarios.length; i++) {
+                var scenario = scenarios[i];
+
+                scenarioLogs = [];
+                returnValues = [];
+                
+                scenario.setup();
+                scenarioPlayer.appendCode(scr);
+                scenarioPlayer.run(scr);
+                var verify = scenario.verify();
+                if(verify!= true) {
+                    resultWrong(resultSpan, verify);
+                    resultSuccess = false;
+                    break;
+                }
+
+            }
+            if(resultSuccess) {
+                resultCorrect(resultSpan);               
+            }
+            
+
+            myInterpreter.value = undefined;
+            myInterpreter.appendCode(scr);
+
+            runInterpreterProgress = () => {
+                try {
+                    if(myInterpreter.run()) {
+                        return true;
+                    }
+                    var res = myInterpreter.value
+                    if(res != undefined){
+                        cons.innerText = res;
+                    } else {
+                        cons.innerText = "";
+                    }
+                    return false;
+                }catch(err) {
+                    cons.innerText = "なにかおかしいです。 (" + err.message + ")";
+                    return false;
+                }
+
+            }
+            runInterpreterProgress();
+            
+        }catch(err) {
+            cons.innerText = "なにかおかしいです。 (" + err.message + ")";
+        }
+    };
+}
 
 
 var myInterpreter;
-
+var scenarioPlayer;
