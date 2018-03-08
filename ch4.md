@@ -291,7 +291,7 @@ if文の登場です。
 <textarea>
 var sentaku = MessageBox.yesNo("最後の戦いだ。準備はいいかい？", "はい", "いいえ");
 if(sentaku == 1) {
-   MessageBox.show("「はい」が選ばれました。);
+   MessageBox.show("「はい」が選ばれました。");
 }</textarea>
 <b>結果:</b> <span class="console"></span><br>
 </div>
@@ -320,7 +320,7 @@ if(sentaku == 1) {
 }
 ```
 
-このコードで、「sentakuが1だったら`MessageBox.show("「はい」が選ばれました。);`が実行される」という意味になります。  
+このコードで、「sentakuが1だったら`MessageBox.show("「はい」が選ばれました。");`が実行される」という意味になります。  
 
 もう少し細かく見ていきましょう。
 
@@ -349,14 +349,14 @@ if文には3つの構成要素があります。
 
 ```
 if(sentaku == 1) {
-   MessageBox.show("「はい」が選ばれました。);
+   MessageBox.show("「はい」が選ばれました。");
 }
 ```
 
 だから
 ```
                 {
-   MessageBox.show("「はい」が選ばれました。);
+   MessageBox.show("「はい」が選ばれました。");
 }
 ```
 
