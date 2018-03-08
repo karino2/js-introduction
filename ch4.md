@@ -44,7 +44,7 @@ var questions = [];
     scenarioPlayer = new Interpreter('MessageBox = {show: SmokeAlert, yesNo: SmokeYesNo};', initScnearioPlayerFunc);
 
 
-    setupAllREPL2(4);
+    setupAllREPL2(6);
     setupAllQuestionsWithScnario(questions);
   }
 </script>
@@ -144,6 +144,8 @@ MessageBox.yesNo(msg, yesLabel, noLabel);</textarea>
 「あじゃはなんですか？」と聞いて、
 「ニワトリです」「餅です」の2つの選択肢をプレーヤーに出してください。
 
+（答え合わせ用スクリプトの都合で、必ず「はい」の方のラベルを「ニワトリです」にしてください。手抜きですまぬ…）
+
 <script>
 var q1obj = {
     id: "q1",
@@ -176,9 +178,6 @@ q1obj.scenarios.push({
 
     }
 });
-
-
-
   questions.push(q1obj);
  </script>
 
@@ -186,7 +185,7 @@ q1obj.scenarios.push({
 <div id="q1">
     <input type="button" value="実行" />
     <textarea>
-    </textarea>
+</textarea>
     <b>結果:</b> <span class="console"></span><br>
     <span class="result"></span><br>
     <input type="button" value="答えを見る" />
