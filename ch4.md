@@ -891,7 +891,7 @@ var qobj = {
 }
 
 qobj.scenarios.push({
-    setup: ()=>{returnValues.push(1),
+    setup: ()=>returnValues.push(1),
     verify: () => {
         if(scenarioLogs.length == 0) {
           return "質問されませんでした。";
