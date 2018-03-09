@@ -933,7 +933,7 @@ qobj.scenarios.push({
     }
 });
 qobj.scenarios.push({
-    setup: ()=>{returnValues.push(0),
+    setup: ()=>returnValues.push(0),
     verify: () => {
         
         // {name:"yesNo", val:{msg, yeslabel, nolabel}}
