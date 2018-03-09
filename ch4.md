@@ -875,13 +875,23 @@ if(tumetai == 1) {<br>
 　  
 ### 課題: あじゃを鳴かせてみよう
 
+次はあじゃを鳴かせてみましょう。
+といってもあじゃはニワトリか餅か分かりません。
+
+そこでプレーヤーに、「あじゃは何ですか？」と聞きましょう。
+もし「ニワトリです」と答えたら「コケーーーッ」と鳴き、
+もし「餅です」と答えたら「ムェーーーー！」と鳴く事にしましょう。
+
+変数を用意しておくので、それを使って下さい。
+
 <script>
 var qobj = {
     id: "q5",
     scenarios: []
 }
+
 qobj.scenarios.push({
-    setup: ()=> returnValues.push(1),
+    setup: ()=>{returnValues.push(1),
     verify: () => {
         if(scenarioLogs.length == 0) {
           return "質問されませんでした。";
@@ -895,21 +905,61 @@ qobj.scenarios.push({
         
         // {name:"yesNo", val:{msg, yeslabel, nolabel}}
         var res = scenarioLogs[0].val;
-        if(res.msg != "あじゃは鶏ですか？") {
-          return "メッセージが「あじゃは鶏ですか？」じゃありません。";
+        if(res.msg != "あじゃは何ですか？") {
+          return "メッセージが違います。";
         }
-        if(res.yeslabel != "はい") {
-          return "最初のボタンが「はい」じゃありません。";
+        if(res.yeslabel == "ニワトリです") {
+          if(res.nolabel == "餅です") {
+            if(scenarioLogs[1].val != "コケーーーッ") {
+              return "ニワトリの時の鳴き声が違います";
+            }
+            return true;
+          } else {
+            return "二つ目のボタンが違います。";
+          }
         }
-        if(res.nolabel != "いいえ") {
-          return "二番目のボタンが「いいえ」じゃありません。";
+        if(res.yeslabel == "餅です") {
+          if(res.nolabel == "ニワトリです") {
+            if(scenarioLogs[1].val != "ムェーーーー！") {
+              return "餅の時の鳴き声が違います";
+            }else {
+              return true;
+            }
+          } else {
+            return "二つ目のボタンが違います。";            
+          }          
         }
-
-        if(scenarioLogs[1].val != 1+5) {
-          return "5が足されていません。";
+        return "最初のボタンが違います。";
+    }
+});
+qobj.scenarios.push({
+    setup: ()=>{returnValues.push(0),
+    verify: () => {
+        
+        // {name:"yesNo", val:{msg, yeslabel, nolabel}}
+        var res = scenarioLogs[0].val;
+        if(res.yeslabel == "ニワトリです") {
+          if(res.nolabel == "餅です") {            
+            if(scenarioLogs[1].val != "ムェーーーー！") {
+              return "餅の時の鳴き声が違います";
+            }else {
+              return true;
+            }
+          } else {
+            return "二つ目のボタンが違います。";
+          }
         }
-        return true;
-
+        if(res.yeslabel == "餅です") {
+          if(res.nolabel == "ニワトリです") {
+            if(scenarioLogs[1].val != "コケーーーッ") {
+              return "ニワトリの時の鳴き声が違います";
+            }
+            return true;
+          } else {
+            return "二つ目のボタンが違います。";            
+          }          
+        }
+        return "最初のボタンが違います。";
     }
 });
   questions.push(qobj);
@@ -919,20 +969,23 @@ qobj.scenarios.push({
 <div id="q5">
     <input type="button" value="実行" />
     <textarea>
-var tumetai = MessageBox.yesNo("こちんこちん？", "はい", "いいえ");
-
-// 以下をtumetaiの値に応じてifとelseを書こう！
-MessageBox.show("麦茶！");
-MessageBox.show("こーしー");</textarea>
+var message = "あじゃは何ですか？";
+var niwatoriLabel = "ニワトリです";
+var mochiLabel = "餅です";
+var niwatoriNakigoe = "コケーーーッ";
+var mochiNakigoe = "ムェーーーー！";
+</textarea>
     <b>結果:</b> <span class="console"></span><br>
     <span class="result"></span><br>
     <input type="button" value="答えを見る" />
     <div class="answer hideanswer">
 答え:<br>
-if(tumetai == 1) {<br>
-&nbsp;&nbsp;&nbsp;&nbsp;MessageBox.show("麦茶！");<br>
+var sentaku = MessageBox.yesNo(message, niwatoriLabel, mochiLabel);<br>
+<br>
+if(sentaku == 1) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;MessageBox.show(niwatoriNakigoe);<br>
 } else {<br>
-&nbsp;&nbsp;&nbsp;&nbsp;MessageBox.show("こーしー");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;MessageBox.show(mochiNakigoe);<br>
 }<br>
     </div>        
 </div>
