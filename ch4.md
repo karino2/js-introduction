@@ -777,6 +777,163 @@ if(sentaku == 1) {
 基本的な事だけを理解していろいろ書いてみて、ある程度プログラミングという物に慣れた後に、細かい物はまとめて勉強する方がオススメです。
 {: .column}
 
+### 課題: こちんこちんと言えば？
+
+「こちんこちん？」と聞かれて、「はい」と答えたら「麦茶！」と表示し、「いいえ」と答えたら「こーしー」と表示するプログラムを作りましょう。
+途中まで書いてあるので、`if`と`else`の所だけ書いてください。
+
+<script>
+var qobj = {
+    id: "q4",
+    scenarios: []
+}
+qobj.scenarios.push({
+    setup: ()=> returnValues.push(1),
+    verify: () => {
+        if(scenarioLogs.length == 0) {
+          return "質問されませんでした。";
+        }
+        if(scenarioLogs[0].name != "yesNo") {
+          return "最初が質問じゃありませんでした。";
+        }
+        if(scenarioLogs.length == 1) {
+          return "「はい」を選んだ時に、結果が表示されていません。MessageBox.showを使って表示してください。";
+        }
+        if(scenarioLogs.length >= 3) {
+          return "「はい」を選んだ時、たぶん二回表示されています。";
+        }
+        if(scenarioLogs[1].name == "yesNo") {
+          return "「はい」を選んだ時、二回質問されました。なんで？";
+        }
+
+        
+        // {name:"yesNo", val:{msg, yeslabel, nolabel}}
+        var res = scenarioLogs[0].val;
+        if(res.msg != "こちんこちん？") {
+          return "メッセージが違いそうです。";
+        }
+        if(res.yeslabel != "はい") {
+          return "最初のボタンが「はい」じゃありません。";
+        }
+        if(res.nolabel != "いいえ") {
+          return "二番目のボタンが「いいえ」じゃありません。";
+        }
+
+        if(scenarioLogs[1].val != "麦茶！") {
+          return "こちんこちんなのに麦茶！になってない！";
+        }
+        return true;
+
+    }
+});
+qobj.scenarios.push({
+    setup: ()=> returnValues.push(0),
+    verify: () => {
+        if(scenarioLogs.length == 1) {
+          return "「いいえ」を選んだ時に、結果が表示されていません。MessageBox.showを使って表示してください。";
+        }
+        if(scenarioLogs.length >= 3) {
+          return "「いいえ」を選んだ時、たぶん二回表示されています。";
+        }
+        if(scenarioLogs[1].name == "yesNo") {
+          return "「いいえ」を選んだ時、二回質問されました。なんで？";
+        }
+
+        
+        if(scenarioLogs[1].val != "こーしー") {
+          return "こちんこちんじゃないのにこーしーになってない！";
+        }
+        return true;
+
+    }
+});
+  questions.push(qobj);
+ </script>
 
 
+<div id="q4">
+    <input type="button" value="実行" />
+    <textarea>
+var tumetai = MessageBox.yesNo("こちんこちん？", "はい", "いいえ");
 
+// 以下をtumetaiの値に応じてifとelseを書こう！
+MessageBox.show("麦茶！");
+MessageBox.show("こーしー");</textarea>
+    <b>結果:</b> <span class="console"></span><br>
+    <span class="result"></span><br>
+    <input type="button" value="答えを見る" />
+    <div class="answer hideanswer">
+答え:<br>
+if(tumetai == 1) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;MessageBox.show("麦茶！");<br>
+} else {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;MessageBox.show("こーしー");<br>
+}<br>
+    </div>        
+</div>
+  
+　  
+### 課題: あじゃを鳴かせてみよう
+
+<script>
+var qobj = {
+    id: "q5",
+    scenarios: []
+}
+qobj.scenarios.push({
+    setup: ()=> returnValues.push(1),
+    verify: () => {
+        if(scenarioLogs.length == 0) {
+          return "質問されませんでした。";
+        }
+        if(scenarioLogs[0].name != "yesNo") {
+          return "質問されてません。";
+        }
+        if(scenarioLogs.length == 1) {
+          return "結果が表示されていません。MessageBox.showを使って表示してください。";
+        }
+        
+        // {name:"yesNo", val:{msg, yeslabel, nolabel}}
+        var res = scenarioLogs[0].val;
+        if(res.msg != "あじゃは鶏ですか？") {
+          return "メッセージが「あじゃは鶏ですか？」じゃありません。";
+        }
+        if(res.yeslabel != "はい") {
+          return "最初のボタンが「はい」じゃありません。";
+        }
+        if(res.nolabel != "いいえ") {
+          return "二番目のボタンが「いいえ」じゃありません。";
+        }
+
+        if(scenarioLogs[1].val != 1+5) {
+          return "5が足されていません。";
+        }
+        return true;
+
+    }
+});
+  questions.push(qobj);
+ </script>
+
+
+<div id="q5">
+    <input type="button" value="実行" />
+    <textarea>
+var tumetai = MessageBox.yesNo("こちんこちん？", "はい", "いいえ");
+
+// 以下をtumetaiの値に応じてifとelseを書こう！
+MessageBox.show("麦茶！");
+MessageBox.show("こーしー");</textarea>
+    <b>結果:</b> <span class="console"></span><br>
+    <span class="result"></span><br>
+    <input type="button" value="答えを見る" />
+    <div class="answer hideanswer">
+答え:<br>
+if(tumetai == 1) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;MessageBox.show("麦茶！");<br>
+} else {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;MessageBox.show("こーしー");<br>
+}<br>
+    </div>        
+</div>
+ 
