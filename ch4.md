@@ -873,6 +873,11 @@ if(tumetai == 1) {<br>
 </div>
   
 　  
+なかなか本格的なプログラミングになってきましたね。
+これを一発で解くのはちょっと大変でしょう。
+
+もう一問、似たような問題をやってみましょう。
+
 ### 課題: あじゃを鳴かせてみよう
 
 次はあじゃを鳴かせてみましょう。
@@ -987,6 +992,8 @@ if(sentaku == 1) {<br>
 } else {<br>
 &nbsp;&nbsp;&nbsp;&nbsp;MessageBox.show(mochiNakigoe);<br>
 }<br>
-    </div>        
+    </div>
 </div>
- 
+  
+　  
+あああ 
