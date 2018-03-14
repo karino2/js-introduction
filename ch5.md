@@ -332,12 +332,12 @@ JavaScriptはたまたま0だ、という事です。
 乱数は難しい概念ですが、ツクールとか触っている人は結構余裕でしょう。
 
 さて、乱数も厳密には環境ごとに定義される物ですが、これはどこの環境もだいたい似たりよったりです。
-このシリーズでは、`math.randomInt`という物をこの目的に使う事にします。
+このシリーズでは、`Math.randomInt`という物をこの目的に使う事にします。
 
 例えば、0, 1, 2, 3, 4のどれかの数字を得たい場合、以下のようにします。
 
 ```
-math.randomInt(5);
+Math.randomInt(5);
 ```
 
 このrandomIntは、0から指定された数字の「一つ下」までの乱数を返します。
@@ -352,7 +352,7 @@ math.randomInt(5);
 <div id="ex5">
 <input type="button" value="実行" />
 <textarea>
-var doreka = math.randomInt(5);
+var doreka = Math.randomInt(5);
 MessageBox.show(doreka);</textarea>
 <b>結果:</b> <span class="console"></span><br>
 </div>
@@ -375,7 +375,7 @@ MessageBox.show(doreka);</textarea>
 <input type="button" value="実行" />
 <textarea>
 // 0, 1, 2のどれか
-var doreka = math.randomInt(3);
+var doreka = Math.randomInt(3);
 
 // 3を足すので、3, 4, 5のどれかになる。
 doreka = doreka + 3;
