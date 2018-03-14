@@ -312,6 +312,110 @@ var yare = ["筋トレしろ", "自意識チェックをしろ", "聴け！"];
 </div>
   
 　  
+もう一つ作ってみましょうか。
+
+### 課題: lucyの配列を作れ
+
+せっかくなのでlucyも作ってみましょう。
+とりあえず以下くらいにしましょうか。
+
+- こちんこちん
+- ぬっくぬく
+- 麦茶
+- こーしー
+- しゅるしゅるする
+
+<script>
+var qobj = {
+    id: "q2",
+    scenarios: []
+}
+
+
+qobj.scenarios.push({
+    setup: ()=> {},
+    verify: (intp) => {
+        var actual = intp.pseudoToNative(intp.getProperty(intp.global, "lucy"));
+        if(actual == undefined) {
+          return "変数 lucyがどっかいっちゃった？";
+        }
+        var expect = ["こちんこちん", "ぬっくぬく", "麦茶", "こーしー", "しゅるしゅるする"];
+        return verifyArrayEqual(expect, actual);
+    }
+});
+  questions.push(qobj);
+ </script>
+
+
+<div id="q2">
+    <input type="button" value="実行" />
+    <textarea>
+// この行を書き換えて、指定された配列を作れ。
+var lucy = 0;
+
+MessageBox.show(lucy);</textarea>
+    <b>結果:</b> <span class="console"></span><br>
+    <span class="result"></span><br>
+    <input type="button" value="答えを見る" />
+    <div class="answer hideanswer">
+答え:<br>
+var lucy = ["こちんこちん", "ぬっくぬく", "麦茶", "こーしー", "しゅるしゅるする"];
+    </div>        
+</div>
+  
+　  
+配列の作り方はこんな感じです。
+次は取り出し方をやってみましょう。
+
+### 課題: 配列の要素を取り出して文を作れ
+
+以下の配列、lucyから要素を取り出して、それと残った文を組み合わせて「さて、お濁り様の小宴は開くとしようかね。」という文を表示せよ。
+
+<script>
+var qobj = {
+    id: "q3",
+    scenarios: []
+}
+
+
+qobj.scenarios.push({
+    setup: ()=> {},
+    verify: (intp) => {
+        if(scenarioLogs.length == 0 || scenarioLogs[0].name != 'alert') {
+          return "結果が表示されていません。MessageBox.show使ってね。";
+        }
+        var actual = scenarioLogs[0].val;
+        if(actual != "さて、お濁り様の小宴は開くとしようかね。") {
+          return "表示されたメッセージが違います。";
+        }
+        return true;
+    }
+});
+  questions.push(qobj);
+ </script>
+
+
+<div id="q3">
+    <input type="button" value="実行" />
+    <textarea>
+var lucy = ["開くとしようかね", "こーしー", "お濁り様の", "もぅ、しみっしみ、もぅ", "麦茶", "小宴は"];
+
+
+// 以下の行を書き換えて、目的の文を完成させてください。ただしlucy配列と+を（たくさん）足すだけで出来るはず。
+var onigori = "さて、" + lucy[1] + "。";
+
+MessageBox.show(onigori);</textarea>
+    <b>結果:</b> <span class="console"></span><br>
+    <span class="result"></span><br>
+    <input type="button" value="答えを見る" />
+    <div class="answer hideanswer">
+答え:<br>
+var onigori = "さて、" + lucy[2] + lucy[5] + lucy[0] + "。";
+    </div>        
+</div>
+  
+　  
+
 
 
 
