@@ -534,32 +534,38 @@ var qobj = {
     sampleNum: 1000
 }
 
+function verifyDice(intp, expects) {
+  if(scenarioLogs.length == 0 || scenarioLogs[0].name != 'alert') {
+    return "結果が表示されていません。MessageBox.show使ってね。";
+  }
+
+  var counts = countElem(scenarioLogs.map((res)=> res.val));
+  var resKeys = Object.keys(counts);
+  if(resKeys.length != expects.length) {
+    if(resKeys.length < expects.length) {
+      return "サイコロの目が" + resKeys.length +"個しかありません。足りない！";
+    }else {
+        return "サイコロの目が" + resKeys.length +"個もあります。多すぎ！";
+    }
+  }
+  var checkKey = _verifyArrayEqualInternal(expects, resKeys);
+  if(checkKey != true) {
+    return checkKey + "の目がずっと出ません";
+  }
+  var enough = true;
+  for(var i = 0; i < resKeys.length; i++) {
+    if(counts[resKeys[i]] < 100) {
+      return resKeys[i] + "の目が十分出てないです。";
+    }
+  }
+  return true;  
+}
+
+
 
 qobj.scenarios.push({
     setup: ()=> {},
-    verify: (intp) => {
-
-        if(scenarioLogs.length == 0 || scenarioLogs[0].name != 'alert') {
-          return "結果が表示されていません。MessageBox.show使ってね。";
-        }
-      
-        var counts = countElem(scenarioLogs.map((res)=> res.val));
-        var resKeys = Object.keys(counts);
-        if(resKeys.length != 6) {
-          return "サイコロの目が" + resKeys.length +"個あります";
-        }
-        var checkKey = _verifyArrayEqualInternal(["1", "2", "3", "4", "5", "6"], resKeys);
-        if(checkKey != true) {
-          return checkKey + "の目がずっと出ません";
-        }
-        var enough = true;
-        for(var i = 0; i < resKeys.length; i++) {
-          if(count[resKeys[i]] < 100) {
-            return resKeys[i] + "の目が十分出てないです。";
-          }
-        }
-        return true;
-    }
+    verify: (intp) => verifyDice(intp, ["1", "2", "3", "4", "5", "6"])
 });
   questions.push(qobj);
  </script>
@@ -578,6 +584,51 @@ MessageBox.show(saikoro);</textarea>
     <div class="answer hideanswer">
 答え:<br>
 var saikoro = Math.randomInt(6);<br>
+saikoro = saikoro+1;
+    </div>        
+</div>
+  
+　  
+せっかくなのでもう一つ、似たような課題をやりましょう。
+
+### 課題: 12面サイコロを作れ
+
+せっかくなので12面サイコロも作っておきましょう。
+1から12までの数字をランダムに表示してください。
+
+
+**1～12をランダムに表示せよ**
+
+<script>
+var qobj = {
+    id: "q5",
+    scenarios: [],
+    sampleNum: 5000
+}
+
+
+
+qobj.scenarios.push({
+    setup: ()=> {},
+    verify: (intp) => verifyDice(intp, ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"])
+});
+  questions.push(qobj);
+ </script>
+
+
+<div id="q5">
+    <input type="button" value="実行" />
+    <textarea>
+// 以下の行を書き換えて、saikoroに1から12のどれかがランダムで入るようにしてください。
+var saikoro = 1;
+
+MessageBox.show(saikoro);</textarea>
+    <b>結果:</b> <span class="console"></span><br>
+    <span class="result"></span><br>
+    <input type="button" value="答えを見る" />
+    <div class="answer hideanswer">
+答え:<br>
+var saikoro = Math.randomInt(12);<br>
 saikoro = saikoro+1;
     </div>        
 </div>
