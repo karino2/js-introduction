@@ -39,14 +39,14 @@ layout: page
 var questions = [];
 
 
-  document.body.onload = function() {
-    myInterpreter = new Interpreter('MessageBox = {show: SmokeAlert, yesNo: SmokeYesNo};', initFunc);
-    scenarioPlayer = new Interpreter('MessageBox = {show: SmokeAlert, yesNo: SmokeYesNo};', initScnearioPlayerFunc);
+document.body.onload = function() {
+  myInterpreter = new Interpreter('MessageBox = {show: SmokeAlert, yesNo: SmokeYesNo}; Math = {randomInt: _randomInt};',initFunc);
+  scenarioPlayer = new Interpreter('MessageBox = {show: SmokeAlert, yesNo: SmokeYesNo};  Math = {randomInt: _randomInt};', initScnearioPlayerFunc);
 
 
-    setupAllREPL2(6);
-    setupAllQuestionsWithScnario(questions);
-  }
+  setupAllREPL2(6);
+  setupAllQuestionsWithScnario(questions);
+}
 </script>
 
 
