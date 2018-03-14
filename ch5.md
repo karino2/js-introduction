@@ -524,7 +524,9 @@ var doreka = Math.randomInt(4) + 3;
 
 1から6までの数字をランダムに表示してください。
 
+
 **1～6をランダムに表示せよ**
+
 <script>
 var qobj = {
     id: "q4",
