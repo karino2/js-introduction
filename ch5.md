@@ -260,10 +260,54 @@ MessageBox.show("0番目は" + hairetsu[0] + "、2番目は" + hairetu[2]);</tex
 "0番目は" + "文字" + "、2番目は" + "配列"
 ```
 
-となります。
+となります。ちょっと実際にやってみましょう。
 
 
-TODO: 課題
+### 課題: 配列を作って表示せよ
+
+
+
+<script>
+var qobj = {
+    id: "q1",
+    scenarios: []
+}
+qobj.scenarios.push({
+    setup: ()=> {},
+    verify: () => {
+
+        return true;
+    }
+});
+  questions.push(qobj);
+ </script>
+
+
+<div id="q1">
+    <input type="button" value="実行" />
+    <textarea>
+    // 5じゃないケース
+    var sentaku = 6;
+
+    // 5のケースは下の行をコメントじゃなくす
+    // var sentaku = 5;
+
+    // このままでは6の時も実行されてしまうので、5の時だけ実行されるように以下をifを使って変更
+    MessageBox.show("sentakuは5です。");
+
+</textarea>
+    <b>結果:</b> <span class="console"></span><br>
+    <span class="result"></span><br>
+    <input type="button" value="答えを見る" />
+    <div class="answer hideanswer">
+答え:<br>
+if(sentaku == 5){<br>
+&nbsp;&nbsp;&nbsp;&nbsp;MessageBox.show(sentaku);<br>
+}<br>
+    </div>        
+</div>
+  
+　  
 
 
 
@@ -290,8 +334,19 @@ JavaScriptはたまたま0だ、という事です。
 さて、乱数も厳密には環境ごとに定義される物ですが、これはどこの環境もだいたい似たりよったりです。
 このシリーズでは、`math.randomInt`という物をこの目的に使う事にします。
 
-細かい事より例を見ていく方がいいでしょう。
-0, 1, 2, 3, 4のどれかの数字を得たい場合、以下のようにします。
+例えば、0, 1, 2, 3, 4のどれかの数字を得たい場合、以下のようにします。
+
+```
+math.randomInt(5);
+```
+
+このrandomIntは、0から指定された数字の「一つ下」までの乱数を返します。
+いつも0からです。で、`5`を指定すると`5`は返ってきません。
+`4`までしか返って来ないのです。  
+なんでよ、って思うかもしれないけれど、ツクール MVがそうだから揃えました…  
+0から数えるので一つ下まで、という事なのかもしれません。
+
+実際に動かしてみましょう。
 
 
 <div id="ex5">
@@ -303,11 +358,40 @@ MessageBox.show(doreka);</textarea>
 </div>
   
 　  
-ランダムに0, 1, 2, 3, 4のどれかの数字を引いている所は以下の部分になります。
+何度か実行すると、0〜4の数字のどれかが毎回変わって実行されるはずです。
+そして何回実行しても5にはならないはずです。
 
-```
-math.randomInt(5)
-```
+でも毎回0からじゃ困る事がありますよね。
+例えばサイコロ作るなら1から6です。0の目とか出られても困ります。
+
+そういう時は、結果に1を足せば良いのです。
+サイコロはわかりやすいので課題にまわして、例えば3〜5の乱数が欲しいとします。
+
+そういう時は、0〜2の乱数を作って、3を足せば良いのです。
+やってみましょう。
+
+**3, 4, 5の３つの数のどれかを表示**
+<div id="ex6">
+<input type="button" value="実行" />
+<textarea>
+// 0, 1, 2のどれか
+var doreka = math.randomInt(3);
+
+// 3を足すので、3, 4, 5のどれかになる。
+doreka = doreka + 3;
+
+MessageBox.show(doreka);</textarea>
+<b>結果:</b> <span class="console"></span><br>
+</div>
+  
+　  
+どうですかね。足し算！算数！無理！とかだったらごめんなさい…
+
+
+
+
+
+
 
 
 
