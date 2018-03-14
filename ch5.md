@@ -108,10 +108,10 @@ MessageBox.show(lucy[3]);</textarea>
 **`要素`ということば**  
 `要素`、なんか難しい言葉ですねぇ。`要素`。なんか「（キリッ」とか後ろにつけたくなる感じです。  
 このシリーズでは、なるべく難しい言葉は使わないようにと考えているので、
-最初この第五回は`要素`という言葉を使わずに書く気でした。
+最初この第五回は`要素`という言葉を使わずに書く気でした。  
 　  
-ただ、この`要素`という言葉、どうしても私が無意識に使ってしまうみたいで、無意識に書いていってふと見直すと至る所で使っている…  
-そういう訳で、諦めて以後使っていく事にしました。すみません…
+ただ、この`要素`という言葉、どうしても私が無意識に使ってしまうみたいで、使わないようにと思いながら書いていって、ふと文章を見直すと至る所で使っている…  
+そういう訳で、諦めて今回でも`要素`という言葉を使っていく事にしました。すみません…
 {: .column}
 
 
@@ -280,11 +280,15 @@ var qobj = {
 }
 
 function verifyArrayEqual(expect, actual) {
+  if(actual.length == undefined) {
+    return "配列じゃないです。";
+  }
   if(expect.length != actual.length) {
     if(actual.length > expect.length) {
       return "配列に"+ expect.length+" 個よりたくさん文字が入ってます！";
     } else {
-      return "配列に"+ expect.length+"個文字が入ってないです。"+(expect.length-actual.length) + "個足りない...";
+      var dif = expect.length-actual.length;
+      return "配列に"+ expect.length+"個文字が入ってないです。"+dif + "個足りない...";
     }         
   }
   var mark = {};
@@ -302,10 +306,10 @@ function verifyArrayEqual(expect, actual) {
 qobj.scenarios.push({
     setup: ()=> {},
     verify: (intp) => {
-        if(intp.global.a.yare == undefined) {
+        var actual = intp.pseudoToNative(intp.getProperty(intp.global, "yare"));
+        if(actual == undefined) {
           return "変数 yareがどっかいっちゃった？";
         }
-        var actual = intp.global.a.yare;
         var expect = ["筋トレしろ", "自意識チェックをしろ", "聴け！"];
         return verifyArrayEqual(expect, actual);
     }
@@ -317,11 +321,10 @@ qobj.scenarios.push({
 <div id="q1">
     <input type="button" value="実行" />
     <textarea>
-    // この行を書き換えて、指定された配列を作れ。
-    var yare = [];
+// この行を書き換えて、指定された配列を作れ。
+var yare = [];
 
-    MessageBox.show(yare);
-    </textarea>
+MessageBox.show(yare);</textarea>
     <b>結果:</b> <span class="console"></span><br>
     <span class="result"></span><br>
     <input type="button" value="答えを見る" />
