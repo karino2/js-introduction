@@ -219,6 +219,9 @@ function scenarioYesNo(msg, yeslabel, nolabel) {
     return returnValues.shift();
 }
 
+function randomInt(right) {
+    return Math.floor(right*Math.random());
+}
 
 function smokeAlert(msg, callback) {
     functionCallLogs.push({name:"smokeAlert", val:msg});
@@ -243,13 +246,24 @@ function smokeYesNo(msg, yeslabel, nolabel, callback) {
 }
 
 
+function countElem(arrs) {
+    var res = {};
+    arrs.forEach((elem) => {
+        var cur = res[elem] || 0;
+        res[elem] = cur +1;
+    });
+    return res;
+}
 
 function initScnearioPlayerFunc(interpreter, scope) {
     interpreter.setProperty(scope, 'SmokeAlert',
           interpreter.createNativeFunction(scenarioAlert));
     interpreter.setProperty(scope, 'SmokeYesNo',
           interpreter.createNativeFunction(scenarioYesNo));
+    interpreter.setProperty(scope, '_randomInt',
+          interpreter.createNativeFunction(randomInt));
 };
+
 
 
 function initFunc(interpreter, scope) {
@@ -257,7 +271,10 @@ function initFunc(interpreter, scope) {
           interpreter.createAsyncFunction(smokeAlert));
     interpreter.setProperty(scope, 'SmokeYesNo',
           interpreter.createAsyncFunction(smokeYesNo));
+    interpreter.setProperty(scope, '_randomInt',
+          interpreter.createNativeFunction(randomInt));
 };
+
 
 function setupQuestionWithScnario(qobj) {
     var id = qobj.id;
@@ -269,26 +286,50 @@ function setupQuestionWithScnario(qobj) {
 
             var scr = editor.getValue();
 
-            var scenarios = qobj.scenarios;
             var resultSuccess = true;
+            var scenarios = qobj.scenarios;
 
-            for(var i = 0; i < scenarios.length; i++) {
-                var scenario = scenarios[i];
-
+            if(qobj.sampleNum != undefined &&
+            qobj.sampleNum > 0) {
                 scenarioLogs = [];
                 returnValues = [];
-                
+                // always single scenario.
+                var scenario = scenarios[0];
+
                 scenario.setup();
-                scenarioPlayer.appendCode(scr);
-                scenarioPlayer.run(scr);
-                var verify = scenario.verify();
+
+                for(var i = 0; i < qobj.sampleNum; i++) {
+                    scenarioPlayer.appendCode(scr);
+                    scenarioPlayer.run(scr);
+                }
+                    
+                var verify = scenario.verify(scenarioPlayer);
                 if(verify!= true) {
                     resultWrong(resultSpan, verify);
                     resultSuccess = false;
-                    break;
                 }
 
+            } else {
+
+                for(var i = 0; i < scenarios.length; i++) {
+                    var scenario = scenarios[i];
+
+                    scenarioLogs = [];
+                    returnValues = [];
+                    
+                    scenario.setup();
+                    scenarioPlayer.appendCode(scr);
+                    scenarioPlayer.run(scr);
+                    var verify = scenario.verify(scenarioPlayer);
+                    if(verify!= true) {
+                        resultWrong(resultSpan, verify);
+                        resultSuccess = false;
+                        break;
+                    }
+
+                }
             }
+
             if(resultSuccess) {
                 resultCorrect(resultSpan);               
             }
