@@ -263,8 +263,14 @@ MessageBox.show("0番目は" + hairetsu[0] + "、2番目は" + hairetu[2]);</tex
 となります。ちょっと実際にやってみましょう。
 
 
-### 課題: 配列を作って表示せよ
+### 課題: 「やれbot」の配列を作れ
 
+とりあえず三つくらいにしておきますか。
+以下の三つの文字を持つ配列を作ってください。
+
+- 筋トレしろ
+- 自意識チェックをしろ
+- 聴け！
 
 
 <script>
@@ -272,11 +278,36 @@ var qobj = {
     id: "q1",
     scenarios: []
 }
+
+function verifyArrayEqual(expect, actual) {
+  if(expect.length != actual.length) {
+    if(actual.length > expect.length) {
+      return "配列に"+ expect.length+" 個よりたくさん文字が入ってます！";
+    } else {
+      return "配列に"+ expect.length+"個文字が入ってないです。"+(expect.length-actual.length) + "個足りない...";
+    }         
+  }
+  var mark = {};
+  expect.forEach((elm)=>mark[elem] = false);
+  actual.forEach((elm)=>mark[elem] = true);
+  for(var key in mark) {
+    if(!mark[key]) {
+      return key + " が入っていません。";
+    }
+  }
+  return true;
+  
+}
+
 qobj.scenarios.push({
     setup: ()=> {},
-    verify: () => {
-
-        return true;
+    verify: (intp) => {
+        if(intp.global.a.yare == undefined) {
+          return "変数 yareがどっかいっちゃった？";
+        }
+        var actual = intp.global.a.yare;
+        var expect = ["筋トレしろ", "自意識チェックをしろ", "聴け！"];
+        return verifyArrayEqual(expect, actual);
     }
 });
   questions.push(qobj);
@@ -286,24 +317,17 @@ qobj.scenarios.push({
 <div id="q1">
     <input type="button" value="実行" />
     <textarea>
-    // 5じゃないケース
-    var sentaku = 6;
+    // この行を書き換えて、指定された配列を作れ。
+    var yare = [];
 
-    // 5のケースは下の行をコメントじゃなくす
-    // var sentaku = 5;
-
-    // このままでは6の時も実行されてしまうので、5の時だけ実行されるように以下をifを使って変更
-    MessageBox.show("sentakuは5です。");
-
-</textarea>
+    MessageBox.show(yare);
+    </textarea>
     <b>結果:</b> <span class="console"></span><br>
     <span class="result"></span><br>
     <input type="button" value="答えを見る" />
     <div class="answer hideanswer">
 答え:<br>
-if(sentaku == 5){<br>
-&nbsp;&nbsp;&nbsp;&nbsp;MessageBox.show(sentaku);<br>
-}<br>
+var yare = ["筋トレしろ", "自意識チェックをしろ", "聴け！"];
     </div>        
 </div>
   
