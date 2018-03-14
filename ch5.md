@@ -44,7 +44,7 @@ document.body.onload = function() {
   scenarioPlayer = new Interpreter('MessageBox = {show: SmokeAlert, yesNo: SmokeYesNo};  Math = {randomInt: _randomInt};', initScnearioPlayerFunc);
 
 
-  setupAllREPL2(7);
+  setupAllREPL2(8);
   setupAllQuestionsWithScnario(questions);
 }
 </script>
@@ -131,6 +131,16 @@ MessageBox.show(lucy[3]);</textarea>
  "配列",
  "です"];
 ```
+
+また、`[`の直後に入れる事も出来ます。`]`の直前も入れられます。
+
+```
+[
+"文字", "の", "配列", "です"
+];
+```
+
+この時の行の先頭の空欄はあんま決まってない気がします。気分で入れたり入れなかったりしてください。
 
 
 ### 配列を変数に入れる
@@ -269,7 +279,32 @@ MessageBox.show("0番目は" + hairetsu[0] + "、2番目は" + hairetu[2]);</tex
 "0番目は" + "文字" + "、2番目は" + "配列"
 ```
 
-となります。ちょっと実際にやってみましょう。
+となります。
+
+なお、何番目を取り出すか、は、変数も使えます。例えば以下みたいなコードです。
+
+<div id="ex8">
+<input type="button" value="実行" />
+<textarea>
+// doreという変数に3を入れる
+var dore = 3;
+
+// 配列を作る
+var hairetu = ["文字", "の", "配列", "です"];
+
+// 上で作った配列のdore番目を取る。この場合は3番目、つまり「です」が入る
+var message = hairetu[dore];
+
+MessageBox.show(message);</textarea>
+<b>結果:</b> <span class="console"></span><br>
+</div>
+  
+　  
+この例だと「なんでわざわざdoreとかいう変数作るんだ？最初から3て書けばいいじゃん！」と思うかもしれませんが、
+yesNoとか、あとの乱数とかを組み合わせるといろいろ技が使えるのです。
+
+さて、うだうだと説明してきましたが、こういうのは実際にやってみる方が早い。
+という事で課題を実際にやってっましょう。
 
 
 ### 課題: 「やれbot」の配列を作れ
@@ -682,7 +717,7 @@ MessageBox.show(message);</textarea>
 
 1. 表示するメッセージを持った配列を作る
 2. どのメッセージを表示するかを選ぶ乱数を得る
-3. 配列から乱数を使って要素を取り出す
+3. 配列から、2で得た数字を使って要素を取り出す
 4. 取り出したメッセージを表示
 
 順番に見ていきましょう。
@@ -710,14 +745,194 @@ var lucy = [
 配列は0番目から数えるので、0番目の文、1番目の文、2番目の文、…と5番目の文まで、となります。
 0から数えるので6じゃなくて5番目が最後です。
 
+つまり`lucy[0]`で`"蕎麦充した（⌒_⌒）"`という文字が、`lucy[5]`で`"ぬっくぬくなこーしーをしゅるしゅるしている。"`という文字が取り出せます。
+
+
 次に、この配列のメッセージのうちどれを表示するかを乱数で決めます。
 
 ### 2. どのメッセージを表示するかを選ぶ乱数を得る
+
+メッセージは0番目から5番目までの6通りなので、乱数で0から5までの数をランダムで得ます。  
+乱数は、`Math.randomInt`で得るのでした。0から5までだと、`Math.randomInt(5)`でちょうど得られますね。足したりしなくて良くてラッキーです。
+
+該当するコードは以下になります。
 
 ```
 // 2. 乱数を作る。上のメッセージは6通りなので、0～５の乱数を作る。
 var doreka = Math.randomInt(6);
 ```
+
+これでdorekaに、0から5までのどれかの数字が入ります。
+
+次に、この数字に応じて、メッセージの文を配列から取り出します。
+
+### 3. 配列から、2で得た数字を使って要素を取り出す
+
+上で何番目のメッセージを配列から取り出すか、を決める乱数を得ました。
+
+あとはこの数字に応じて配列からメッセージを取り出せば良いのですが、
+乱数がちょうど0から5の間の数字になってるので、これをそのまま使って配列からメッセージを取り出す事が出来ます。
+
+```
+// 3. 配列から、doreka番目の要素を取る。こんな事も出来るんですね～。
+var message = lucy[doreka];
+```
+
+ちょっとトリッキーなコードですが、乱数と配列を組み合わせてこうやって取り出すのは良くやるのであえて使いました。
+別にすげー頑張ってif文書く事も、やろうと思えばできます。
+
+第四回のコラムでちょろっと触れた`else if`を使いますと、こんな感じになります（理解出来なくてもOKです）。
+
+```
+var message;
+if(doreka == 0) {
+    message = lucy[0];
+} else if(doreka == 1) {
+    message = lucy[1];
+} else if(doreka == 2) {
+    message = lucy[2];
+} else if(doreka == 3) {
+    message = lucy[3];
+} else if(doreka == 4) {
+    message = lucy[4];
+} else if(doreka == 5) {
+    message = lucy[5];
+}
+```
+
+Unityとかだと、キーボードとかのイベントからこういう`if`をずらずらと書くの、良くあるのですが、ツクールのプラグインなどではあまり見かけないので、あんまりこういうコードに慣れる必要はありません。
+
+ただ、こんな風に書いても同じ結果ですよ、という事を軽く示しておきます。
+
+こんな難しそうなの理解するのは大変なので、やっぱりさっきのコードを理解する方がいいでしょう。
+もう一度載せておきます。
+
+```
+var message = lucy[doreka];
+```
+
+配列`lucy`から、「dorekaの変数に入っている値」番目の要素を取り出す、という意味ですね。ちょっと難しいけど頑張れ！
+
+
+で、最後の4はこれを`MessageBox.show`で表示するのですが、そこの解説はいいでしょう。
+
+いやー、なかなか大変ですね。  
+こんなに大変ですが、せっかくなので自分でも同じようなのを作ってみましょう！
+
+次の課題はかなり難しいので、出来なくても気にしなくていいです。
+でもlucyボットを作ったからには奴も作らなくてはなりますまい。そう、やれbotです。
+
+### やれbotもどきを作ろう
+
+という事で、lucyボットとほとんど同じ、「やれbot」を作りましょう。
+せっかくなので、メッセージはちょっと多めに
+
+- 筋トレしろ
+- 自意識チェックをしろ
+- 聴け！
+- 理解しようとしろ
+- 好きを収集しろ
+- 場を見ろ
+
+くらにいしておきましょうか。
+
+ヒントのコメントを入れてあるので、lucyボットのコードを参考にしつつ解いてみてください。
+
+
+<script>
+var qobj = {
+    id: "q6",
+    scenarios: [],
+    sampleNum: 1000
+}
+
+function verifyBot(intp, expects) {
+  if(scenarioLogs.length == 0 || scenarioLogs[0].name != 'alert') {
+    return "結果が表示されていません。MessageBox.show使ってね。";
+  }
+
+  var counts = countElem(scenarioLogs.map((res)=> res.val));
+  var resKeys = Object.keys(counts);
+  if(resKeys.length != expects.length) {
+    if(resKeys.length < expects.length) {
+      return "メッセージのパターンが" + resKeys.length +"通りしかありません。足りない！";
+    }else {
+        return "メッセージのパターンが" + resKeys.length +"通りもあります。多すぎ！";
+    }
+  }
+  var checkKey = _verifyArrayEqualInternal(expects, resKeys);
+  if(checkKey != true) {
+    return "「" + checkKey + "」のメッセージがずっと出ません";
+  }
+  var enough = true;
+  for(var i = 0; i < resKeys.length; i++) {
+    if(counts[resKeys[i]] < 100) {
+      return "「" + resKeys[i] + "」のメッセージの出現回数が少なすぎます。";
+    }
+  }
+  return true;  
+}
+
+
+
+
+qobj.scenarios.push({
+    setup: ()=> {},
+    verify: (intp) => verifyBot(intp, [
+                      "筋トレしろ",
+                      "自意識チェックをしろ",
+                      "聴け！",
+                      "理解しようとしろ",
+                      "好きを収集しろ",
+                      "場を見ろ"
+                      ])
+});
+  questions.push(qobj);
+ </script>
+
+
+<div id="q6">
+    <input type="button" value="実行" />
+    <textarea>
+// 1. ボットで表示するメッセージの配列を作る(以下の行を書き換える。以下同様)
+var yare = 0;
+
+// 2. どのメッセージを表示するかを決める乱数を得る
+var doreka = 0;
+
+// 3. 乱数を使って、配列からメッセージを取り出す。
+var message = "";
+
+// 4. 取り出したメッセージを表示
+MessageBox.show(message);</textarea>
+    <b>結果:</b> <span class="console"></span><br>
+    <span class="result"></span><br>
+    <input type="button" value="答えを見る" />
+    <div class="answer hideanswer">
+答え:<br>
+// 1. ボットで表示するメッセージの配列を作る<br>
+var yare =[<br>
+"筋トレしろ",<br>
+"自意識チェックをしろ",<br>
+"聴け！",<br>
+"理解しようとしろ",<br>
+"好きを収集しろ",<br>
+"場を見ろ"<br>
+];<br>
+<br>
+// 2. どのメッセージを表示するかを決める乱数を得る<br>
+var doreka = Math.randomInt(5);<br>
+<br>
+// 3. 乱数を使って、配列からメッセージを取り出す。<br>
+var message = yare[doreka];<br>
+<br>
+// 4. 取り出したメッセージを表示<br>
+MessageBox.show(message);<br>
+    </div>        
+</div>
+  
+　  
+
 
 
 **コラム**  
