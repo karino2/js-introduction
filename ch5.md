@@ -44,7 +44,7 @@ document.body.onload = function() {
   scenarioPlayer = new Interpreter('MessageBox = {show: SmokeAlert, yesNo: SmokeYesNo};  Math = {randomInt: _randomInt};', initScnearioPlayerFunc);
 
 
-  setupAllREPL2(6);
+  setupAllREPL2(7);
   setupAllQuestionsWithScnario(questions);
 }
 </script>
@@ -634,11 +634,49 @@ saikoro = saikoro+1;
 </div>
   
 　  
+サイコロが作れれば乱数はだいたい十分でしょう。  
+最後にチャレンジ課題として、配列と乱数を組み合わせて、botのような振る舞いをするプログラムを書いてみます。
+短いですが、結構本格的なプログラミングになります。
 
+## 配列と乱数を使って、botもどきを作ろう
 
+配列と乱数を使うと、簡単なbotが作れます。
+といっても実際にマストドンなどに投稿するのは面倒なので、ここではボットもどき、として、ランダムにメッセージが表示される、というプログラムを作ってみましょう。
 
+まずはlucyボットです。
 
+### lucyボットを作ろう
 
+実行、を押す都度、lucyニキのセリフを表示する、lucyボットを作ってみましょう。
+原理としては、配列に使うメッセージを一通り入れておいて、乱数で何番目を表示するか、を決めて、そこを表示します。
+
+まずコードを示します。以下のコードを何度か実行してみてから、続く解説を読んで下さい。
+
+<div id="ex7">
+<input type="button" value="実行" />
+<textarea>
+var lucy = [
+  "蕎麦充した（⌒_⌒）",
+  "るーひー♪",
+  "さて、始業しようかねぇ。",
+  "さて、お濁り様の小宴は開くとしようかね。",
+  "こちんこちんに冷えた麦茶を飲み干した。",
+  "ぬっくぬくなこーしーをしゅるしゅるしている。"
+];
+
+// 上のメッセージは6通りなので、0～５の乱数を作る。
+var doreka = Math.randomInt(6);
+
+// 配列から、doreka番目の要素を取る。こんな事も出来るんですね～。
+var message = lucy[doreka];
+
+// 結果を表示
+MessageBox.show(message);</textarea>
+<b>結果:</b> <span class="console"></span><br>
+</div>
+  
+　  
+ほげ
 
 **コラム**  
 一ブロック  
