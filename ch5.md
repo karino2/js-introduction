@@ -292,8 +292,8 @@ function verifyArrayEqual(expect, actual) {
     }         
   }
   var mark = {};
-  expect.forEach((elm)=>mark[elem] = false);
-  actual.forEach((elm)=>mark[elem] = true);
+  expect.forEach((elm)=>mark[elm] = false);
+  actual.forEach((elm)=>mark[elm] = true);
   for(var key in mark) {
     if(!mark[key]) {
       return key + " が入っていません。";
