@@ -255,6 +255,31 @@ function countElem(arrs) {
     return res;
 }
 
+function verifyArrayEqual(expect, actual) {
+    if(actual.length == undefined) {
+      return "配列じゃないです。";
+    }
+    if(expect.length != actual.length) {
+      if(actual.length > expect.length) {
+        return "配列に"+ expect.length+" 個よりたくさん文字が入ってます！";
+      } else {
+        var dif = expect.length-actual.length;
+        return "配列に"+ expect.length+"個文字が入ってないです。"+dif + "個足りない...";
+      }         
+    }
+    var mark = {};
+    expect.forEach((elm)=>mark[elm] = false);
+    actual.forEach((elm)=>mark[elm] = true);
+    for(var key in mark) {
+      if(!mark[key]) {
+        return key + " が入っていません。";
+      }
+    }
+    return true;
+    
+  }
+  
+
 function initScnearioPlayerFunc(interpreter, scope) {
     interpreter.setProperty(scope, 'SmokeAlert',
           interpreter.createNativeFunction(scenarioAlert));
