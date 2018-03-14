@@ -487,19 +487,19 @@ MessageBox.show(doreka);</textarea>
 例えばサイコロ作るなら1から6です。0の目とか出られても困ります。
 
 そういう時は、結果に1を足せば良いのです。
-サイコロはわかりやすいので課題にまわして、例えば3〜5の乱数が欲しいとします。
+サイコロはわかりやすいので課題にまわして、例えば3〜6の乱数が欲しいとします。
 
-そういう時は、0〜2の乱数を作って、3を足せば良いのです。
+そういう時は、0〜3の乱数を作って、3を足せば良いのです。
 やってみましょう。
 
-**3, 4, 5の３つの数のどれかを表示**
+**3, 4, 5, 6の４つの数のどれかを表示**
 <div id="ex6">
 <input type="button" value="実行" />
 <textarea>
-// 0, 1, 2のどれか
-var doreka = Math.randomInt(3);
+// 0, 1, 2, 3のどれか
+var doreka = Math.randomInt(4);
 
-// 3を足すので、3, 4, 5のどれかになる。
+// 3を足すので、3, 4, 5, 6のどれかになる。
 doreka = doreka + 3;
 
 MessageBox.show(doreka);</textarea>
@@ -509,11 +509,78 @@ MessageBox.show(doreka);</textarea>
 　  
 どうですかね。足し算！算数！無理！とかだったらごめんなさい…
 
+なお、乱数をとった後にその場で足す事も出来ます。
+以下みたいなコードですね。最後の「+3」に注目。
+
+```
+var doreka = Math.randomInt(4) + 3;
+```
+
+まぁ一気に書いても二行に分けても、どっちでもいいです。分かりやすい方で行きましょう。
+では課題です。
 
 
+### 課題: 6面サイコロを作れ
+
+1から6までの数字をランダムに表示してください。
+
+**1～6をランダムに表示せよ**
+<script>
+var qobj = {
+    id: "q4",
+    scenarios: [],
+    sampleNum: 1000
+}
 
 
+qobj.scenarios.push({
+    setup: ()=> {},
+    verify: (intp) => {
 
+        if(scenarioLogs.length == 0 || scenarioLogs[0].name != 'alert') {
+          return "結果が表示されていません。MessageBox.show使ってね。";
+        }
+      
+        var counts = countElem(scenarioLogs.map((res)=> res.val));
+        var resKeys = Object.keys(counts);
+        if(resKeys.length != 6) {
+          return "サイコロの目が" + resKeys.length +"個あります";
+        }
+        var checkKey = _verifyArrayEqualInternal(["1", "2", "3", "4", "5", "6"], resKeys);
+        if(checkKey != true) {
+          return checkKey + "の目がずっと出ません";
+        }
+        var enough = true;
+        for(var i = 0; i < resKeys.length; i++) {
+          if(count[resKeys[i]] < 100) {
+            return resKeys[i] + "の目が十分出てないです。";
+          }
+        }
+        return true;
+    }
+});
+  questions.push(qobj);
+ </script>
+
+
+<div id="q4">
+    <input type="button" value="実行" />
+    <textarea>
+// 以下の行を書き換えて、saikoroに1から6のどれかがランダムで入るようにしてください。
+var saikoro = 1;
+
+MessageBox.show(saikoro);</textarea>
+    <b>結果:</b> <span class="console"></span><br>
+    <span class="result"></span><br>
+    <input type="button" value="答えを見る" />
+    <div class="answer hideanswer">
+答え:<br>
+var saikoro = Math.randomInt(6);<br>
+saikoro = saikoro+1;
+    </div>        
+</div>
+  
+　  
 
 
 

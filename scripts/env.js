@@ -255,6 +255,19 @@ function countElem(arrs) {
     return res;
 }
 
+function _verifyArrayEqualInternal(expect, actual) {
+    var mark = {};
+    expect.forEach((elm)=>mark[elm] = false);
+    actual.forEach((elm)=>mark[elm] = true);
+    for(var key in mark) {
+      if(!mark[key]) {
+        return key;
+      }
+    }
+    return true;
+    
+}
+
 function verifyArrayEqual(expect, actual) {
     if(actual.length == undefined) {
       return "配列じゃないです。";
@@ -267,15 +280,11 @@ function verifyArrayEqual(expect, actual) {
         return "配列に"+ expect.length+"個文字が入ってないです。"+dif + "個足りない...";
       }         
     }
-    var mark = {};
-    expect.forEach((elm)=>mark[elm] = false);
-    actual.forEach((elm)=>mark[elm] = true);
-    for(var key in mark) {
-      if(!mark[key]) {
-        return key + " が入っていません。";
-      }
+    var res = _verifyArrayEqualInternal(expect, actual);
+    if(res == true) {
+        return true;
     }
-    return true;
+    return res + " が入っていません。";
     
   }
   
