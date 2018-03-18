@@ -384,7 +384,7 @@ toots["ダニエル"] = 12518;<br>
 ### 課題: 犬を鳴かせよう
 
 辞書から「犬」のキーの要素を取り出して、`MessageBox.show`で表示してください。
-なお、課題添削が手抜きなので、ハードコードしても正解って出ちゃいますが、`nakigoe`使ってね。
+なお、課題添削が手抜きなので、結果をハードコードしても正解って出ちゃいますが、`nakigoe`使ってね。
 
 <script>
 var qobj = {
@@ -534,9 +534,9 @@ tairyoku["awa"] = 500;
 <textarea>
 // 何か適当に辞書を作る。"inu"とかはinuでもいいんだけど、なんとなくダブルクォートつけた。
 var nakigoe = {"inu": "わんわん", "neko": "にゃーん",
- "ossan": "にゃーん","awa": むえぇ〜〜〜"};
+ "ossan": "にゃーん","awa": "むえぇ〜〜〜"};
 
-// nakigoe["あじゃ"]の代わりに以下でもOK
+// nakigoe["awa"]の代わりに以下でもOK
 MessageBox.show(nakigoe.awa);</textarea>
 <b>結果:</b> <span class="console"></span><br>
 </div>
