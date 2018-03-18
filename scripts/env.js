@@ -228,11 +228,15 @@ function smokeAlert(msg, callback) {
     functionCallLogs.push({name:"smokeAlert", val:msg});
 
     if(typeof msg == "object") {
+        // js-interpreter wrap object with some structure. I don't know what this struecture exactlly is...
+        if(msg.a != undefined) {
+            msg = msg.a;
+        }
         msg = JSON.stringify(msg);
     } else {
         msg = msg.toString();
     }
-    smoke.alert(msg.toString(), e=>{callback(), setTimeout(()=>runInterpreterProgress())} );
+    smoke.alert(msg, e=>{callback(), setTimeout(()=>runInterpreterProgress())} );
 }
 
 function smokeYesNo(msg, yeslabel, nolabel, callback) {
