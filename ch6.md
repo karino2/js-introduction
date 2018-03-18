@@ -172,7 +172,7 @@ JavaScriptの`辞書`がポケモンのボックスと違うのは、同じポ�
 先程のコードを、ポケモンのボックスと対応づけて見てみましょう。
 
 
-### ポケモン預かりボックスで考える、`辞書`のコード
+### ポケモン預かりボックスで考える、`辞書`
 
 まず、カラの辞書を作る、という事をやりました。
 
@@ -356,13 +356,15 @@ qobj.scenarios.push({
 <div id="q1">
     <input type="button" value="実行" />
     <textarea>
-// この行を書き換えて、空の辞書を作る。
+// この行を書き換えて、空の辞書を作る。変数名は変えないでね。
 var toots = 0;
 
 // ここで辞書にキーとtoot数をセット
 
+
+
 // 結果表示。ここはいじらないでね。
-MessageBox.show(toots);</textarea>
+MessageBox.show("ダニキの戦闘力は " + toots["ダニエル"] + " です。");</textarea>
     <b>結果:</b> <span class="console"></span><br>
     <span class="result"></span><br>
     <input type="button" value="答えを見る" />
@@ -377,8 +379,62 @@ toots["ダニエル"] = 12518;<br>
 </div>
   
 　  
-こんな感じです。
+こうやって辞書を作ります。次は作った辞書から、要素を取り出す課題をやってみましょう。
 
+### 課題: 犬を鳴かせよう
+
+辞書から「犬」のキーの要素を取り出して、`MessageBox.show`で表示してください。
+なお、課題添削が手抜きなので、ハードコードしても正解って出ちゃいますが、`nakigoe`使ってね。
+
+<script>
+var qobj = {
+    id: "q2",
+    scenarios: []
+}
+
+function verifyMessageBoxOne(expect) {
+    if(scenarioLogs.length == 0 || scenarioLogs[0].name != 'alert') {
+        return "結果が表示されていません。MessageBox.show使ってね。";
+    }
+    var actual = scenarioLogs[0].val;
+    if(actual != expect) {
+        return "表示されたメッセージが違います。";
+    }
+    return true;    
+}
+
+qobj.scenarios.push({
+    setup: ()=> {},
+    verify: (intp) => {
+        return verifyMessageBoxOne("わんわん");
+    }
+});
+  questions.push(qobj);
+ </script>
+
+
+<div id="q2">
+    <input type="button" value="実行" />
+    <textarea>
+var nakigoe = {};
+nakigoe["犬"] = "わんわん";
+nakigoe["猫"] = "にゃーん";
+nakigoe["おっさん"] = "にゃーん";
+nakigoe["あじゃ"] = "むえぇ〜〜";
+
+// 以下を書き換えて犬を鳴かせよう。
+MessageBox.show(nakigoe);</textarea>
+    <b>結果:</b> <span class="console"></span><br>
+    <span class="result"></span><br>
+    <input type="button" value="答えを見る" />
+    <div class="answer hideanswer">
+答え:<br>
+MessageBox.show(nakigoe["犬"]);<br>
+    </div>        
+</div>
+  
+　  
+この辺は考えるよりも、数をこなして慣れていきましょう。
 
 ## カラじゃない辞書を作る
 
@@ -405,7 +461,7 @@ var nakigoe = {"犬": "わんわん", "猫": "にゃーん", "おっさん": "�
 
 `キー`と`要素`を`:`を間に置いて、`,`で区切って並べると、最初からこれらの`キー`とそれに対応した`要素`の入った辞書が作れます。
 
-なお、第4.5回でやった改行も`配列`と同じような感じです。
+なお、第4.5回でやった改行の事情は、`配列`と同じような感じです。
 
 ```
 var nakigoe = {"犬": "わんわん",
