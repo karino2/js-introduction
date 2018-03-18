@@ -1,5 +1,5 @@
 ---
-title: "第六回: 辞書"
+title: "第六回: 辞書って何？"
 layout: page
 ---
 
