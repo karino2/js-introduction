@@ -541,10 +541,6 @@ qobj.scenarios.push({
 // この行を書き換えて、toot数の入った辞書を作る。変数名は変えないでね。
 var toots = {};
 
-// ここで辞書にキーとtoot数をセット
-
-
-
 // 結果表示。ここはいじらないでね。
 MessageBox.show("コロニキの戦闘力は " + toots["Lord_murmur"] + " です。圧倒的…");</textarea>
     <b>結果:</b> <span class="console"></span><br>
@@ -572,7 +568,7 @@ var qobj = {
 }
 qobj.scenarios.push({
     setup: ()=> {},
-    verify: (intp) => verifyMessageBoxOne("15014")
+    verify: (intp) => verifyMessageBoxOne("15014"),
     verifyScript: (scr) => {
         if(scr.indexOf(".shioneko") == -1) {
             return '"."を使ってね！';
