@@ -293,8 +293,51 @@ function verifyArrayEqual(expect, actual) {
     }
     return res + " が入っていません。";
     
-  }
+}
+
+
+function verifyDictEqual(expect, actual) {
+    exKeys = Object.keys(expect);
+    acKeys = Object.keys(actual);
+    if(exKeys.length != acKeys.length) {
+        return "キーの数が違います";
+    }
+    var diff = _verifyArrayEqualInternal(exKeys, acKeys);
+    if(diff != true) {
+        return "キー「" + diff + "」が入っていません。";
+    }
+    for(var i = 0; i < exKeys.length; i++) {
+        var k = exKeys[i];
+        if(expect[k] != actual[k]) {
+            return "キー「" + k + "」の所の要素が、「" + expect[k] + "」じゃないです。";
+        }
+    }
+    return true;
+}
+
+
+function verifyLocalDictVar(intp, lvalName, expect) {
+    var lvalName = "toots";
+    var actual = intp.pseudoToNative(intp.getProperty(intp.global, lvalName));
+    if(actual == undefined) {
+        return "変数 " + lvalName + "がどっかいっちゃった？";
+    }
+    return verifyDictEqual(expect, actual);
+}
+
+function verifyMessageBoxOne(expect) {
+    if(scenarioLogs.length == 0 || scenarioLogs[0].name != 'alert') {
+        return "結果が表示されていません。MessageBox.show使ってね。";
+    }
+    var actual = scenarioLogs[0].val;
+    if(actual != expect) {
+        return "表示されたメッセージが違います。";
+    }
+    return true;    
+}
   
+
+
 
 function initScnearioPlayerFunc(interpreter, scope) {
     interpreter.setProperty(scope, 'SmokeAlert',
@@ -366,6 +409,15 @@ function setupQuestionWithScnario(qobj) {
                         resultWrong(resultSpan, verify);
                         resultSuccess = false;
                         break;
+                    }
+
+                    if(scenario.verifyScript != undefined) {
+                        var verify2 = scenario.verifyScript(scr);
+                        if(verify2!= true) {
+                            resultWrong(resultSpan, verify2);
+                            resultSuccess = false;
+                            break;
+                        }
                     }
 
                 }

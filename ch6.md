@@ -311,37 +311,6 @@ var qobj = {
     id: "q1",
     scenarios: []
 }
-
-function verifyDictEqual(expect, actual) {
-    exKeys = Object.keys(expect);
-    acKeys = Object.keys(actual);
-    if(exKeys.length != acKeys.length) {
-        return "キーの数が違います";
-    }
-    var diff = _verifyArrayEqualInternal(exKeys, acKeys);
-    if(diff != true) {
-        return "キー「" + diff + "」が入っていません。";
-    }
-    for(var i = 0; i < exKeys.length; i++) {
-        var k = exKeys[i];
-        if(expect[k] != actual[k]) {
-            return "キー「" + k + "」の所の要素が、「" + expect[k] + "」じゃないです。";
-        }
-    }
-    return true;
-
-}
-
-
-function verifyLocalDictVar(intp, lvalName, expect) {
-        var lvalName = "toots";
-        var actual = intp.pseudoToNative(intp.getProperty(intp.global, lvalName));
-        if(actual == undefined) {
-          return "変数 " + lvalName + "がどっかいっちゃった？";
-        }
-        return verifyDictEqual(expect, actual);
-}
-
 qobj.scenarios.push({
     setup: ()=> {},
     verify: (intp) => {
@@ -392,16 +361,6 @@ var qobj = {
     scenarios: []
 }
 
-function verifyMessageBoxOne(expect) {
-    if(scenarioLogs.length == 0 || scenarioLogs[0].name != 'alert') {
-        return "結果が表示されていません。MessageBox.show使ってね。";
-    }
-    var actual = scenarioLogs[0].val;
-    if(actual != expect) {
-        return "表示されたメッセージが違います。";
-    }
-    return true;    
-}
 
 qobj.scenarios.push({
     setup: ()=> {},
@@ -558,11 +517,94 @@ MessageBox.show(nakigoe.awa);</textarea>
 アカウント名だと誰が誰だか全然分からんね…  
 まぁいいです。この`辞書`を、キーを`"`無しの記法で指定する方法で作って下さい。
 
-** TODO: 課題 **
+なお、添削はてぬきなので、どの作り方で作ろうと結果の辞書が同じなら正解って出ます。
 
-### 課題: `あじゃ`のtoot数を表示せよ
+<script>
+var qobj = {
+    id: "q3",
+    scenarios: []
+}
+qobj.scenarios.push({
+    setup: ()=> {},
+    verify: (intp) => {
+        var expect = { "Lord_murmur": 56125, "awa": 38726, "shioneko": 15014,"DanBrikas": 12518 };
+        return verifyLocalDictVar(intp, "toots", expect);
+    }
+});
+  questions.push(qobj);
+ </script>
 
-** TODO: 課題 **
+
+<div id="q3">
+    <input type="button" value="実行" />
+    <textarea>
+// この行を書き換えて、toot数の入った辞書を作る。変数名は変えないでね。
+var toots = {};
+
+// ここで辞書にキーとtoot数をセット
+
+
+
+// 結果表示。ここはいじらないでね。
+MessageBox.show("コロニキの戦闘力は " + toots["Lord_murmur"] + " です。圧倒的…");</textarea>
+    <b>結果:</b> <span class="console"></span><br>
+    <span class="result"></span><br>
+    <input type="button" value="答えを見る" />
+    <div class="answer hideanswer">
+答え:<br>
+var toots = { Lord_murmur: 56125, awa: 38726, shioneko: 15014, DanBrikas: 12518 };<br>
+    </div>        
+</div>
+  
+　  
+たくさん作ってると、そのうち慣れます。次はダブルクォート無しの取り出し。
+
+### 課題: `るーしー`のtoot数を表示せよ
+
+ローマ字の`キー`の場合は、`toots.awa`のように、`.`を使ってダブルクォート無しでも要素が取り出せる、という話をしました。
+それをここでもやってみましょう。るーしーのtoot数を表示してください。なお、アカウント名はshionekoらしいです。誰やねん。
+
+
+<script>
+var qobj = {
+    id: "q4",
+    scenarios: []
+}
+qobj.scenarios.push({
+    setup: ()=> {},
+    verify: (intp) => verifyMessageBoxOne("15014")
+    verifyScript: (scr) => {
+        if(scr.indexOf(".shioneko") == -1) {
+            return '"."を使ってね！';
+        }
+        return true;
+    }
+});
+  questions.push(qobj);
+ </script>
+
+
+<div id="q4">
+    <input type="button" value="実行" />
+    <textarea>
+var toots = {};
+toots["Lord_murmur"] = 56125;
+toots["awa"] = 38726;
+toots["shioneko"] = 15014;
+toots["DanBrikas"] = 12518;
+
+
+// 以下を変えてるーしーのtoot数を表示してください。.を使う奴でお願いします。
+MessageBox.show(toots);</textarea>
+    <b>結果:</b> <span class="console"></span><br>
+    <span class="result"></span><br>
+    <input type="button" value="答えを見る" />
+    <div class="answer hideanswer">
+答え:<br>
+MessageBox.show(toots.shioneko);<br>
+    </div>        
+</div>
+
 
 **`辞書`と`オブジェクト`**  
 JavaScriptの`辞書`は、`オブジェクト`とも言います。  
