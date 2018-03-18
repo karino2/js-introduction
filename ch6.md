@@ -282,7 +282,9 @@ nakigoe["モコ"] = [1, 2, 3, 4];
 
 「nakigoeというボックスから"あじゃ"というニックネームのポケモンを出す」
 
-という感じでしょうか。ポケモン用語、間違ってたらすみません。
+という感じでしょうか。
+
+説明だけだと良く分からないので、いろいろやってみましょう。という事で次は課題です。
 
 
 ### 課題: toot数を入れた辞書を作れ
@@ -316,7 +318,7 @@ function verifyDictEqual(expect, actual) {
     if(exKeys.length != acKeys.length) {
         return "キーの数が違います";
     }
-    var diff = _verifyArrayEqualInternal(exkeys, acKeys);
+    var diff = _verifyArrayEqualInternal(exKeys, acKeys);
     if(diff != true) {
         return "キー「" + diff + "」が入っていません。";
     }
@@ -369,8 +371,8 @@ MessageBox.show(toots);</textarea>
 var toots = {};<br>
 toots["コロニキ"] = 56125;<br>
 toots["あじゃ"] =  38726;<br>
-toots["るーしー"] = 15014<br>
-toots["ダニエル"] = 12518<br>
+toots["るーしー"] = 15014;<br>
+toots["ダニエル"] = 12518;<br>
     </div>        
 </div>
   
