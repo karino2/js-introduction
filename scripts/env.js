@@ -226,6 +226,12 @@ function randomInt(right) {
 
 function smokeAlert(msg, callback) {
     functionCallLogs.push({name:"smokeAlert", val:msg});
+
+    if(typeof msg == "object") {
+        msg = JSON.stringify(msg);
+    } else {
+        msg = msg.toString();
+    }
     smoke.alert(msg.toString(), e=>{callback(), setTimeout(()=>runInterpreterProgress())} );
 }
 
