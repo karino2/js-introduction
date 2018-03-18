@@ -156,7 +156,8 @@ function setupREPL2(id) {
             }
             runInterpreterProgress();
         }catch(err) {
-            cons.innerText = "なにかおかしいです。 (" + err.message + ")";                
+            cons.innerText = "なにかおかしいです。 (" + err.message + ")";
+            initInterpreter();
         }
     };
 }
@@ -386,6 +387,7 @@ function setupQuestionWithScnario(qobj) {
                     return false;
                 }catch(err) {
                     cons.innerText = "なにかおかしいです。 (" + err.message + ")";
+                    initInterpreter();
                     return false;
                 }
 
@@ -394,6 +396,7 @@ function setupQuestionWithScnario(qobj) {
             
         }catch(err) {
             cons.innerText = "なにかおかしいです。 (" + err.message + ")";
+            initInterpreter();            
         }
     };
 }
@@ -401,3 +404,9 @@ function setupQuestionWithScnario(qobj) {
 
 var myInterpreter;
 var scenarioPlayer;
+
+
+function initInterpreter() {
+    myInterpreter = new Interpreter('MessageBox = {show: SmokeAlert, yesNo: SmokeYesNo}; Math = {randomInt: _randomInt};',initFunc);
+    scenarioPlayer = new Interpreter('MessageBox = {show: SmokeAlert, yesNo: SmokeYesNo};  Math = {randomInt: _randomInt};', initScnearioPlayerFunc);      
+}

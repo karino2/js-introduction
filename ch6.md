@@ -40,11 +40,10 @@ var questions = [];
 
 
 document.body.onload = function() {
-  myInterpreter = new Interpreter('MessageBox = {show: SmokeAlert, yesNo: SmokeYesNo}; Math = {randomInt: _randomInt};',initFunc);
-  scenarioPlayer = new Interpreter('MessageBox = {show: SmokeAlert, yesNo: SmokeYesNo};  Math = {randomInt: _randomInt};', initScnearioPlayerFunc);
+  initInterpreter();
 
 
-  setupAllREPL2(1);
+  setupAllREPL2(5);
   setupAllQuestionsWithScnario(questions);
 }
 </script>
