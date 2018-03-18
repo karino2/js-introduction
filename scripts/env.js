@@ -226,7 +226,7 @@ function randomInt(right) {
 
 function smokeAlert(msg, callback) {
     // Do I have to do by myself? Why?
-    msg = myInterpter.pseudoToNative(msg);    
+    msg = myInterpreter.pseudoToNative(msg);    
 
     functionCallLogs.push({name:"smokeAlert", val:msg});
 
