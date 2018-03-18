@@ -225,19 +225,13 @@ function randomInt(right) {
 }
 
 function smokeAlert(msg, callback) {
-    // Do I have to do by myself? Why?
+    // object and array is passed as js-interpreter's internal structure (undocumented).
+    // Do I have to do this by myself? Why?
     msg = myInterpreter.pseudoToNative(msg);    
 
     functionCallLogs.push({name:"smokeAlert", val:msg});
 
     msg = JSON.stringify(msg);
-/*
-    if(typeof msg == "object") {
-        msg = JSON.stringify(msg);
-    } else {
-        msg = msg.toString();
-    }
-    */
     smoke.alert(msg, e=>{callback(), setTimeout(()=>runInterpreterProgress())} );
 }
 
