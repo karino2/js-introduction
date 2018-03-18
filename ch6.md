@@ -318,7 +318,7 @@ function verifyDictEqual(expect, actual) {
     }
     var diff = _verifyArrayEqualInternal(exkeys, acKeys);
     if(diff != true) {
-        return "キー「" + diff + "」"が入っていません。
+        return "キー「" + diff + "」が入っていません。";
     }
     for(var i = 0; i < exKeys.length; i++) {
         var k = exKeys[i];
@@ -375,7 +375,7 @@ toots["ダニエル"] = 12518<br>
 </div>
   
 　  
-もう一つ作ってみましょうか。
+こんな感じです。
 
 
 ## カラじゃない辞書を作る
