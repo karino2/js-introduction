@@ -304,8 +304,78 @@ nakigoe["モコ"] = [1, 2, 3, 4];
 
 で、上のtoot数を要素に入れた配列を作りましょう。
 
-**TODO: 課題**
+<script>
+var qobj = {
+    id: "q1",
+    scenarios: []
+}
 
+function verifyDictEqual(expect, actual) {
+    exKeys = Object.keys(expect);
+    acKeys = Object.keys(actual);
+    if(exKeys.length != acKeys.length) {
+        return "キーの数が違います";
+    }
+    var diff = _verifyArrayEqualInternal(exkeys, acKeys);
+    if(diff != true) {
+        return "キー「" + diff + "」"が入っていません。
+    }
+    for(var i = 0; i < exKeys.length; i++) {
+        var k = exKeys[i];
+        if(expect[k] != actual[k]) {
+            return "キー「" + k + "」の所の要素が、「" + expect[k] + "」じゃないです。";
+        }
+    }
+    return true;
+
+}
+
+
+function verifyLocalDictVar(intp, lvalName, expect) {
+        var lvalName = "toots";
+        var actual = intp.pseudoToNative(intp.getProperty(intp.global, lvalName));
+        if(actual == undefined) {
+          return "変数 " + lvalName + "がどっかいっちゃった？";
+        }
+        return verifyDictEqual(expect, actual);
+}
+
+qobj.scenarios.push({
+    setup: ()=> {},
+    verify: (intp) => {
+        var expect = { "コロニキ": 56125, "あじゃ": 38726, "るーしー": 15014,"ダニエル": 12518 };
+        return verifyLocalDictVar(intp, "toots", expect);
+    }
+});
+  questions.push(qobj);
+ </script>
+
+
+<div id="q1">
+    <input type="button" value="実行" />
+    <textarea>
+// この行を書き換えて、空の辞書を作る。
+var toots = 0;
+
+// ここで辞書にキーとtoot数をセット
+
+// 結果表示。ここはいじらないでね。
+MessageBox.show(toots);</textarea>
+    <b>結果:</b> <span class="console"></span><br>
+    <span class="result"></span><br>
+    <input type="button" value="答えを見る" />
+    <div class="answer hideanswer">
+答え:<br>
+var toots = {};<br>
+toots["コロニキ"] = 56125;<br>
+toots["あじゃ"] =  38726;<br>
+toots["るーしー"] = 15014<br>
+toots["ダニエル"] = 12518<br>
+    </div>        
+</div>
+  
+　  
+もう一つ作ってみましょうか。
 
 
 ## カラじゃない辞書を作る
