@@ -291,35 +291,36 @@ function verifyArrayEqual(expect, actual) {
     
 }
 
+function questionFormTemplate(id, initSent, answer) {
+return `<div id="${id}">
+    <input type="button" value="実行" />
+    <textarea>
+    ${initSent}</textarea>
+    <b>結果:</b> <span class="console"></span><br>
+    <span class="result"></span><br>
+    <input type="button" value="答えを見る" />
+    <div class="answer hideanswer">
+        答え:<br>
+        ${answer}
+    </div>        
+</div>
+<p></p>
+`
+}
+
 
 function generateArrayQuestionHtml(id, array) {
     var builder = [];
 builder.push(`<b>以下の配列を生成せよ</b>
-<ol start="0">
+<ol>
 `);
-    for(var i = 0; i < array.length; i++) {
-        var val = JSON.stringify(array[i]);
-        builder.push(`<li>${val}</li>`);
-        builder.push("\n");
-    }
+    array.map((elem)=>JSON.stringify(elem)).forEach(str => builder.push(`<li>${str}</li>`), builder.push("\n"));
+    builder.push("</ol>\n");
 
-builder.push(`</ol>
-<div id="${id}">
-        <input type="button" value="実行" />
-        <textarea>
-var kotae = 0;</textarea>
-        <b>結果:</b> <span class="console"></span><br>
-        <span class="result"></span><br>
-        <input type="button" value="答えを見る" />
-        <div class="answer hideanswer">
-    答え:<br>
-var kotae = `);
-builder.push(JSON.stringify(array));
-builder.push(`;
-        </div>        
-    </div>
-    <p></p>
-`);
+    const initSent = "var answer = 0;";
+    const answer = JSON.stringify(array);
+
+    builder.push(questionFormTemplate(id, initSent, answer));
     return builder.join("");
 
 }
