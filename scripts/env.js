@@ -299,7 +299,7 @@ function verifyArrayEqual(expect, actual) {
 function generateArrayQuestionHtml(id, array) {
     var builder = [];
 builder.push(`<b>以下の配列を生成せよ</b>
-<ol>
+<ol start="0">
 `);
     for(var i = 0; i < array.length; i++) {
         var val = JSON.stringify(array[i]);
