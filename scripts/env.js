@@ -270,8 +270,15 @@ function elemEqual(one, other) {
     if(Array.isArray(one)) {
         return _verifyArrayEqualInternal(one, other) == true;
     }
-
+    throw "elemEqual: not implmented Object comparison";
 }
+
+function verifyElemEqual(one, other) {
+    if(elemEqual(one, other))
+        return true;
+    return `${JSON.stringify(one)}じゃないです。`;
+}
+
 
 function _verifyArrayEqualInternal(expect, actual) {
     for(var i = 0;i < expect.length; i++) {
@@ -319,6 +326,46 @@ ${initSent}</textarea>
 `
 }
 
+function generateQuestionObject(id, verifyFunc) {
+    var qobj = {
+        id: id,
+        scenarios: []
+    };
+    qobj.scenarios.push({
+        setup: ()=> {},
+        verify: verifyFunc
+    });
+    return qobj;
+
+}
+
+function generateArrayElemQuestionHtml(id, array, expr, result) {
+    var builder = [];
+builder.push(`<b>${result} を取り出せ</b>
+`);
+
+    const initSent = `var hairetu = ${JSON.stringify(array)};
+
+var kotae = 0;
+`;
+    const answer = `var kotae = ${expr};`;
+
+    builder.push(questionFormTemplate(id, initSent, answer));
+    return builder.join("");
+    
+}
+function generateArrayElemQuestionObject(id, expect) {
+    return generateQuestionObject(id, (intp) => {
+        var valname = "kotae";
+
+        var actual = intp.pseudoToNative(intp.getProperty(intp.global, valname));
+        if(actual == undefined) {
+            return "変数 " + valname + " がどっかいっちゃった？";
+        }
+        return verifyElemEqual(expect, actual);
+    });    
+}
+
 
 function generateArrayQuestionHtml(id, array) {
     var builder = [];
@@ -336,37 +383,44 @@ builder.push(`<b>以下の配列を生成せよ</b>
 
 }
 
-function generateArrayQuestionObject(id, expect) {
-    var qobj = {
-        id: id,
-        scenarios: []
-    };
-    qobj.scenarios.push({
-        setup: ()=> {},
-        verify: (intp) => {
-            var valname = "kotae";
 
-            var actual = intp.pseudoToNative(intp.getProperty(intp.global, valname));
-            if(actual == undefined) {
+function generateArrayQuestionObject(id, expect) {
+    return generateQuestionObject(id, (intp) => {
+        var valname = "kotae";
+
+        var actual = intp.pseudoToNative(intp.getProperty(intp.global, valname));
+        if(actual == undefined) {
             return "変数 " + valname + " がどっかいっちゃった？";
-            }
-            return verifyArrayEqual(expect, actual);
         }
+        return verifyArrayEqual(expect, actual);
     });
-    return qobj;
     
 }
 
 
 var globalId = 10;
-function arrayAutoGeneration(expect, questions) {
+function questionAutoGeneration(html, questionObject) {
     var targetHolder = document.getElementById("autoQuestions") ;
     var div = document.createElement("div");
-    var html = generateArrayQuestionHtml(globalId, expect);
     div.innerHTML = html;
     targetHolder.appendChild(div);
 
-    questions.push(generateArrayQuestionObject(globalId, expect));
+    questions.push(questionObject);    
+}
+
+
+function arrayAutoGeneration(expect, questions) {
+    var html = generateArrayQuestionHtml(globalId, expect);
+    var qobj = generateArrayQuestionObject(globalId, expect);
+    questionAutoGeneration(html, qobj);
+
+    globalId++;
+}
+
+function arrayElemAutoGeneration(array, expr, result, questions) {
+    var html = generateArrayElemQuestionHtml(globalId, array, expr, result);
+    var qobj = generateArrayElemQuestionObject(globalId, result);
+    questionAutoGeneration(html, qobj, questions);
 
     globalId++;
 }
