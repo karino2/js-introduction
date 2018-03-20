@@ -307,13 +307,13 @@ builder.push(`</ol>
 <div id="${id}">
         <input type="button" value="実行" />
         <textarea>
-var answer = 0;</textarea>
+var kotae = 0;</textarea>
         <b>結果:</b> <span class="console"></span><br>
         <span class="result"></span><br>
         <input type="button" value="答えを見る" />
         <div class="answer hideanswer">
     答え:<br>
-var answer = `);
+var kotae = `);
 builder.push(JSON.stringify(array));
 builder.push(`;
         </div>        
@@ -332,7 +332,7 @@ function generateArrayQuestionObject(id, expect) {
     qobj.scenarios.push({
         setup: ()=> {},
         verify: (intp) => {
-            var valname = "answer";
+            var valname = "kotae";
 
             var actual = intp.pseudoToNative(intp.getProperty(intp.global, valname));
             if(actual == undefined) {
