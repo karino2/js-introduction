@@ -281,10 +281,10 @@ function verifyArrayEqual(expect, actual) {
     }
     if(expect.length != actual.length) {
       if(actual.length > expect.length) {
-        return "配列に"+ expect.length+" 個よりたくさん文字が入ってます！";
+        return "配列に"+ expect.length+" 個よりたくさん要素が入ってます！";
       } else {
         var dif = expect.length-actual.length;
-        return "配列に"+ expect.length+"個文字が入ってないです。"+dif + "個足りない...";
+        return "配列に"+ expect.length+"個、要素が入ってないです。"+dif + "個足りない...";
       }         
     }
     var res = _verifyArrayEqualInternal(expect, actual);
@@ -294,6 +294,75 @@ function verifyArrayEqual(expect, actual) {
     return res + " が入っていません。";
     
 }
+
+
+function generateArrayQuestionHtml(id, array) {
+    var builder = [];
+builder.push(`<b>以下の配列を生成せよ</b>
+<ol>
+`);
+    for(var i = 0; i < array.length; i++) {
+        var val = JSON.stringify(array[i]);
+        builder.push(`<li>${val}</li>`);
+        builder.push("\n");
+    }
+
+builder.push(`</ol>
+<div id="${id}">
+        <input type="button" value="実行" />
+        <textarea>
+var answer = 0;</textarea>
+        <b>結果:</b> <span class="console"></span><br>
+        <span class="result"></span><br>
+        <input type="button" value="答えを見る" />
+        <div class="answer hideanswer">
+    答え:<br>
+`);
+builder.push(JSON.stringify(array));
+builder.push(`
+        </div>        
+    </div>
+    <p></p>
+`);
+    return builder.join("");
+
+}
+
+function generateArrayQuestionObject(id, expect) {
+    var qobj = {
+        id: id,
+        scenarios: []
+    };
+    qobj.scenarios.push({
+        setup: ()=> {},
+        verify: (intp) => {
+            var valname = "answer";
+
+            var actual = intp.pseudoToNative(intp.getProperty(intp.global, valname));
+            if(actual == undefined) {
+            return "変数 " + valname + " がどっかいっちゃった？";
+            }
+            return verifyArrayEqual(expect, actual);
+        }
+    });
+    return qobj;
+    
+}
+
+
+var globalId = 10;
+function arrayAutoGeneration(expect, questions) {
+    var targetHolder = document.getElementById("autoQuestions") ;
+    var div = document.createElement("div");
+    var html = generateArrayQuestionHtml(globalId, expect);
+    div.innerHTML = html;
+    targetHolder.appendChild(div);
+
+    questions.push(generateArrayQuestionObject(globalId, expect));
+
+    globalId++;
+}
+
 
 
 function verifyDictEqual(expect, actual) {
