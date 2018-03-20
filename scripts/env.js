@@ -341,7 +341,7 @@ function generateQuestionObject(id, verifyFunc) {
 
 function generateArrayElemQuestionHtml(id, array, expr, result) {
     var builder = [];
-builder.push(`<b>「${result}」 を取り出せ</b>
+builder.push(`<b>「${JSON.stringify(result)}」 を取り出せ</b>
 `);
 
     const initSent = `var hairetu = ${JSON.stringify(array)};
