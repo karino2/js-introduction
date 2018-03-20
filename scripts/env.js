@@ -317,9 +317,9 @@ var answer = 0;</textarea>
         <input type="button" value="答えを見る" />
         <div class="answer hideanswer">
     答え:<br>
-`);
+var answer = `);
 builder.push(JSON.stringify(array));
-builder.push(`
+builder.push(`;
         </div>        
     </div>
     <p></p>
