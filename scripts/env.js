@@ -263,13 +263,9 @@ function countElem(arrs) {
 }
 
 function _verifyArrayEqualInternal(expect, actual) {
-    var mark = {};
-    expect.forEach((elm)=>mark[elm] = false);
-    actual.forEach((elm)=>mark[elm] = true);
-    for(var key in mark) {
-      if(!mark[key]) {
-        return key;
-      }
+    for(var i = 0;i < expect.length; i++) {
+        if(expect[i] !== actual[i])
+            return expect[i];        
     }
     return true;
     
@@ -291,7 +287,7 @@ function verifyArrayEqual(expect, actual) {
     if(res == true) {
         return true;
     }
-    return res + " が入っていません。";
+    return JSON.stringify(res) + " が入っていません。";
     
 }
 
