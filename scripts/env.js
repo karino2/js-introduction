@@ -262,9 +262,20 @@ function countElem(arrs) {
     return res;
 }
 
+function elemEqual(one, other) {
+    if(typeof one == "string" ||
+        typeof one == "number") {
+            return one === other;
+    }
+    if(Array.isArray(one)) {
+        return _verifyArrayEqualInternal(one, other) == true;
+    }
+
+}
+
 function _verifyArrayEqualInternal(expect, actual) {
     for(var i = 0;i < expect.length; i++) {
-        if(expect[i] !== actual[i])
+        if(!elemEqual(expect[i], actual[i]))
             return expect[i];        
     }
     return true;
@@ -295,7 +306,7 @@ function questionFormTemplate(id, initSent, answer) {
 return `<div id="${id}">
     <input type="button" value="実行" />
     <textarea>
-    ${initSent}</textarea>
+${initSent}</textarea>
     <b>結果:</b> <span class="console"></span><br>
     <span class="result"></span><br>
     <input type="button" value="答えを見る" />
@@ -317,7 +328,7 @@ builder.push(`<b>以下の配列を生成せよ</b>
     array.map((elem)=>JSON.stringify(elem)).forEach(str => builder.push(`<li>${str}</li>`), builder.push("\n"));
     builder.push("</ol>\n");
 
-    const initSent = "var answer = 0;";
+    const initSent = "var kotae = 0;";
     const answer = JSON.stringify(array);
 
     builder.push(questionFormTemplate(id, initSent, answer));
