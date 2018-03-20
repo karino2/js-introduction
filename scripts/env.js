@@ -369,7 +369,7 @@ function generateArrayElemQuestionObject(id, expect) {
 function generateArrayQuestionHtml(id, array) {
     var builder = [];
 builder.push(`<b>以下の配列を生成せよ</b>
-<ol>
+<ol start="0">
 `);
     array.map((elem)=>JSON.stringify(elem)).forEach(str => builder.push(`<li>${str}</li>`), builder.push("\n"));
     builder.push("</ol>\n");
