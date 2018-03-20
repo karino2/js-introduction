@@ -341,13 +341,12 @@ function generateQuestionObject(id, verifyFunc) {
 
 function generateArrayElemQuestionHtml(id, array, expr, result) {
     var builder = [];
-builder.push(`<b>${result} を取り出せ</b>
+builder.push(`<b>「${result}」 を取り出せ</b>
 `);
 
     const initSent = `var hairetu = ${JSON.stringify(array)};
 
-var kotae = 0;
-`;
+var kotae = 0;`;
     const answer = `var kotae = ${expr};`;
 
     builder.push(questionFormTemplate(id, initSent, answer));
