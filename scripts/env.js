@@ -270,7 +270,7 @@ function elemEqual(one, other) {
     if(Array.isArray(one)) {
         return _verifyArrayEqualInternal(one, other) == true;
     }
-    throw "elemEqual: not implmented Object comparison";
+    return verifyDictEqual(one, other);
 }
 
 function verifyElemEqual(one, other) {
@@ -397,6 +397,54 @@ function generateArrayQuestionObject(id, expect) {
 }
 
 
+function generateDictQuestionHtml(id, dict) {
+    var keys = Object.keys(dict);
+
+    var builder = [];
+builder.push(`<b>以下の辞書を生成せよ</b>
+<table>
+    <thead>
+        <tr>
+            <th>キー</th>
+            <th>要素</th>
+        </tr>
+    </thead>
+    <tbody>
+`);
+    keys.forEach(onekey => 
+     builder.push(`
+<tr>
+     <td>${onekey}</td>
+     <td>${JSON.stringify(dict[onekey])}</td>
+</tr>
+`));
+    builder.push(`
+     </tbody>
+</table>
+`);
+
+    const initSent = "var kotae = 0;";
+    const answer = JSON.stringify(dict);
+
+    builder.push(questionFormTemplate(id, initSent, answer));
+    return builder.join("");
+    
+}
+
+function generateDictQuestionObject(id, expect) {
+    return generateQuestionObject(id, (intp) => {
+        var valname = "kotae";
+
+        var actual = intp.pseudoToNative(intp.getProperty(intp.global, valname));
+        if(actual == undefined) {
+            return "変数 " + valname + " がどっかいっちゃった？";
+        }
+        return verifyDictEqual(expect, actual);
+    });
+    
+}
+
+
 var globalId = 10;
 function questionAutoGeneration(html, questionObject) {
     var targetHolder = document.getElementById("autoQuestions") ;
@@ -424,6 +472,14 @@ function arrayElemAutoGeneration(array, expr, result, questions) {
     globalId++;
 }
 
+function dictAutoGeneration(expect, questions) {
+    var html = generateDictQuestionHtml(globalId, expect);
+    var qobj = generateDictQuestionObject(globalId, expect);
+    questionAutoGeneration(html, qobj, questions);
+
+    globalId++;
+}
+
 
 
 function verifyDictEqual(expect, actual) {
@@ -438,12 +494,13 @@ function verifyDictEqual(expect, actual) {
     }
     for(var i = 0; i < exKeys.length; i++) {
         var k = exKeys[i];
-        if(expect[k] != actual[k]) {
+        if(!elemEqual(expect[k], actual[k])){
             return "キー「" + k + "」の所の要素が、「" + expect[k] + "」じゃないです。";
         }
     }
     return true;
 }
+
 
 
 function verifyLocalDictVar(intp, lvalName, expect) {
