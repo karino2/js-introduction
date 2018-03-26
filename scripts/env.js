@@ -339,31 +339,16 @@ function generateQuestionObject(id, verifyFunc) {
 
 }
 
-function generateArrayElemQuestionHtml(id, array, expr, result) {
-    var builder = [];
-builder.push(`<b>「${JSON.stringify(result)}」 を取り出せ</b>
-`);
+var globalId = 10;
+function questionAutoGeneration(html, questionObject) {
+    var targetHolder = document.getElementById("autoQuestions") ;
+    var div = document.createElement("div");
+    div.innerHTML = html;
+    targetHolder.appendChild(div);
 
-    const initSent = `var hairetu = ${JSON.stringify(array)};
-
-var kotae = 0;`;
-    const answer = `var kotae = ${expr};`;
-
-    builder.push(questionFormTemplate(id, initSent, answer));
-    return builder.join("");
-    
+    questions.push(questionObject);    
 }
-function generateArrayElemQuestionObject(id, expect) {
-    return generateQuestionObject(id, (intp) => {
-        var valname = "kotae";
 
-        var actual = intp.pseudoToNative(intp.getProperty(intp.global, valname));
-        if(actual == undefined) {
-            return "変数 " + valname + " がどっかいっちゃった？";
-        }
-        return verifyElemEqual(expect, actual);
-    });    
-}
 
 
 function generateArrayQuestionHtml(id, array) {
@@ -395,6 +380,51 @@ function generateArrayQuestionObject(id, expect) {
     });
     
 }
+
+
+function arrayAutoGeneration(expect, questions) {
+    var html = generateArrayQuestionHtml(globalId, expect);
+    var qobj = generateArrayQuestionObject(globalId, expect);
+    questionAutoGeneration(html, qobj);
+
+    globalId++;
+}
+
+function generateArrayElemQuestionHtml(id, array, expr, result) {
+    var builder = [];
+builder.push(`<b>「${JSON.stringify(result)}」 を取り出せ</b>
+`);
+
+    const initSent = `var hairetu = ${JSON.stringify(array)};
+
+var kotae = 0;`;
+    const answer = `var kotae = ${expr};`;
+
+    builder.push(questionFormTemplate(id, initSent, answer));
+    return builder.join("");
+    
+}
+function generateArrayElemQuestionObject(id, expect) {
+    return generateQuestionObject(id, (intp) => {
+        var valname = "kotae";
+
+        var actual = intp.pseudoToNative(intp.getProperty(intp.global, valname));
+        if(actual == undefined) {
+            return "変数 " + valname + " がどっかいっちゃった？";
+        }
+        return verifyElemEqual(expect, actual);
+    });    
+}
+
+function arrayElemAutoGeneration(array, expr, result, questions) {
+    var html = generateArrayElemQuestionHtml(globalId, array, expr, result);
+    var qobj = generateArrayElemQuestionObject(globalId, result);
+    questionAutoGeneration(html, qobj, questions);
+
+    globalId++;
+}
+
+
 
 
 function generateDictQuestionHtml(id, dict) {
@@ -444,34 +474,6 @@ function generateDictQuestionObject(id, expect) {
     
 }
 
-
-var globalId = 10;
-function questionAutoGeneration(html, questionObject) {
-    var targetHolder = document.getElementById("autoQuestions") ;
-    var div = document.createElement("div");
-    div.innerHTML = html;
-    targetHolder.appendChild(div);
-
-    questions.push(questionObject);    
-}
-
-
-function arrayAutoGeneration(expect, questions) {
-    var html = generateArrayQuestionHtml(globalId, expect);
-    var qobj = generateArrayQuestionObject(globalId, expect);
-    questionAutoGeneration(html, qobj);
-
-    globalId++;
-}
-
-function arrayElemAutoGeneration(array, expr, result, questions) {
-    var html = generateArrayElemQuestionHtml(globalId, array, expr, result);
-    var qobj = generateArrayElemQuestionObject(globalId, result);
-    questionAutoGeneration(html, qobj, questions);
-
-    globalId++;
-}
-
 function dictAutoGeneration(expect, questions) {
     var html = generateDictQuestionHtml(globalId, expect);
     var qobj = generateDictQuestionObject(globalId, expect);
@@ -480,6 +482,41 @@ function dictAutoGeneration(expect, questions) {
     globalId++;
 }
 
+
+function generateDictElemQuestionHtml(id, dict, expr, result) {
+    var builder = [];
+builder.push(`<b>「${JSON.stringify(result)}」 を取り出せ</b>
+`);
+
+    const initSent = `var jisyo = ${JSON.stringify(dict)};
+
+var kotae = 0;`;
+    const answer = `var kotae = ${expr};`;
+
+    builder.push(questionFormTemplate(id, initSent, answer));
+    return builder.join("");
+    
+}
+
+function generateDictElemQuestionObject(id, expect) {
+    return generateQuestionObject(id, (intp) => {
+        var valname = "kotae";
+
+        var actual = intp.pseudoToNative(intp.getProperty(intp.global, valname));
+        if(actual == undefined) {
+            return "変数 " + valname + " がどっかいっちゃった？";
+        }
+        return verifyDictEqual(expect, actual);
+    });    
+}
+
+function dictElemAutoGeneration(dict, expr, result, questions) {
+    var html = generateDictElemQuestionHtml(globalId, dict, expr, result);
+    var qobj = generateDictElemQuestionObject(globalId, result);
+    questionAutoGeneration(html, qobj, questions);
+
+    globalId++;
+}
 
 
 function verifyDictEqual(expect, actual) {
