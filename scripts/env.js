@@ -519,6 +519,114 @@ function dictElemAutoGeneration(dict, expr, result, questions) {
 }
 
 
+function generateDictElemSubQuestionHtml(id, dict, refexpr, oldval, newval) {
+    var builder = [];
+builder.push(`<b>以下の要素を置き換えろ</b>
+<table>
+    <thead>
+        <tr>
+            <th>もとの要素</th>
+            <th>新しい要素</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>${JSON.stringify(oldval)}</td>
+            <td>${JSON.stringify(newval)}</td>
+        </tr>
+    </tbody>
+</table>
+`);
+
+    const initSent = `var jisyo = ${JSON.stringify(dict)};
+
+// 以下の行を書き換えてください。
+jisyo[0] = 0;
+
+
+// ここはいじらないで！
+var kotae = jisyo;`;
+    const answer = `var ${refexpr} = ${JSON.stringify(newval)};`;
+
+    builder.push(questionFormTemplate(id, initSent, answer));
+    return builder.join("");
+    
+}
+
+function generateDictElemSubQuestionObject(id, expect) {
+    return generateQuestionObject(id, (intp) => {
+        var valname = "kotae";
+
+        var actual = intp.pseudoToNative(intp.getProperty(intp.global, valname));
+        if(actual == undefined) {
+            return "変数 " + valname + " がどっかいっちゃった？";
+        }
+        return verifyDictEqual(expect, actual);
+    });    
+}
+
+
+function replaceArrayVal(arr, old, nval) {
+    for(var i = 0;i < arr.length; i++) {
+        let cur = arr[i];
+        if(cur === old) {
+            arr[i] = nval;
+            return true;
+        } else if (Array.isArray(cur)) {
+            let done = replaceArrayVal(cur, old, nval);
+            if(done) {
+                return true;
+            }            
+        } else if(typeof cur != "string" &&
+            typeof cur != "number") {
+            let done = replaceVal(cur, old, nval)
+            if(done) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+function replaceVal(obj, old, nval) {
+    var keys = Object.keys(obj);
+    for(let key of keys) {
+        let cur= obj[key];
+        if(cur === old) {
+            obj[key] = nval;
+            return true;
+        } else if(Array.isArray(cur)) {
+            let done = replaceArrayVal(cur, old, nval);
+            if(done) {
+                return true;
+            }
+        } else if(typeof cur != "string" &&
+            typeof cur != "number") {
+            let done = replaceVal(cur, old, nval)
+            if(done) {
+                return true;
+            }
+        }
+    }
+    return false;
+
+}
+
+
+function dictElemSubAutoGeneration(dict, refexpr, oldval, newval, questions) {
+    var html = generateDictElemSubQuestionHtml(globalId, dict, refexpr, oldval, newval);
+
+    var expect = Object.assign({}, dict);
+    replaceVal(expect, oldval, newval);
+
+    var qobj = generateDictElemSubQuestionObject(globalId, expect);
+    questionAutoGeneration(html, qobj, questions);
+
+    globalId++;
+}
+
+
+
 function verifyDictEqual(expect, actual) {
     exKeys = Object.keys(expect);
     acKeys = Object.keys(actual);
