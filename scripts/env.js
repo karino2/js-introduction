@@ -424,6 +424,64 @@ function arrayElemAutoGeneration(array, expr, result, questions) {
     globalId++;
 }
 
+function generateArrayElemSubQuestionHtml(id, arr, refexpr, oldval, newval) {
+    var builder = [];
+builder.push(`<b>以下の要素を置き換えろ</b>
+<table>
+    <thead>
+        <tr>
+            <th>もとの要素</th>
+            <th>新しい要素</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>${JSON.stringify(oldval)}</td>
+            <td>${JSON.stringify(newval)}</td>
+        </tr>
+    </tbody>
+</table>
+`);
+
+    const initSent = `var hairetu = ${JSON.stringify(arr)};
+
+// 以下の行を書き換えてください。
+hairetu[0] = 0;
+
+
+// ここはいじらないで！
+var kotae = hairetu;`;
+    const answer = `var ${refexpr} = ${JSON.stringify(newval)};`;
+
+    builder.push(questionFormTemplate(id, initSent, answer));
+    return builder.join("");
+    
+}
+
+function generateArrayElemSubQuestionObject(id, expect) {
+    return generateQuestionObject(id, (intp) => {
+        var valname = "kotae";
+
+        var actual = intp.pseudoToNative(intp.getProperty(intp.global, valname));
+        if(actual == undefined) {
+            return "変数 " + valname + " がどっかいっちゃった？";
+        }
+        return verifyArrayEqual(expect, actual);
+    });    
+}
+
+
+function arrayElemSubAutoGeneration(array, refexpr, oldval, newval, questions) {
+    var html = generateArrayElemSubQuestionHtml(globalId, array, refexpr, oldval, newval);
+
+    var expect = array;
+    replaceArrayVal(expect, oldval, newval);
+
+    var qobj = generateArrayElemSubQuestionObject(globalId, expect);
+    questionAutoGeneration(html, qobj, questions);
+
+    globalId++;
+}
 
 
 
