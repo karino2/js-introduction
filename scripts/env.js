@@ -686,8 +686,8 @@ function dictElemSubAutoGeneration(dict, refexpr, oldval, newval, questions) {
 
 
 function verifyDictEqual(expect, actual) {
-    exKeys = Object.keys(expect);
-    acKeys = Object.keys(actual);
+    let exKeys = Object.keys(expect);
+    let acKeys = Object.keys(actual);
     if(exKeys.length != acKeys.length) {
         return "キーの数が違います";
     }
