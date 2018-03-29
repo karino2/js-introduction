@@ -451,7 +451,7 @@ hairetu[0] = 0;
 
 // ここはいじらないで！
 var kotae = hairetu;`;
-    const answer = `var ${refexpr} = ${JSON.stringify(newval)};`;
+    const answer = `${refexpr} = ${JSON.stringify(newval)};`;
 
     builder.push(questionFormTemplate(id, initSent, answer));
     return builder.join("");
@@ -604,7 +604,7 @@ jisyo[0] = 0;
 
 // ここはいじらないで！
 var kotae = jisyo;`;
-    const answer = `var ${refexpr} = ${JSON.stringify(newval)};`;
+    const answer = `${refexpr} = ${JSON.stringify(newval)};`;
 
     builder.push(questionFormTemplate(id, initSent, answer));
     return builder.join("");
