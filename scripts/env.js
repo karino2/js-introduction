@@ -640,7 +640,7 @@ function verifyDictEqual(expect, actual) {
     for(var i = 0; i < exKeys.length; i++) {
         var k = exKeys[i];
         if(!elemEqual(expect[k], actual[k])){
-            return "キー「" + k + "」の所の要素が、「" + expect[k] + "」じゃないです。";
+            return "キー「" + k + "」の所の要素が、「" + JSON.stringify(expect[k]) + "」じゃないです。";
         }
     }
     return true;
