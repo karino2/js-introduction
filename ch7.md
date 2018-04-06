@@ -43,7 +43,7 @@ document.body.onload = function() {
   initInterpreter();
 
 
-  setupAllREPL2(2);
+  setupAllREPL2(4);
   setupAllQuestionsWithScnario(questions);
 }
 </script>
@@ -244,7 +244,7 @@ function() {
 の3つの要素で作る事が出来ます。
 
 
-![関数を作る](ch7_func_def.png)
+![関数を作る](ch7_func_def.jpg)
 
 
 1と2はしばらくはそういうもの、と思ってセットで覚えてしまってください。
@@ -253,11 +253,74 @@ function() {
 
 関数を作るのは`function()`で始める、これがまず最初に覚えるべき事です。
 
-3の`{`と`}`で囲まれている所が関数の本体となります。
+3の`{`と`}`で囲まれている所が関数の中身となります。
 
-### `{`と`}`で囲まれた関数の本体
+### `{`と`}`で囲まれた関数の中身
 
 関数は`function ()`で始まり、その後に本体となる「`{`と`}`で囲まれた所」が来ます。
+
+この中には、第六回までやってきたプログラムを全て書く事が出来ます。
+ただ、この中に書いた事は、関数を`作る時`には実行されません。`使う時`に実行されます。
+
+この「書かれているプログラムが実行されない」というのが、関数の難しさの最も大きな所となります。
+大切な事なのでもう一回書きましょう。
+
+```
+関数の中身は、作る時には実行されない
+```
+
+これが関数の一番の難しさです。
+
+### もうちょっと複雑な関数の中身の例
+
+[第四回](ch4.md)では、yesNoの質問とif文をやりました。
+
+例えば以下みたいなコードですね。
+
+<div id="ex3">
+<input type="button" value="実行" />
+<textarea>
+var tumetai = MessageBox.yesNo("こちんこちん？", "はい", "いいえ");
+
+if(tumetai == 1) {
+   MessageBox.show("麦茶！");
+} else {
+   MessageBox.show("こーしー");
+}</textarea>
+<b>結果:</b> <span class="console"></span><br>
+</div>
+  
+　
+`MessageBox.yesNo`は、「はい」が選ばれたら1を、「いいえ」が選ばれたら0を返すのでした。
+で、上のコードで、こちんこちんだったら麦茶が、そうでなければこーしーが表示されます。
+
+このコードを、`関数の中身`に入れてみましょう。
+
+<div id="ex4">
+<input type="button" value="実行" />
+<textarea>
+
+var lucy = function() {
+    var tumetai = MessageBox.yesNo("こちんこちん？", "はい", "いいえ");
+
+    if(tumetai == 1) {
+        MessageBox.show("麦茶！");
+    } else {
+        MessageBox.show("こーしー");
+    }
+};</textarea>
+<b>結果:</b> <span class="console"></span><br>
+</div>
+  
+　
+やはり今回も、実行しても一見何も起きませんが、`lucy`という変数に作った関数が入る事になります。
+
+### 関数の作り方まとめ
+
+1. `function()`で始める
+2. その次に`{`から`}`までが`関数の中身`となる
+3. 関数は、`作る`時には、`関数の中身`は実行されない
+
 
 
 
