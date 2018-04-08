@@ -736,7 +736,7 @@ naku();</textarea>
 <b>結果:</b> <span class="console"></span><br>
 </div>
   
-　
+　  
 関数の`中身`が三回実行されます。
 
 先程のlucyの例もやってみましょう。
