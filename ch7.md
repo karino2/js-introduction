@@ -51,7 +51,7 @@ document.body.onload = function() {
 第七回はついに関数です。このシリーズのラスボスですね。  
 チェーンソーで切れたり石化くちばしで石に出来たりしたらいいのですが、ラスボスにはバニッシュが効かないのでバニッシュデス出来ないものです。（若い子には通じない）
 
-二回か三回に分けて説明していくつもりです。
+三回か四回に分けて説明していくつもりです。（五回以上になるかも…）
 
 
 
@@ -734,7 +734,134 @@ lucy();</textarea>
 このように、`naku()`とか`lucy()`などのように、`変数名`+`()`で関数を使う事が出来ます。
 
 
-### TODO: 課題
+### 課題： 関数を使おう
+
+まずはnakuという変数に関数を入れておくので、この関数を二回`使い`ましょう。関数を使うのは、`変数名`に`()`をつけるのでした。
+最後のセミコロンも忘れずに。
+
+
+<script>
+var qobj = {
+    id: "q5",
+    scenarios: []
+}
+
+
+qobj.scenarios.push({
+    setup: ()=> {},
+    verify: (intp) => {
+        if(scenarioLogs.length < 2) {
+          return "二回呼ばれて無さそうです。";
+        }
+
+        for(var i = 0;i < 2; i++) {
+            if(scenarioLogs[i].val != "むぇーー") {
+                return i + "回目に表示されたメッセージが違います";
+            }
+
+        }
+        return true;
+    }
+});
+  questions.push(qobj);
+ </script>
+
+
+<div id="q5">
+    <input type="button" value="実行" />
+    <textarea>
+
+var naku = function() {
+    MessageBox.show("むぇーー");
+};
+
+// TODO: ここでnakuを二回呼ぶ
+</textarea>
+    <b>結果:</b> <span class="console"></span><br>
+    <span class="result"></span><br>
+    <input type="button" value="答えを見る" />
+    <div class="answer hideanswer">
+答え:<br>
+naku();<br>
+naku();
+    </div>        
+</div>
+  
+　  
+もう一つ行ってみますか。
+
+次はlucyという変数に関数を入れておくので、この関数を`使って`下さい。
+なお、関数を使う事を`呼び出す`とも言います。
+
+
+<script>
+var qobj = {
+    id: "q6",
+    scenarios: []
+}
+
+
+qobj.scenarios.push({
+    setup: ()=> {},
+    verify: (intp) => {
+        if(scenarioLogs.length < 3) {
+          return "lucyが呼ばれて無さそうです。";
+        }
+        if(scenarioLogs.length >= 6) {
+          return "二回以上呼ばれてそうです。一回でお願いします。";
+        }
+
+        var expects  = ["ぬっくぬくな", "こーしーを", "しゅるしゅるする"];
+
+        for(var i = 0;i < expects.length; i++) {
+            if(scenarioLogs[i].val != expects[i]) {
+                return i + "回目に表示されたメッセージが違います。関数の中いじらないで！";
+            }
+        }
+        return true;
+    }
+});
+  questions.push(qobj);
+ </script>
+
+
+<div id="q6">
+    <input type="button" value="実行" />
+    <textarea>
+
+var lucy = function() {
+    MessageBox.show("ぬっくぬくな");
+    MessageBox.show("こーしーを");
+    MessageBox.show("しゅるしゅるする");
+};
+
+// TODO: ここでlucyを呼ぶ。今度は一回でいいです。
+</textarea>
+    <b>結果:</b> <span class="console"></span><br>
+    <span class="result"></span><br>
+    <input type="button" value="答えを見る" />
+    <div class="answer hideanswer">
+答え:<br>
+lucy();<br>
+    </div>        
+</div>
+  
+　  
+呼び出す方は結局同じ感じなので、問題を作るのが難しいですね。
+少し課題の数が足りない気もしますが、今回はこの位にしておきますか。
+
+# 第七回まとめ
+
+今回は、関数の`作り方`と`使い方`をやりました。
+
+1. 関数を作る時は、`function()`で始め、その後ろに`{`と`}`で囲んで`関数の中身`を置く
+2. `関数の中身`は、作る時には実行されない。関数を`使う`と実行される
+3. `関数の使い方`は、変数名に`()`をつける。例えば`lucy();`とか`naku();`とか
+4. 一度作った関数は何度も使える
+
+第七回ではこの位を分かっていてもらえれば十分かな、と思います。
+
+今回やった事は以後の関数の回では全て使い続けるので、最初良く分からなくてもすぐになれると思います。
 
 
 **JavaScriptの関数は特別難しい**  
