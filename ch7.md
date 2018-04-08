@@ -576,7 +576,9 @@ qobj.scenarios.push({
         intp.appendCode("lucy();");
         intp.run();
 
-        if(scenarioLogs.length < 2 || scenarioLogs[0].name != 'alert') {
+        if(scenarioLogs.length < 1 || scenarioLogs[0].name != 'yesNo') {
+          return "こちんこちん？って関数の中で質問されない…";
+        }
 
         if(scenarioLogs.length < 2 || scenarioLogs[1].name != 'alert') {
           return "こちんこちんなのに麦茶って表示されない";
@@ -595,13 +597,7 @@ qobj.scenarios.push({
         intp.appendCode("lucy();");
         intp.run();
 
-
-        if(scenarioLogs.length < 1 || scenarioLogs[0].name != 'yesNo') {
-          return "こちんこちん？って関数の中で質問されない…";
-        }
-
-        var actual = scenarioLogs[1].val;
-        if(actual != "こーしー") {
+        if(scenarioLogs.length < 2 || scenarioLogs[1].val != "こーしー") {
           return "ぬっくぬくなのにこーしーって表示されない";
         }
         return true;
