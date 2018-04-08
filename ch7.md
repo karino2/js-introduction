@@ -379,7 +379,10 @@ qobj.scenarios.push({
             return "変数、nakuが無くなってる…";
         }
 
-        func();
+        intp.appendCode("naku();");
+        intp.run(scr);
+
+
         if(scenarioLogs.length == 0 || scenarioLogs[0].name != 'alert') {
           return "nakuの中身でMessageBox.showが実行されません。";
         }
