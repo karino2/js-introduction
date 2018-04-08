@@ -576,12 +576,13 @@ qobj.scenarios.push({
         intp.appendCode("lucy();");
         intp.run();
 
+        if(scenarioLogs.length < 2 || scenarioLogs[0].name != 'alert') {
 
-        if(scenarioLogs.length == 0 || scenarioLogs[0].name != 'alert') {
+        if(scenarioLogs.length < 2 || scenarioLogs[1].name != 'alert') {
           return "こちんこちんなのに麦茶って表示されない";
         }
 
-        var actual = scenarioLogs[0].val;
+        var actual = scenarioLogs[1].val;
         if(actual != "麦茶！") {
           return "こちんこちんなのに麦茶って表示されない";
         }
@@ -595,11 +596,11 @@ qobj.scenarios.push({
         intp.run();
 
 
-        if(scenarioLogs.length == 0 || scenarioLogs[0].name != 'alert') {
-          return "ぬっくぬくなのにこーしーって表示されない";
+        if(scenarioLogs.length < 1 || scenarioLogs[0].name != 'yesNo') {
+          return "こちんこちん？って関数の中で質問されない…";
         }
 
-        var actual = scenarioLogs[0].val;
+        var actual = scenarioLogs[1].val;
         if(actual != "こーしー") {
           return "ぬっくぬくなのにこーしーって表示されない";
         }
