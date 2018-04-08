@@ -442,7 +442,8 @@ qobj.scenarios.push({
             return "変数、lucyが無くなってる…";
         }
 
-        func();
+        intp.appendCode("lucy();");
+        intp.run();
         if(scenarioLogs.length != 2 || scenarioLogs[0].name != 'alert') {
           return "lucyの中身でMessageBox.showが二回は実行されません。";
         }
@@ -485,7 +486,162 @@ var lucy = function() {<br>
 この時点だと何も実行されないのでありがたみが無いですね。
 そこはこの後に出てくるので、現時点では練習と割り切ってやっていきましょう。
 
+### 課題、関数を作れ
 
+では今度は自分で`function()`なども書く事をやってみましょう。
+
+<script>
+var qobj = {
+    id: "q3",
+    scenarios: []
+}
+
+
+qobj.scenarios.push({
+    setup: ()=> {},
+    verify: (intp) => {
+        if(scenarioLogs.length != 0) {
+          return "MessageBox.showが関数以外で呼ばれてしまっています。";
+        }
+
+        var func = intp.pseudoToNative(intp.getProperty(intp.global, "naku"));
+        if(func == undefined) {
+            return "変数、nakuが無くなってる…";
+        }
+
+        intp.appendCode("naku();");
+        intp.run();
+
+
+        if(scenarioLogs.length == 0 || scenarioLogs[0].name != 'alert') {
+          return "nakuの中身でMessageBox.showが実行されません。";
+        }
+
+        var actual = scenarioLogs[0].val;
+        if(actual != "コケーー") {
+          return "表示されたメッセージが違います。";
+        }
+        return true;
+    }
+});
+  questions.push(qobj);
+ </script>
+
+
+<div id="q3">
+    <input type="button" value="実行" />
+    <textarea>
+
+// この行を、関数の中身へ移動せよ
+MessageBox.show("コケーー");
+
+// 今度はfunctionとかも自分で書く。以下の変数に作った関数を入れる。
+var naku = 0;</textarea>
+    <b>結果:</b> <span class="console"></span><br>
+    <span class="result"></span><br>
+    <input type="button" value="答えを見る" />
+    <div class="answer hideanswer">
+答え:<br>
+var naku = function() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;MessageBox.show("コケーー");<br>
+};
+    </div>        
+</div>
+  
+　  
+もう一つ行ってみますか。
+今度はif文も入れます。
+
+<script>
+var qobj = {
+    id: "q4",
+    scenarios: []
+}
+
+
+qobj.scenarios.push({
+    setup: ()=> returnValues.push(1),
+    verify: (intp) => {
+        if(scenarioLogs.length != 0) {
+          return "関数の外でMessageBox.showかMessageBox.yesNoが呼ばれてしまっています。";
+        }
+
+
+
+        var func = intp.pseudoToNative(intp.getProperty(intp.global, "lucy"));
+        if(func == undefined) {
+            return "変数、lucyが無くなってる…";
+        }
+
+        intp.appendCode("lucy();");
+        intp.run();
+
+
+        if(scenarioLogs.length == 0 || scenarioLogs[0].name != 'alert') {
+          return "こちんこちんなのに麦茶って表示されない";
+        }
+
+        var actual = scenarioLogs[0].val;
+        if(actual != "麦茶！") {
+          return "こちんこちんなのに麦茶って表示されない";
+        }
+        return true;
+    }
+});
+qobj.scenarios.push({
+    setup: ()=> returnValues.push(0),
+    verify: (intp) => {
+        intp.appendCode("lucy();");
+        intp.run();
+
+
+        if(scenarioLogs.length == 0 || scenarioLogs[0].name != 'alert') {
+          return "ぬっくぬくなのにこーしーって表示されない";
+        }
+
+        var actual = scenarioLogs[0].val;
+        if(actual != "こーしー") {
+          return "ぬっくぬくなのにこーしーって表示されない";
+        }
+        return true;
+    }
+});
+  questions.push(qobj);
+ </script>
+
+
+<div id="q4">
+    <input type="button" value="実行" />
+    <textarea>
+
+// 以下のコードを、関数の中身へ移動せよ
+var sentaku = MessageBox.yesNo("こちんこちん？", "はい", "いいえ");
+if(sentaku == 1) {
+    MessageBox.show("麦茶！");
+} else {
+    MessageBox.show("こーしー");
+}
+
+// 今度もfunctionとかは自分で書く。以下の変数に作った関数を入れる。
+var lucy = 0;</textarea>
+    <b>結果:</b> <span class="console"></span><br>
+    <span class="result"></span><br>
+    <input type="button" value="答えを見る" />
+    <div class="answer hideanswer">
+答え:<br>
+var lucy = function() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;var sentaku = MessageBox.yesNo("こちんこちん？", "はい", "いいえ");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if(sentaku == 1) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MessageBox.show("麦茶！");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;} else {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MessageBox.show("こーしー");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+};
+    </div>        
+</div>
+  
+　  
+こんな風に、`function()`で始めて、`{`と`}`の間に中身を入れます。
 
 ## 関数を`使う`
 
