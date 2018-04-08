@@ -43,7 +43,7 @@ document.body.onload = function() {
   initInterpreter();
 
 
-  setupAllREPL2(4);
+  setupAllREPL2(6);
   setupAllQuestionsWithScnario(questions);
 }
 </script>
@@ -214,7 +214,7 @@ naku();
 
 ここまで説明無く実際のコードを見てきました。次にこれらのコードを解説していきましょう。
 
-## 関数の作り方
+## 関数を「作る」
 
 先程のコードで関数を作っていたのは以下の部分になります。
 
@@ -654,10 +654,10 @@ var lucy = function() {<br>
 
 
 
-## 関数を`使う`
+## 関数を「使う」
 
 関数は、作るだけでは何も起こりません。
-作った関数を使う事で、初めて`関数の中身`が実行されます。
+作った関数を`使う`事で、初めて`関数の中身`が実行されます。
 
 ここでは関数の使い方を見ていきましょう。
 
