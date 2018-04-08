@@ -380,7 +380,7 @@ qobj.scenarios.push({
         }
 
         intp.appendCode("naku();");
-        intp.run(scr);
+        intp.run();
 
 
         if(scenarioLogs.length == 0 || scenarioLogs[0].name != 'alert') {

@@ -774,7 +774,7 @@ function setupQuestionWithScnario(qobj) {
 
                 for(var i = 0; i < qobj.sampleNum; i++) {
                     scenarioPlayer.appendCode(scr);
-                    scenarioPlayer.run(scr);
+                    scenarioPlayer.run();
                 }
                     
                 var verify = scenario.verify(scenarioPlayer);
@@ -793,7 +793,7 @@ function setupQuestionWithScnario(qobj) {
                     
                     scenario.setup();
                     scenarioPlayer.appendCode(scr);
-                    scenarioPlayer.run(scr);
+                    scenarioPlayer.run();
                     var verify = scenario.verify(scenarioPlayer);
                     if(verify!= true) {
                         resultWrong(resultSpan, verify);
