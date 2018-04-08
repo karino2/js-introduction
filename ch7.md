@@ -355,6 +355,134 @@ function() {
 これを先程の`"にゃーん"`に置き換えたものです。
 
 
+### 課題、関数の中身にせよ
+
+関数を作る練習として、まずは関数の外にある`MessageBox.show`を関数の中に移動してください。
+関数のなかみは、関数を作る時には実行されないので、正解すると何も表示されなくなるはずです。
+
+<script>
+var qobj = {
+    id: "q1",
+    scenarios: []
+}
+
+
+qobj.scenarios.push({
+    setup: ()=> {},
+    verify: (intp) => {
+        if(scenarioLogs.length != 0) {
+          return "MessageBox.showが関数以外で呼ばれてしまっています。";
+        }
+
+        var func = intp.pseudoToNative(intp.getProperty(intp.global, "naku"));
+        if(func == undefined) {
+            return "変数、nakuが無くなってる…";
+        }
+
+        func();
+        if(scenarioLogs.length == 0 || scenarioLogs[0].name != 'alert') {
+          return "nakuの中身でMessageBox.showが実行されません。";
+        }
+
+        var actual = scenarioLogs[0].val;
+        if(actual != "むぇーー") {
+          return "表示されたメッセージが違います。";
+        }
+        return true;
+    }
+});
+  questions.push(qobj);
+ </script>
+
+
+<div id="q1">
+    <input type="button" value="実行" />
+    <textarea>
+
+// この行を、以下の関数の中身へ移動せよ
+MessageBox.show("むぇーー");
+
+var naku = function () {};</textarea>
+    <b>結果:</b> <span class="console"></span><br>
+    <span class="result"></span><br>
+    <input type="button" value="答えを見る" />
+    <div class="answer hideanswer">
+答え:<br>
+var naku = function() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;MessageBox.show("むぇーー");<br>
+};
+    </div>        
+</div>
+  
+　  
+このように、関数の中に移すと実行されなくなります。
+
+もう一つ行ってみましょう。今度は二行です。
+
+
+<script>
+var qobj = {
+    id: "q2",
+    scenarios: []
+}
+
+
+qobj.scenarios.push({
+    setup: ()=> {},
+    verify: (intp) => {
+        if(scenarioLogs.length != 0) {
+          return "MessageBox.showが関数以外で呼ばれてしまっています。";
+        }
+
+        var func = intp.pseudoToNative(intp.getProperty(intp.global, "lucy"));
+        if(func == undefined) {
+            return "変数、lucyが無くなってる…";
+        }
+
+        func();
+        if(scenarioLogs.length != 2 || scenarioLogs[0].name != 'alert') {
+          return "lucyの中身でMessageBox.showが二回は実行されません。";
+        }
+
+        if(scenarioLogs[0].val != "こーしーを") {
+          return "表示されたメッセージが違います。";
+        }
+        if(scenarioLogs[1].val != "しゅるしゅるする") {
+          return "表示されたメッセージが違います。";
+        }
+        return true;
+    }
+});
+  questions.push(qobj);
+ </script>
+
+
+<div id="q2">
+    <input type="button" value="実行" />
+    <textarea>
+
+// 以下の二行を、下の関数の中身へ移動せよ
+MessageBox.show("こーしーを");
+MessageBox.show("しゅるしゅるする");
+
+var lucy = function () {};</textarea>
+    <b>結果:</b> <span class="console"></span><br>
+    <span class="result"></span><br>
+    <input type="button" value="答えを見る" />
+    <div class="answer hideanswer">
+答え:<br>
+var lucy = function() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;MessageBox.show("こーしーを");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;MessageBox.show("しゅるしゅるする");<br>
+};
+    </div>        
+</div>
+  
+　  
+この時点だと何も実行されないのでありがたみが無いですね。
+そこはこの後に出てくるので、現時点では練習と割り切ってやっていきましょう。
+
+
 
 ## 関数を`使う`
 
