@@ -43,7 +43,7 @@ document.body.onload = function() {
   initInterpreter();
 
 
-  setupAllREPL2(1);
+  setupAllREPL2(3);
   setupAllQuestionsWithScnario(questions);
 }
 </script>
@@ -154,10 +154,73 @@ Javaは辞書とは全く別の仕組みで、`MessageBox.show("むぇーー");`
 `(5)`となっている。
 この`5`も、関数に`5`を`渡している`、というコードになります。
 
+このように、何かを関数に`渡す`時は、`(`と`)`の間にそれを入れます。
+
+さらに、`MessageBox.yesNo`は、3つも文字を`渡します`。
+例えば以下のコードは、
+
+
+```
+MessageBox.yesNo("こちんこちん？", "はい", "いいえ");
+```
+
+以下の3つの文字を`渡しています`。
+
+1. `"こちんこちん？"`
+2. `"はい"`
+3. `"いいえ"`
+
+もう一つ例を挙げると以下のコードは
+
+```
+MessageBox.yesNo("ついに念願のアイスソードを手に入れたぞ！",
+"そう関係ないね",
+"殺してでもうばいとる"
+);
+```
+
+以下の3つの文字を`渡しています`。
+
+1. `"ついに念願のアイスソードを手に入れたぞ！"`
+2. `"そう関係ないね"`
+3. `"殺してでもうばいとる"`
+
+このように、文字を3つとか`渡す`時は、`,`で区切って並べる事で`渡す`事が出来ます。
+
+
+## 結果を`もらう`
+
+
+さて、`Math.randomInt(5)`や、`MessageBox.yesNo`などは、結果を変数に受け取る事が出来ました。
+例えば以下みたいなコードが[第五回](ch5.md)ではありました。
+
+<div id="ex2">
+<input type="button" value="実行" />
+<textarea>
+var doreka = Math.randomInt(5);
+MessageBox.show(doreka);</textarea>
+<b>結果:</b> <span class="console"></span><br>
+</div>
+  
+　  
+この時、0から4までのどれかの数字が`doreka`に入ります。
+
+この乱数を作って変数に入れる所、つまり以下のコード
+
+```
+var doreka = Math.randomInt(5);
+```
+
+は、実は関数から結果を`もらう`コードとなっています。
+`Math.randomInt`の結果は、こうやって`=`の右に書く事で`もらう`事が出来るのです。
+
+`MessageBox.yesNo`も同様です。
 
 
 
 
+
+----
 
 
 
@@ -212,7 +275,7 @@ var kekka = lucy();
 
 
 
-<div id="ex2">
+<div id="ex3">
 <input type="button" value="実行" />
 <textarea>
 
