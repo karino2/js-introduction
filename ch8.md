@@ -43,7 +43,7 @@ document.body.onload = function() {
   initInterpreter();
 
 
-  setupAllREPL2(6);
+  setupAllREPL2(5);
   setupAllQuestionsWithScnario(questions);
 }
 </script>
@@ -146,7 +146,7 @@ JavaScriptの辞書は、キーがローマ字っぽい時だけは`.`でも取�
 　  
 これは私の勝手な予想ですが、たぶん見た目を`Java`というプログラミング言語に似せる為だと思います。
 Javaは辞書とは全く別の仕組みで、`MessageBox.show("むぇーー");`というような書き方でメッセージを表示する言語です。  
-これと見た目の上では似た感じにする為、辞書から要素を取り出すのに、ローマ字っぽいキーの時は`.`でも取り出せるようにしよう、というヘンテコな機能がついたのだと思います。
+これと見た目の上では似た感じにする為、辞書から要素を取り出すのに、ローマ字っぽいキーの時は`.`でも取り出せるようにしよう、というヘンテコな機能がついたのだと思います。  
 　  
 勉強する側としてはあまり深く考えず、当時のNetscape社の頭の硬い上司を説得する為に、
 見た目はJava言語っぽいですよ〜と嘘をつかなきゃいけなかったので、この`.`でも取り出せる、とか良く分からない事があるんだなぁ、くらいに思っておけば良いと思います。  
@@ -235,7 +235,7 @@ var doreka = Math.randomInt(5);
 
 `MessageBox.yesNo`も同様です。
 
-<div id="ex4">
+<div id="ex3">
 <input type="button" value="実行" />
 <textarea>
 
@@ -390,7 +390,7 @@ var awa = function() {
 
 実際に実行してみましょう。
 
-<div id="ex5">
+<div id="ex4">
 <input type="button" value="実行" />
 <textarea>
 
@@ -544,7 +544,7 @@ lucy("こちんこちん", 15321, 25);
 やってみましょう。
 
 
-<div id="ex6">
+<div id="ex5">
 <input type="button" value="実行" />
 <textarea>
 
