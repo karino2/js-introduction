@@ -342,7 +342,40 @@ var kekka = lucy();
 こちらが、6の目が多めに出るikasama_saikoroという関数を用意しました。
 この関数を`使って`、結果を`もらって`ください。
 
-```
+
+<script>
+var qobj = {
+    id: "q1",
+    scenarios: [],
+    sampleNum: 200
+}
+
+
+
+
+qobj.scenarios.push({
+    setup: ()=> {},
+    verify: (intp) => {
+        if(scenarioLogs.length == 0 || scenarioLogs[0].name != 'alert') {
+            return "結果が表示されていません。MessageBox.show使ってね。";
+        }
+
+        var counts = countElem(scenarioLogs.map((res)=> res.val));
+        var resKeys = Object.keys(counts);
+        if(resKeys.length != 6) {
+            return "結果が6通りじゃありません。";
+        }
+        return true;  
+    }
+});
+  questions.push(qobj);
+ </script>
+
+
+<div id="q1">
+    <input type="button" value="実行" />
+    <textarea>
+// この関数はこのままで
 var ikasama_saikoro = function() {
     var num = Math.randomInt(12);
     if(num < 5) {
@@ -354,11 +387,22 @@ var ikasama_saikoro = function() {
 // TODO: 以下の行を書き換えて、ikasama_saikoro関数の結果を受け取れ
 var kekka = 0;
 
-
-MessageBox.show(kekka);
-```
+// 以下はいじらないでください。
+MessageBox.show(kekka);</textarea>
+    <b>結果:</b> <span class="console"></span><br>
+    <span class="result"></span><br>
+    <input type="button" value="答えを見る" />
+    <div class="answer hideanswer">
+答え:<br>
+var kekka = ikasama_saikoro();<br>
+    </div>        
+</div>
+  
+　  
+結果を受け取るコード自体はそれほど難しい事も無いんじゃないでしょうか。
 
 なお、ikasama_saikoroのコードが何をやっているか、想像つきますか？
+`return`はあとでやりますが、結果を`返す`という命令です。そして`if(num < 5)`は「numが5より小さかったら」という意味になります。
 
 
 ## 関数から結果を返す
@@ -414,9 +458,37 @@ MessageBox.show(kekka);</textarea>
 ### 課題："蕎麦充した"と返せ
 
 ただ決まった文字を返すだけの関数を作ってみましょう。
-返す文字は`"蕎麦充した"`にしておきましょう。
+返す文字は`"蕎麦充した"`にします。
 
-```
+ただ`"蕎麦充した"`を`返す`だけの関数を作って下さい。
+
+<script>
+var qobj = {
+    id: "q2",
+    scenarios: []
+}
+
+
+qobj.scenarios.push({
+    setup: ()=> {},
+    verify: (intp) => {
+        if(scenarioLogs.length == 0 || scenarioLogs[0].name != 'alert') {
+          return "結果が表示されていません。MessageBox.show使ってね。";
+        }
+        var actual = scenarioLogs[0].val;
+        if(actual != "蕎麦充した") {
+          return "表示されたメッセージが違います。";
+        }
+        return true;
+    }
+});
+  questions.push(qobj);
+ </script>
+
+
+<div id="q2">
+    <input type="button" value="実行" />
+    <textarea>
 // TODO: 以下で"蕎麦充した"と返せ
 var lucy = function() {
 };
@@ -424,28 +496,74 @@ var lucy = function() {
 
 var kekka = lucy();
 MessageBox.show(kekka);
-```
-
+</textarea>
+    <b>結果:</b> <span class="console"></span><br>
+    <span class="result"></span><br>
+    <input type="button" value="答えを見る" />
+    <div class="answer hideanswer">
+答え:<br>
+var lucy = function() { <br>
+&nbsp;&nbsp;&nbsp;&nbsp;return "蕎麦充した";<br>
+}<br>
+    </div>        
+</div>
+  
+　  
 もう一つ同じような問題をやってみましょう。
 
 ### 課題：いつも6を返すサイコロを作れ
 
-ただ決まった数字を返す関数も似たような物です。
-ここで書いてみましょう。
+前問で、ただ決まった文字を`返す`関数を作りました。
+ただ数字を`返す`関数も似たような物です。
 
-いつも6を返すイカサマサイコロを作ってみましょう。
+いつも6を`返す`、イカサマサイコロを作ってみましょう。
 
-```
+<script>
+var qobj = {
+    id: "q3",
+    scenarios: []
+}
+
+
+qobj.scenarios.push({
+    setup: ()=> {},
+    verify: (intp) => {
+        if(scenarioLogs.length == 0 || scenarioLogs[0].name != 'alert') {
+          return "結果が表示されていません。MessageBox.show使ってね。";
+        }
+        var actual = scenarioLogs[0].val;
+        if(actual != 6) {
+          return "6以外が返ってきました。いつも6を返してね。";
+        }
+        return true;
+    }
+});
+  questions.push(qobj);
+ </script>
+
+
+<div id="q3">
+    <input type="button" value="実行" />
+    <textarea>
 // TODO: 以下を、いつも6を返す関数に変更せよ
 var ikasama_saikoro = 0;
 
 
-
+// 以下はいじらないでください。
 var kekka = ikasama_saikoro();
-MessageBox.show(kekka);
-
-```
-
+MessageBox.show(kekka);</textarea>
+    <b>結果:</b> <span class="console"></span><br>
+    <span class="result"></span><br>
+    <input type="button" value="答えを見る" />
+    <div class="answer hideanswer">
+答え:<br>
+var ikasama_saikoro = function() { <br>
+&nbsp;&nbsp;&nbsp;&nbsp;return 6;<br>
+}<br>
+    </div>        
+</div>
+  
+　  
 これでは決まった値を返すだけなのでありがたみが無いですね。
 次はもう少し複雑な関数も作ってみましょう。
 
@@ -454,18 +572,83 @@ MessageBox.show(kekka);
 今度はちゃんと乱数を使って、1から6までランダムに`結果を返す`関数を作りましょう。
 ヒントとしては、[第五回](ch5.md)の「課題: 6面サイコロを作れ」のあたりを参考にすると良いでしょう。
 
-```
+あと、第五回では変数名でsaikoroとしてましたが、今回は既に関数の名前がsaikoroなので違う名前の方が無難です（`rannsuu`とかにしましょうか）。
+
+<script>
+var qobj = {
+    id: "q4",
+    scenarios: [],
+    sampleNum: 200
+}
+
+
+function verifyDice(intp, expects) {
+  if(scenarioLogs.length == 0 || scenarioLogs[0].name != 'alert') {
+    return "結果が表示されていません。MessageBox.show使ってね。";
+  }
+
+  var counts = countElem(scenarioLogs.map((res)=> res.val));
+  var resKeys = Object.keys(counts);
+  if(resKeys.length != expects.length) {
+    if(resKeys.length < expects.length) {
+      return "サイコロの目が" + resKeys.length +"個しかありません。足りない！";
+    }else {
+        return "サイコロの目が" + resKeys.length +"個もあります。多すぎ！";
+    }
+  }
+  var checkKey = _verifyArrayEqualInternal(expects, resKeys);
+  if(checkKey != true) {
+    return checkKey + "の目がずっと出ません";
+  }
+  var enough = true;
+  for(var i = 0; i < resKeys.length; i++) {
+    if(counts[resKeys[i]] < 5) {
+      return resKeys[i] + "の目が十分出てないです。";
+    }
+  }
+  return true;  
+}
+
+
+qobj.scenarios.push({
+    setup: ()=> {},
+    verify: (intp) => verifyDice(intp, [1, 2, 3, 4, 5, 6])
+});
+  questions.push(qobj);
+ </script>
+
+
+<div id="q4">
+    <input type="button" value="実行" />
+    <textarea>
 // TODO:以下を書き換えて、1から6の数字をランダムに返すようにせよ
 var saikoro = function() {
 };
 
+// 以下はいじらないでください。
 var kekka = saikoro();
-MessageBox.show(kekka);
-```
+MessageBox.show(kekka);</textarea>
+    <b>結果:</b> <span class="console"></span><br>
+    <span class="result"></span><br>
+    <input type="button" value="答えを見る" />
+    <div class="answer hideanswer">
+答え:<br>
+var saikoro = function() { <br>
+&nbsp;&nbsp;&nbsp;&nbsp;var ransuu = Math.randomInt(6);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;return ransuu+1;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;// 分かるなら return Math.randomInt(6)+1;でもいいです。<br>
+}<br>
+    </div>        
+</div>
+  
+　  
+ちょっとこの問題は難しいかもしれませんね。
+この辺まで来ると普通のプログラマという感じ。
 
 ### returnすると、そこから先は実行されない
 
-`return`は結果を`返す`だけじゃなくて、そこで関数の実行が終わります。
+さて、ここまで`return`の説明をしてきましたが、もう一つ説明してない事があります。
+それは、`return`は結果を`返す`だけじゃなくて、そこで関数の実行が終わる、という事です。
 
 例えば、以下のコードを実行しても、`"むぇーー"`とは表示されません。
 
@@ -491,26 +674,137 @@ MessageBox.show("コケー");</textarea>
 関数awaの中で、`MessageBox.show()`の前に`return`してしまっているので、関数`awa`のそこから先は実行されないのです。
 ただ関数の実行が終わるだけで、`"コケー"`の部分は実行されます。
 
-if文の途中で実行を打ち切りたい時なども`return`を使う事が出来ます。
+先程の課題で、6が多めに出るサイコロ、というのを私が作ってきました。こんなコードになっていました。
 
+```
+var ikasama_saikoro = function() {
+    var num = Math.randomInt(12);
+    if(num < 5) {
+        return num+1;
+    }
+    return 6;
+};
+```
+
+この時、`num`が0から4までだとifの中の`return num+1;`が実行されて、そこでこの関数が終わります。
+`num`が5より大きい（5から11までのどれか）だと、このif文には入らずその下の`return 6;`が実行されます。
+
+このように、if文の途中で実行を打ち切りたい時なども`return`を使う事が出来ます。
+
+言葉にするとなんだかややこしいですが、大した話じゃないので書いていけばすぐ分かると思います。
 
 
 ### 課題： こちんこちん？って聞いて、麦茶かこーしーを返す関数を作れ
 
-関数の中で`if`を使う例もやってみましょう。
+関数の中で`if`を使う課題をやってみましょう。
+
 関数`lucy`の中で`MessageBox.yesNo`を使ってプレーヤーに質問し、
 結果に応じて`返す`文字を``麦茶！"`か`"こーしー"`か変えてください。
 
+ヒント： [第四回](ch4.md)の、「課題: こちんこちんと言えば？」が参考になるかも。
+
 ```
+```
+
+<script>
+var qobj = {
+    id: "q5",
+    scenarios: []
+}
+qobj.scenarios.push({
+    setup: ()=> returnValues.push(1),
+    verify: () => {
+        if(scenarioLogs.length == 0) {
+          return "質問されませんでした。";
+        }
+        if(scenarioLogs[0].name != "yesNo") {
+          return "最初が質問じゃありませんでした。";
+        }
+        if(scenarioLogs.length == 1) {
+          return "「はい」を選んだ時に、結果が表示されていません。MessageBox.showを使って表示してください。";
+        }
+        if(scenarioLogs.length >= 3) {
+          return "「はい」を選んだ時、たぶん二回表示されています。";
+        }
+        if(scenarioLogs[1].name == "yesNo") {
+          return "「はい」を選んだ時、二回質問されました。なんで？";
+        }
+
+        
+        // {name:"yesNo", val:{msg, yeslabel, nolabel}}
+        var res = scenarioLogs[0].val;
+        if(res.msg != "こちんこちん？") {
+          return "メッセージが違いそうです。";
+        }
+        if(res.yeslabel != "はい") {
+          return "最初のボタンが「はい」じゃありません。";
+        }
+        if(res.nolabel != "いいえ") {
+          return "二番目のボタンが「いいえ」じゃありません。";
+        }
+
+        if(scenarioLogs[1].val != "麦茶！") {
+          return "こちんこちんなのに麦茶！になってない！";
+        }
+        return true;
+
+    }
+});
+qobj.scenarios.push({
+    setup: ()=> returnValues.push(0),
+    verify: () => {
+        if(scenarioLogs.length == 1) {
+          return "「いいえ」を選んだ時に、結果が表示されていません。MessageBox.showを使って表示してください。";
+        }
+        if(scenarioLogs.length >= 3) {
+          return "「いいえ」を選んだ時、たぶん二回表示されています。";
+        }
+        if(scenarioLogs[1].name == "yesNo") {
+          return "「いいえ」を選んだ時、二回質問されました。なんで？";
+        }
+
+        
+        if(scenarioLogs[1].val != "こーしー") {
+          return "こちんこちんじゃないのにこーしーになってない！";
+        }
+        return true;
+
+    }
+});
+  questions.push(qobj);
+ </script>
+
+
+<div id="q5">
+    <input type="button" value="実行" />
+    <textarea>
 // TODO: 以下を書き直せ
 var lucy = function() {
 };
 
 
-var kekka = luch();
-MessageBox.show(kekka);
-
-```
+// 以下はいじらないでね。
+var kekka = lucy();
+MessageBox.show(kekka);</textarea>
+    <b>結果:</b> <span class="console"></span><br>
+    <span class="result"></span><br>
+    <input type="button" value="答えを見る" />
+    <div class="answer hideanswer">
+答え:<br>
+var lucy = function() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;var tumetai = MessageBox.yesNo("こちんこちん？", "はい", "いいえ");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if(tumetai == 1) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return "麦茶！";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;} else {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return "こーしー";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}<br>
+    </div>        
+</div>
+  
+　  
+これもなかなか手強い。  
+この辺まで来ると関数どうこう、というより、これまでやった事が多いので思い出すのが大変、って感じだと思いますが。
 
 ### 結果を返す、もらう、まとめ
 
