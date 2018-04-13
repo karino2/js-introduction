@@ -43,7 +43,7 @@ document.body.onload = function() {
   initInterpreter();
 
 
-  setupAllREPL2(4);
+  setupAllREPL2(5);
   setupAllQuestionsWithScnario(questions);
 }
 </script>
