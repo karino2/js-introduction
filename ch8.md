@@ -43,7 +43,7 @@ document.body.onload = function() {
   initInterpreter();
 
 
-  setupAllREPL2(13);
+  setupAllREPL2(18);
   setupAllQuestionsWithScnario(questions);
 }
 </script>
@@ -238,8 +238,6 @@ Amazonで欲しい物リストを晒しても、くれる人が居ないと`も�
 
 結果を返すのは今回新しい所ですね。
 関数から結果を返す方法もここで見ていきます。
-
-### TODO: 図
 
 ## 結果をもらう
 
@@ -1465,8 +1463,8 @@ MessageBox.show(kekka);</textarea>
     <div class="answer hideanswer">
 答え:<br>
 var awa = function() {<br>
-&nbsp;&nbsp;&nbsp;&nbsp;var tumetai = MessageBox.yesNo("ニワトリですか？", "はい", "いいえ");<br>
-&nbsp;&nbsp;&nbsp;&nbsp;if(tumetai == 1) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;var niwatori = MessageBox.yesNo("ニワトリですか？", "はい", "いいえ");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if(niwatori == 1) {<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return "コケー";<br>
 &nbsp;&nbsp;&nbsp;&nbsp;} else {<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return "むぇー";<br>
@@ -1510,12 +1508,13 @@ var awa = function() {
 // TODO: 以下を書き換えて、むぇーとこコケーをそれぞれ表示せよ。ifが必要です。
 // また、awa()を使ってください。
 var kekka = 1;
-MessageBox.show(”むぇー”);</textarea>
+MessageBox.show("むぇー");</textarea>
     <b>結果:</b> <span class="console"></span><br>
     <span class="result"></span><br>
     <input type="button" value="答えを見る" />
     <div class="answer hideanswer">
 答え:<br>
+var kekka = awa();<br>
 if(kekka == 100) {<br>
 &nbsp;&nbsp;&nbsp;&nbsp;MessageBox.show("コケー");<br>
 } else { <br>
@@ -1606,14 +1605,12 @@ if(kekka == 1234) {<br>
 } else { <br>
 &nbsp;&nbsp;&nbsp;&nbsp;MessageBox.show("こーしー");<br>
 }<br>
-var kekka = lucy();<br>
-MessageBox.show(kekka);<br>
     </div>        
 </div>
   
 　  
 無能な執事の時には、この老いぼれでも出来そうな事を考えてやって、
-優しく命令してやりましょう。菅平ゆりかさんも根はいい奴なのです（誰？）。
+優しく命令してやりましょう。菅平ゆりかさんも根はいい奴なのです（だから誰？）。
 
 
 ## イカサマサイコロを真面目に考える
