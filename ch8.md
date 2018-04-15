@@ -1954,7 +1954,7 @@ qobj.scenarios.push({
         }
 
         if(resDict[first] + resdict[second] != 100) {
-            return `一回以上メッセージが表示されちゃうケースがあるようです。${resDict[first]}, ${resdict[second])}`;
+            return `一回以上メッセージが表示されちゃうケースがあるようです。${resDict[first]}, ${resdict[second]}`;
         }
 
 
