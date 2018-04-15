@@ -1241,68 +1241,63 @@ yesとnoのラベルは「はい」と「いいえ」にしておきますか。
 
 <script>
 function veriyYesNoAlert_Yes(expect, label) {
-        if(scenarioLogs.length == 0) {
-          return "質問されませんでした。";
-        }
-        if(scenarioLogs[0].name != "yesNo") {
-          return "最初が質問じゃありませんでした。";
-        }
-        if(scenarioLogs.length == 1) {
-          return "「はい」を選んだ時に、結果が表示されていません。MessageBox.showを使って表示してください。";
-        }
-        if(scenarioLogs.length >= 3) {
-          return "「はい」を選んだ時、たぶん二回表示されています。";
-        }
-        if(scenarioLogs[1].name == "yesNo") {
-          return "「はい」を選んだ時、二回質問されました。なんで？";
-        }
-        if(scenarioLogs[1].val != expect) {
-          return label;
-        }
-        return true;
+    if(scenarioLogs.length == 0) {
+        return "質問されませんでした。";
+    }
+    if(scenarioLogs[0].name != "yesNo") {
+        return "最初が質問じゃありませんでした。";
+    }
+    if(scenarioLogs.length == 1) {
+        return "「はい」を選んだ時に、結果が表示されていません。MessageBox.showを使って表示してください。";
+    }
+    if(scenarioLogs.length >= 3) {
+        return "「はい」を選んだ時、たぶん二回表示されています。";
+    }
+    if(scenarioLogs[1].name == "yesNo") {
+        return "「はい」を選んだ時、二回質問されました。なんで？";
+    }
+    if(scenarioLogs[1].val != expect) {
+        return label;
+    }
     return true;
 }
 
 function verifyYesNoAlert_No(expect, label) {
-        if(scenarioLogs.length == 1) {
-          return "「いいえ」を選んだ時に、結果が表示されていません。MessageBox.showを使って表示してください。";
-        }
-        if(scenarioLogs.length >= 3) {
-          return "「いいえ」を選んだ時、たぶん二回表示されています。";
-        }
-        if(scenarioLogs[1].name == "yesNo") {
-          return "「いいえ」を選んだ時、二回質問されました。なんで？";
-        }
+    if(scenarioLogs.length == 1) {
+        return "「いいえ」を選んだ時に、結果が表示されていません。MessageBox.showを使って表示してください。";
+    }
+    if(scenarioLogs.length >= 3) {
+        return "「いいえ」を選んだ時、たぶん二回表示されています。";
+    }
+    if(scenarioLogs[1].name == "yesNo") {
+        return "「いいえ」を選んだ時、二回質問されました。なんで？";
+    }
 
-        
-        if(scenarioLogs[1].val != expect) {
-          return label;
-        }
+    
+    if(scenarioLogs[1].val != expect) {
+        return label;
+    }
     return true;
 }
 
 function yesNoAlertQuestionPush(id, yesExpect, yesFailLabel, noExpect, noFailLabel) {
-  var qobj = {
-    id: id,
-    scenarios: []
-  }
+    var qobj = {
+        id: id,
+        scenarios: []
+    };
 
-  qobj.scenarios.push({
-    setup: ()=> returnValues.push(1),
-    verify: () => {
-        return verifyYesNoAlert_Yes(yesExpect, yesFailLabel);
-    }
-  });
-qobj.scenarios.push({
-    setup: ()=> returnValues.push(0),
-    verify: () => {
-        return verifyYesNoAlert_No(noExpect, noFailLabel);
-    }
-});
-  questions.push(qobj);
+    qobj.scenarios.push({
+        setup: ()=> returnValues.push(1),
+        verify: () => verifyYesNoAlert_Yes(yesExpect, yesFailLabel)
+    });
+    qobj.scenarios.push({
+        setup: ()=> returnValues.push(0),
+        verify: () => verifyYesNoAlert_No(noExpect, noFailLabel)
+    });
+    questions.push(qobj);
 }
 
-yesNoAlertQuestionPUsh("q4", "麦茶！", "こちんこちんなのに麦茶！になってない！",
+yesNoAlertQuestionPush("q4", "麦茶！", "こちんこちんなのに麦茶！になってない！",
  "こーしー", "こちんこちんじゃないのにこーしーになってない！");
  </script>
 
@@ -1397,7 +1392,7 @@ MessageBox.show(kekka);
 これは上の課題とほとんど同じなのでノーヒントで。
 
 <script>
-yesNoAlertQuestionPUsh("q5", "コケー", "ニワトリなのに「コケー」って鳴かない！",
+yesNoAlertQuestionPush("q5", "コケー", "ニワトリなのに「コケー」って鳴かない！",
  "むぇー", "ニワトリじゃないのに「むぇー」って鳴いてない！");
 </script>
 
@@ -1443,7 +1438,7 @@ var awa = function() {<br>
 パズルみたいな物としてお嬢様側のコードを考えてみてください。
 
 <script>
-yesNoAlertQuestionPUsh("q6", "コケー", "ニワトリなのに「コケー」って鳴かない！",
+yesNoAlertQuestionPush("q6", "コケー", "ニワトリなのに「コケー」って鳴かない！",
  "むぇー", "ニワトリじゃないのに「むぇー」って鳴いてない！");
 </script>
 
@@ -1490,7 +1485,7 @@ if(kekka == 100) {<br>
 で、それが分かったら、使う側のコードを書く訳です。
 
 <script>
-yesNoAlertQuestionPUsh("q7", "麦茶！", "こちんこちんなのに麦茶！になってない！",
+yesNoAlertQuestionPush("q7", "麦茶！", "こちんこちんなのに麦茶！になってない！",
  "こーしー", "こちんこちんじゃないのにこーしーになってない！");
  </script>
 
@@ -1530,7 +1525,7 @@ MessageBox.show(kekka);<br>
 またヘンテコな関数に対して、使う側で工夫してどうにか目的を達成しましょう。
 
 <script>
-yesNoAlertQuestionPUsh("q8", "麦茶！", "こちんこちんなのに麦茶！になってない！",
+yesNoAlertQuestionPush("q8", "麦茶！", "こちんこちんなのに麦茶！になってない！",
  "こーしー", "こちんこちんじゃないのにこーしーになってない！");
  </script>
 
@@ -1904,7 +1899,7 @@ var saikoro = function() { <br>
 そこでここでは、ランダムに、
 
 1. `蕎麦充した`
-2. `こーしーをしゅるしゅるした`
+2. `しゅるしゅるした`
 
 と表示するプログラムを作ってください。
 ただし、関数はこっちが作ったlucy関数を使う事。
@@ -1915,48 +1910,55 @@ var saikoro = function() { <br>
 var qobj = {
     id: "q10",
     scenarios: [],
-    sampleNum: 200
+    sampleNum: 100
 }
-
-
-function verifyDice(intp, expects) {
-  if(scenarioLogs.length == 0 || scenarioLogs[0].name != 'alert') {
-    return "結果が表示されていません。MessageBox.show使ってね。";
-  }
-
-  var counts = countElem(scenarioLogs.map((res)=> res.val));
-  var resKeys = Object.keys(counts);
-  if(resKeys.length != expects.length) {
-    if(resKeys.length < expects.length) {
-      return "サイコロの目が" + resKeys.length +"個しかありません。足りない！";
-    }else {
-        return "サイコロの目が" + resKeys.length +"個もあります。多すぎ！";
-    }
-  }
-  var checkKey = _verifyArrayEqualInternal(expects, resKeys);
-  if(checkKey != true) {
-    return checkKey + "の目がずっと出ません";
-  }
-  var enough = true;
-  for(var i = 0; i < resKeys.length; i++) {
-    if(counts[resKeys[i]] < 5) {
-      return resKeys[i] + "の目が十分出てないです。";
-    }
-  }
-  return true;  
-}
-
 
 qobj.scenarios.push({
     setup: ()=> {},
     verify: (intp) => {
-  if(scenarioLogs.length == 0 || scenarioLogs[0].name != 'alert') {
-    return "結果が表示されていません。MessageBox.show使ってね。";
-  }
-  var resDict = {};
-  scenarioLogs.map((res)=>res.val);
+        if(scenarioLogs.length == 0 || scenarioLogs[0].name != 'alert') {
+            return "結果が表示されていません。MessageBox.show使ってね。";
+        }
+        var resDict = {};
+        scenarioLogs.map((res)=>res.val).forEach(elem=> {
+            var cur = resDict[elem] || 0;
+            resDict[elem] = cur +1;
+        });
+        var keys = Object.keys(resDict);
+        if(keys.length == 1) {
+            return "メッセージが一通りしか表示されません。";
+        }
+        if(keys.length > 2) {
+            return "三通り以上のメッセージが表示されている？";
+        }
 
-}
+        var coffe = "しゅるしゅるした";
+        var soba = "蕎麦充した";
+        var [first, second] = [soba, coffe];
+
+        if(keys[0] == coffe){
+            first = coffe;
+            second = soba;
+        } 
+        if(keys[0] != first) {
+            return `出てないメッセージがあります（${first})`;
+        }
+        if(keys[1] != second) {
+            return `出てないメッセージがあります（${second})`;
+        }
+        if(resDict[first] < 10) {
+            return `メッセージの表示回数が少ないような？（${first}）`;
+        }
+        if(resDict[second] < 10) {
+            return `メッセージの表示回数が少ないような？（${second}）`;
+        }
+
+
+        return true;
+
+
+
+    }
 });
   questions.push(qobj);
  </script>
@@ -1981,15 +1983,21 @@ MessageBox.show("むぇー");</textarea>
     <input type="button" value="答えを見る" />
     <div class="answer hideanswer">
 答え:<br>
-var saikoro = function() { <br>
-&nbsp;&nbsp;&nbsp;&nbsp;var ransuu = Math.randomInt(6);<br>
-&nbsp;&nbsp;&nbsp;&nbsp;return ransuu+1;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;// 分かるなら return Math.randomInt(6)+1;でもいいです。<br>
+var kekka = lucy(); <br>
+if(kekka == "こーしー") {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;MessageBox.show("しゅるしゅるした");<br>
+} else {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;MessageBox.show("蕎麦充した");<br>
 }<br>
     </div>        
 </div>
+  
+　  
+これも難しいですね。関数を作る所を見る事で、この関数が何をするものかをまず推測し、
+そこからこの関数を使うコードを書く必要があります。
 
-
+ラストダンジョンなので、たまにオメガとか神龍とかハニワとか倒せ無さそうな敵も出てくるのです。
+倒すとたぶんなんか武器落とします。
 
 
 ### 結果を返す、もらう、まとめ
@@ -2004,15 +2012,6 @@ var saikoro = function() { <br>
 5. `return`すると関数はそこまでで実行を終えます
 
 言葉にすると消えちゃう関係なら…じゃなくて、言葉にすると少しややこしいですね。
-重要なのは、`もらう`方と、`返す`方を区別して、それぞれちゃんと書ける、という事です。
 
-基本的には課題の答えが分かればOKです。
-
-
-**コラムの例**  
-最初のブロック  
-　  
-二つ目のブロック
-{: .column}
-
+また、タカビーなお嬢様とセバスチャン、という考え方もやりました。これは次回も使っていきます。
 
