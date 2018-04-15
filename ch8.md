@@ -43,7 +43,7 @@ document.body.onload = function() {
   initInterpreter();
 
 
-  setupAllREPL2(9);
+  setupAllREPL2(13);
   setupAllQuestionsWithScnario(questions);
 }
 </script>
@@ -496,8 +496,63 @@ var ikasama_saikoro = function() { <br>
 </div>
   
 　  
-これでは決まった値を返すだけなのでありがたみが無いですね。
-ですがもう少し複雑な例に進む前に、何故こんな物があるのか？という理由を考えてみたいと思います。
+これでは決まった値を返すだけなのでありがたみが無いですね。ただ最初はそんなもんです。
+
+
+### returnすると、そこから先は実行されない
+
+さて、ここまで`return`の説明をしてきましたが、もう一つ説明してない事があります。
+それは、`return`は結果を`返す`だけじゃなくて、そこで関数の実行が終わる、という事です。
+
+例えば、以下のコードを実行しても、`"むぇーー"`とは表示されません。
+
+
+<div id="ex5">
+<input type="button" value="実行" />
+<textarea>
+
+var awa = function() {
+   return 3;
+   // ここは実行されない
+   MessageBox.show("むぇー");
+};
+
+
+awa();
+// ここは実行される
+MessageBox.show("コケー");</textarea>
+<b>結果:</b> <span class="console"></span><br>
+</div>
+  
+　  
+関数awaの中で、`MessageBox.show()`の前に`return`してしまっているので、関数`awa`のそこから先は実行されないのです。
+ただ関数の実行が終わるだけで、`"コケー"`の部分は実行されます。
+
+先程の課題で、6が多めに出るサイコロ、というのを私が作ってきました。こんなコードになっていました。
+
+```
+var ikasama_saikoro = function() {
+    var num = Math.randomInt(12);
+    if(num < 5) {
+        return num+1;
+    }
+    return 6;
+};
+```
+
+この時、`num`が0から4までだとifの中の`return num+1;`が実行されて、そこでこの関数が終わります。
+`num`が5より大きい（5から11までのどれか）だと、このif文には入らずその下の`return 6;`が実行されます。
+
+この手の話は、言葉にするとごちゃごちゃしますね。でもプログラムを理解するのはそんな難しくないと思います。
+「こいつの日本語わけ分かんねーなぁ」と思っても、プログラムが分かれば先に進んでOKです。  
+日本語が不自由な可哀想な奴…とでも思っておいてください。ってほっといてください。私プログラマなんで別にいいんです。
+
+このように、if文の途中で実行を打ち切りたい時なども`return`を使う事が出来ます。
+
+また、returnは何も値を指定しない、ということも出来ます。
+例えば`return ;`みたいな書き方です。
+これはそこで関数を終わりにしたい、という時にやりますが、ひねくれたいい方をすれば「何も無いを返している」とも言えます。
+
 
 # 何故returnなんて物があるのか？
 
@@ -557,7 +612,7 @@ var ikasama_saikoro = function() { <br>
 
 もう見慣れた、こちんこちんって聞いて麦茶かこーしーか表示する、というコードです。
 
-<div id="ex5">
+<div id="ex6">
 <input type="button" value="実行" />
 <textarea>
 var tumetai = MessageBox.yesNo("こちんこちん？", "はい", "いいえ");
@@ -572,7 +627,7 @@ if(tumetai == 1) {
 　  
 さて、これを関数にしたとします。
 
-<div id="ex6">
+<div id="ex7">
 <input type="button" value="実行" />
 <textarea>
 var lucy = function() {
@@ -712,7 +767,7 @@ lucyっぽいやりとりというのが何かは、`使う側の視点`では�
 こんなコードがあったといます。
 
 
-<div id="ex7">
+<div id="ex8">
 <input type="button" value="実行" />
 <textarea>
 var ikasama_saikoro = function() {
@@ -827,7 +882,7 @@ var ikasama_saikoro = function() {
 サンドイッチだけは自分で食べてはいけません。
 あくまで使ってる人に渡す必要があります。
 
-これが`return`です。
+さっと差し出す、これが`return`です。
 
 この時に、お嬢様とセバスチャンを区別しないと、なんだか良くわからなくなる。
 結局購買に行ってパンを食べてる隣のクラスメートと何が違うんだ？という話になる。
@@ -851,222 +906,299 @@ var ikasama_saikoro = function() {
 
 これが`return`です。
 
+### 概念を実現する為の仕組み
 
-### イカサマサイコロを真面目に考える
+関数とか`return`と、ここまで言ってるセーラームーンとかセバスチャンはなんか関係ないことのように感じられるかもしれません。
+実際は関数は人間では無いし、関係無いじゃん、と。
 
-本題とは関係無いのですが、読んでる人が気になってそうなので、これも真面目に説明しておきましょう。
-第八回の内容とはあまり関係無いのですが。
+でもそこら辺を真面目に考えないと、関数もそれ以前のコードもあまり区別が付きません。
+例えば関数を使った以下のコード
 
-例えば、1から6までのサイコロで、6がちょっと多めに出る物を作るとします。
-何も考えずに作ると、以下のようになります。
+```
+var awa = function() {
+    MessageBox.show("むぇーー");
+};
+
+awa();
+```
+
+と、関数を使ってない以下のコード
 
 
-<div id="ex8">
-<input type="button" value="実行" />
-<textarea>
+```
+    MessageBox.show("むぇーー");
+```
 
-var ransuu = Math.randomInt(12);
+は何が違うのでしょうか？
 
-if(ransuu == 0) {
-   MessageBox.show("1");
-} else if (ransuu == 1) {
-   MessageBox.show("2");
-} else if (ransuu == 2 ) {
-   MessageBox.show("3");
-} else if (ransuu == 3) {
-   MessageBox.show("4");
-} else if (ransuu == 4) {
-   MessageBox.show("5");
-}  else if (ransuu == 5) {
-   //  ここから下は全部同じ
-   MessageBox.show("6");   
-}  else if (ransuu == 6) {
-   MessageBox.show("6");   
-}  else if (ransuu == 7) {
-   MessageBox.show("6");   
-}  else if (ransuu == 8) {
-   MessageBox.show("6");   
-}  else if (ransuu == 9) {
-   MessageBox.show("6");   
-}  else if (ransuu == 10) {
-   MessageBox.show("6");   
-}  else if (ransuu == 11) {
-   MessageBox.show("6");   
-} </textarea>
-<b>結果:</b> <span class="console"></span><br>
-</div>
-  
+
+関数awaの中身の`MessageBox.show("むぇーー")`とかは、
+どちらのバージョンも全く一緒です。
+だから実行されるコードだけを考えると、この2つの違いは良く分からない。
+
+第六回までは、実行されるコードを「なんとなく」理解しておくだけでプログラムが分かるのですが、
+関数だけはこれでは良く違いが分からない。
+
+関数は、概念を実現する為の仕組みなので、どう動くかだけを考えても違いが分からない。
+上のコードは、「awaという執事を作って、これに鳴け！と命令しているんだな」と意識的に考えてやる必要があるのです。
+この仮想的な「awaという執事」という存在を、心の中で具体的に思い浮かべるのが関数のコツです。
+
+「結局中のコードは`MessageBox.show("むぇーー");`じゃん」と思ってはいけません。  
+Citrusは本当は美少女なんだけど、陰キャ男の大学生ということにしておいてやって会話する、というようなものです。
+本当は美少女じゃん、は言ってはいけない。  
+男の学生、そういうことにしておいてやる、これが関数を考える上での重要な所です。
+
+そもそもに、`return`などの仕組みは「プログラムを執事とそれに命令するお嬢様に分ける」という風に考えやすい仕組みを作るにはどうしたらいいか？
+ということを考えた結果、
+
+1. 関数という物を作る
+2. `結果`は一つ戻る
+3. 要望は`引数`で渡す
+
+という結論になったという経緯があります。
+
+プログラムを「お嬢様とセバスチャン」に分けて考える、という幻想が壊れないように決められたルールなので、
+ちょっと最初のうちは怖いかもしれませんが、そういう風に`本気で`考えても大丈夫なようになっています。
+空想上の概念を本当に存在しているかのように思ってプログラムを読む、これが大切です。
+
+「俺の右手はイマジンブレーカーだから…」とか言ってはいけません。イマドキの子には通じません。
+
+この「プログラムを執事とそれに命令するお嬢様に分ける」という前提に慣れることが`return`を理解するには大切です。
+
+**関数のいろいろ**  
+結果は一つとか引数で渡す、がJavaScriptにおける関数の決まりですし、
+これはだいたいの言語で現在そうなっていますが、昔はそうでも無かった。  
 　  
-なんかおんなじようなのがたくさん並ぶと、目がチカチカして良くわからなくなりますね。（なりません？）
+例えば昔はサブルーチンという物がありました。
+これは結果が無い関数のような物、と言えます。関数との間のやり取りは、returnのような仕組みを使わず、
+適当に変数でやっていました。  
+　  
+また、returnで処理が終わる、というのを嫌う人も居て、関数の出口は全て一つ（最後）という流派もあります。lisp系の言語はそうですね。  
+　  
+最近だと、関数の結果を複数返せる、というのは一般的になってきました。多値といって、
+JavaScriptでも最近のバージョンでは似たようなことが出来ます。
+ただ、これも複数の値を持った辞書を返している、というような物なので、そんなにこれまでの関数と違う物という訳でもありません。  
+　  
+細かな所で多少の違いはありますが、現代では関数というのがだいたいは今回説明した物、
+という結論になったとは言って良いんじゃないでしょうか。
+{: .column}
 
-これはransuuが0から11のうちどれかに応じて、4までならそれぞれの目を表示し、5より上は全部6と表示します。
-なんで一つずれているかというと乱数は0から始まりますが、サイコロは普通0の目は無くて1の目からだからです。
 
-ちょっと頭を使うと以下のようにも書けます。
+
+## 分けて考える「練習」をする
+
+これまでのコードを使って、この「お嬢様とセバスチャン」に分けて考える練習をしてみましょう。
+
+こんなコードがあったとします（[第四回](ch4.md)参照）
 
 <div id="ex9">
 <input type="button" value="実行" />
 <textarea>
-
-var ransuu = Math.randomInt(12);
-
-if(ransuu == 0) {
-   MessageBox.show("1");
-} else if (ransuu == 1) {
-   MessageBox.show("2");
-} else if (ransuu == 2 ) {
-   MessageBox.show("3");
-} else if (ransuu == 3) {
-   MessageBox.show("4");
-} else if (ransuu == 4) {
-   MessageBox.show("5");
-}  else { // ここがelse ifじゃないのに注意！
-   MessageBox.show("6");   
+var niwatori = MessageBox.yesNo("あじゃはニワトリ？", "はい",  "いいえ");
+if(niwatori == 1) {
+   MessageBox.show("コケー");
+} else {
+   MessageBox.show("むぇー");
 }</textarea>
 <b>結果:</b> <span class="console"></span><br>
 </div>
   
 　  
-こうすると、0からaaa
+プレーヤーにニワトリかどうか聞いて、ニワトリと答えたら`"コケー"`と、そうでなければ`"むぇー"`と表示するプログラムです。
 
+これを関数を使うコードに直してみましょう。
 
+### 先にお嬢様から考える
 
+練習の為、ただ関数にするだけじゃなくて、順番を逆にして、先にお嬢様パートから考えてみます。
+これは慣れるまで難しい！（内容的にも中級者になります…）
 
+たとえばこんな感じです。
 
+「まず、awaという関数があるとする。これが何かは知らないが、手を差し出して鳴き声、って言ったら、鳴き声を教えてくれる」
 
+ここをどうするかは自由度があるのですが、今回はこう考えたとします。
+で、この`awa`という関数があるかのように、まずコードを書いてしまう。
 
-### 課題：1から6までの数字をランダムに返すサイコロを作れ
+こんな感じでしょうか。
 
-今度はちゃんと乱数を使って、1から6までランダムに`結果を返す`関数を作りましょう。
-ヒントとしては、[第五回](ch5.md)の「課題: 6面サイコロを作れ」のあたりを参考にすると良いでしょう。
+```
+var nakigoe = awa();
+MessageBox.show(nakigoe);
+```
 
-あと、第五回では変数名でsaikoroとしてましたが、今回は既に関数の名前がsaikoroなので違う名前の方が無難です（`rannsuu`とかにしましょうか）。
+これは短いけど、なかなか難しいことをしています。
 
-<script>
-var qobj = {
-    id: "q4",
-    scenarios: [],
-    sampleNum: 200
-}
+まだ存在してないけど、awaという関数があるかのように考える。
+これは、「鳴き声！」と命令したら「ははっ」と鳴き声をどうにか持ってきてくれる、と思うことにする。
 
+だから、
 
-function verifyDice(intp, expects) {
-  if(scenarioLogs.length == 0 || scenarioLogs[0].name != 'alert') {
-    return "結果が表示されていません。MessageBox.show使ってね。";
-  }
+```
+var nakigoe = awa();
+```
 
-  var counts = countElem(scenarioLogs.map((res)=> res.val));
-  var resKeys = Object.keys(counts);
-  if(resKeys.length != expects.length) {
-    if(resKeys.length < expects.length) {
-      return "サイコロの目が" + resKeys.length +"個しかありません。足りない！";
-    }else {
-        return "サイコロの目が" + resKeys.length +"個もあります。多すぎ！";
-    }
-  }
-  var checkKey = _verifyArrayEqualInternal(expects, resKeys);
-  if(checkKey != true) {
-    return checkKey + "の目がずっと出ません";
-  }
-  var enough = true;
-  for(var i = 0; i < resKeys.length; i++) {
-    if(counts[resKeys[i]] < 5) {
-      return resKeys[i] + "の目が十分出てないです。";
-    }
-  }
-  return true;  
-}
+と書いたら、用意された鳴き声がnakigoe変数にさっと渡される、と信じます。
 
+で、このnakigoeを表示する。
 
-qobj.scenarios.push({
-    setup: ()=> {},
-    verify: (intp) => verifyDice(intp, [1, 2, 3, 4, 5, 6])
-});
-  questions.push(qobj);
- </script>
+```
+MessageBox.show(nakigoe);
+```
 
+合わせるとこうなります。
 
-<div id="q4">
-    <input type="button" value="実行" />
-    <textarea>
-// TODO:以下を書き換えて、1から6の数字をランダムに返すようにせよ
-var saikoro = function() {
+```
+var nakigoe = awa();
+MessageBox.show(nakigoe);
+```
+
+このawaという関数がまだ無いのにあるかのように考えてコードを書く、というのは、想像力が必要な所です。
+このawaというのはどういうことをしてくれるのかを考える。
+
+この時に中身を細かくかんがえてはいけない。やって欲しいことだけを考える。
+セバスチャンがいかに苦労しているかは考えてはいけないのです。何を自分にくれるのか、だけに集中する。
+「こんなことをしてくれる関数があるとしよう！そしたらこうやってコードを書く」と、あったらいいなというい関数を勝手に決めるのです。
+
+そして一通りお嬢様の視点でプログラムを書いたら、次はセバスチャンを作ります。
+
+### 関数を後から作る
+
+さて、お嬢様が何をして欲しいのかは最初に決めたので、そう振る舞うように関数を作ります。
+
+まずawaという関数を考えるからこんな感じ。
+
+```
+var awa = function() {
 };
+```
 
-// 以下はいじらないでください。
-var kekka = saikoro();
-MessageBox.show(kekka);</textarea>
-    <b>結果:</b> <span class="console"></span><br>
-    <span class="result"></span><br>
-    <input type="button" value="答えを見る" />
-    <div class="answer hideanswer">
-答え:<br>
-var saikoro = function() { <br>
-&nbsp;&nbsp;&nbsp;&nbsp;var ransuu = Math.randomInt(6);<br>
-&nbsp;&nbsp;&nbsp;&nbsp;return ransuu+1;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;// 分かるなら return Math.randomInt(6)+1;でもいいです。<br>
-}<br>
-    </div>        
-</div>
-  
-　  
-ちょっとこの問題は難しいかもしれませんね。
-この辺まで来ると普通のプログラマという感じ。
+次にこれが何をお嬢様に差し出すかを考えます。
+ニワトリだったら`"コケー"`を、それ以外なら`"むぇー"`を差し出す、というのがこの関数のやることでしょうか。
 
-### returnすると、そこから先は実行されない
+だから`return "むぇー";`か`return "コケー";`を、必要に応じてする関数です。
 
-さて、ここまで`return`の説明をしてきましたが、もう一つ説明してない事があります。
-それは、`return`は結果を`返す`だけじゃなくて、そこで関数の実行が終わる、という事です。
+さて、必要に応じて、というのはどうしたらいいでしょうか？
 
-例えば、以下のコードを実行しても、`"むぇーー"`とは表示されません。
+ここでポイントになるのは、お嬢様は細かいことまでは考えてくれません。
+だから、お嬢様が期待していることには答えつつ、実際にどこに買いに行くか、とかはセバスチャン側で勝手に考えてやらないといけません。
 
+今回は、プレーヤーに「ニワトリ？」と聞いて、`はい`か`いいえ`かの結果に応じて、
+"コケー"`か`"むぇー"`を差し出すことにしましょう。
 
-<div id="ex5">
+するとこんな感じです。
+
+```
+var awa = function() {
+    var niwatori = MessageBox.yesNo("あじゃはニワトリ？", "はい",  "いいえ");
+    if(niwatori == 1) {
+       return "コケー";
+    } else {
+       return "むぇー";
+    }
+};
+```
+
+さて、このように3つくらい考えている訳ですね。
+
+1. まずカラの関数を作る
+2. 何を差し出すかを決める
+3. 差し出す物をどう決めるか考える
+
+### 全部合わせる
+
+さて、ここまで考えたお嬢様とセバスチャンを合わせてみましょう。
+
+<div id="ex10">
 <input type="button" value="実行" />
 <textarea>
-
+// セバスチャン
 var awa = function() {
-   return 3;
-   // ここは実行されない
-   MessageBox.show("むぇー");
+    var niwatori = MessageBox.yesNo("あじゃはニワトリ？", "はい",  "いいえ");
+    if(niwatori == 1) {
+       return "コケー";
+    } else {
+       return "むぇー";
+    }
 };
 
-
-awa();
-// ここは実行される
-MessageBox.show("コケー");</textarea>
+// お嬢様
+var nakigoe = awa();
+MessageBox.show(nakigoe);</textarea>
 <b>結果:</b> <span class="console"></span><br>
 </div>
   
 　  
-関数awaの中で、`MessageBox.show()`の前に`return`してしまっているので、関数`awa`のそこから先は実行されないのです。
-ただ関数の実行が終わるだけで、`"コケー"`の部分は実行されます。
+短いコードですが、こんなのスラスラ出来る訳無い、というレベルの難しさですね。
 
-先程の課題で、6が多めに出るサイコロ、というのを私が作ってきました。こんなコードになっていました。
+さて、プログラムには、どう考えたのか、というのが現れます。この書き方以外でも、いろいろ答えはありうる。
+例えば以下の書き方でも全部同じ意味になります。
 
-```
-var ikasama_saikoro = function() {
-    var num = Math.randomInt(12);
-    if(num < 5) {
-        return num+1;
+<div id="ex11">
+<input type="button" value="実行" />
+<textarea>
+// セバスチャン。こちらで表示する所までやってしまうバージョン
+var awa = function() {
+    var niwatori = MessageBox.yesNo("あじゃはニワトリ？", "はい",  "いいえ");
+    if(niwatori == 1) {
+       MessageBox.show("コケー");
+    } else {
+       MessageBox.show("むぇー");
     }
-    return 6;
 };
+
+// お嬢様。ただ命令するだけ
+awa();</textarea>
+<b>結果:</b> <span class="console"></span><br>
+</div>
+  
+　  
+これはお嬢様は受け取りもせず、ただ全部やっといて、と命令するパターンです。
+
+これだと問題があまり「分割」されてなくて全部セバスチャンがやってるので、
+セバスチャンを作る所が元の問題より簡単になってない、という問題はありますが、挙動は同じです。
+
+もっとお嬢様にいろいろ働かせることも出来ます。
+質問して、さらに結果を表示する所はお嬢様がやる、という働き者のパターンも考えられます。
+例えば以下みたいなコードです。
+
+```
+var situmon = MessageBox.yesNo("あじゃはニワトリ？", "はい",  "いいえ");
+var nakigoe = awa(situmon);
+MessageBox.show(nakigoe);
 ```
 
-この時、`num`が0から4までだとifの中の`return num+1;`が実行されて、そこでこの関数が終わります。
-`num`が5より大きい（5から11までのどれか）だと、このif文には入らずその下の`return 6;`が実行されます。
+これは第九回でやる`arguments`が必要になるので理解はできないはずですが、
+こういう書き方もありえるんだな、くらいに思っておいてください。
 
-この手の話は、言葉にするとごちゃごちゃしますね。でもプログラムを理解するのはそんな難しくないと思います。
-「こいつの日本語わけ分かんねーなぁ」と思っても、プログラムが分かれば先に進んでOKです。  
-日本語が不自由な可哀想な奴…とでも思っておいてください。ってほっといてください。私プログラマなんで別にいいんです。
+これを実現するなら以下みたいなコードになります。
 
-このように、if文の途中で実行を打ち切りたい時なども`return`を使う事が出来ます。
+<div id="ex12">
+<input type="button" value="実行" />
+<textarea>
+// セバスチャン。質問はお嬢様がするバージョン
+var awa = function() {
+    if(arguments[0] == 1) {
+       return "コケー";
+    } else {
+       return "むぇー";
+    }
+};
 
+// お嬢様。ただ命令するだけ
+var situmon = MessageBox.yesNo("あじゃはニワトリ？", "はい",  "いいえ");
+var nakigoe = awa(situmon);
+MessageBox.show(nakigoe);</textarea>
+<b>結果:</b> <span class="console"></span><br>
+</div>
+  
+　  
+このように、お嬢様が何を期待するかはある程度自由に決めて良いのです。
+自由と言われても困っちゃう、という場合は、「一番自分にとって全体が簡単になる」ように考えるのが良いでしょう。
 
 ### 課題： こちんこちん？って聞いて、麦茶かこーしーを返す関数を作れ
 
-関数の中で`if`を使う課題をやってみましょう。
+さて、自分でも書いてみましょう。これは難しい…ということで、問題の後ろに、いつもよりちょっと多くヒントを出します。
 
 関数`lucy`の中で`MessageBox.yesNo`を使ってプレーヤーに「こちんこちん？」と質問し、
 結果に応じて`返す`文字を`"麦茶！"`か`"こーしー"`か変えてください。
@@ -1078,7 +1210,7 @@ yesとnoのラベルは「はい」と「いいえ」にしておきますか。
 
 <script>
 var qobj = {
-    id: "q5",
+    id: "q4",
     scenarios: []
 }
 qobj.scenarios.push({
@@ -1179,6 +1311,188 @@ var lucy = function() {<br>
 この課題などは、関数どうこう、というより、これまでやった事が多いので思い出すのが大変、って感じだと思いますが。
 
 ラストダンジョンっぽさがありますね。
+
+少しヒントとして、考え方の説明をしておきます。
+
+まず、先程のawaの例と似ています。わからなくなったらawaの例を見直しましょう。「全部合わせる」の最初の例がオススメです。
+
+次に、まずお嬢様パートだけを見て何をしているかを「考える」。
+
+お嬢様パートは以下ですよね。
+
+```
+// 以下はいじらないでね。
+var kekka = lucy();
+MessageBox.show(kekka);
+```
+
+
+
+
+
+
+### イカサマサイコロを真面目に考える
+
+本題とは関係無いのですが、読んでる人が気になってそうなので、これも真面目に説明しておきましょう。
+第八回の内容とはあまり関係無いのですが。
+
+例えば、1から6までのサイコロで、6がちょっと多めに出る物を作るとします。
+何も考えずに作ると、以下のようになります。
+
+
+<div id="ex12">
+<input type="button" value="実行" />
+<textarea>
+
+var ransuu = Math.randomInt(12);
+
+if(ransuu == 0) {
+   MessageBox.show("1");
+} else if (ransuu == 1) {
+   MessageBox.show("2");
+} else if (ransuu == 2 ) {
+   MessageBox.show("3");
+} else if (ransuu == 3) {
+   MessageBox.show("4");
+} else if (ransuu == 4) {
+   MessageBox.show("5");
+}  else if (ransuu == 5) {
+   //  ここから下は全部同じ
+   MessageBox.show("6");   
+}  else if (ransuu == 6) {
+   MessageBox.show("6");   
+}  else if (ransuu == 7) {
+   MessageBox.show("6");   
+}  else if (ransuu == 8) {
+   MessageBox.show("6");   
+}  else if (ransuu == 9) {
+   MessageBox.show("6");   
+}  else if (ransuu == 10) {
+   MessageBox.show("6");   
+}  else if (ransuu == 11) {
+   MessageBox.show("6");   
+} </textarea>
+<b>結果:</b> <span class="console"></span><br>
+</div>
+  
+　  
+なんかおんなじようなのがたくさん並ぶと、目がチカチカして良くわからなくなりますね。（なりません？）
+
+これはransuuが0から11のうちどれかに応じて、4までならそれぞれの目を表示し、5より上は全部6と表示します。
+なんで一つずれているかというと乱数は0から始まりますが、サイコロは普通0の目は無くて1の目からだからです。
+
+ちょっと頭を使うと以下のようにも書けます。
+
+<div id="ex13">
+<input type="button" value="実行" />
+<textarea>
+
+var ransuu = Math.randomInt(12);
+
+if(ransuu == 0) {
+   MessageBox.show("1");
+} else if (ransuu == 1) {
+   MessageBox.show("2");
+} else if (ransuu == 2 ) {
+   MessageBox.show("3");
+} else if (ransuu == 3) {
+   MessageBox.show("4");
+} else if (ransuu == 4) {
+   MessageBox.show("5");
+}  else { // ここがelse ifじゃないのに注意！
+   MessageBox.show("6");   
+}</textarea>
+<b>結果:</b> <span class="console"></span><br>
+</div>
+  
+　  
+こうすると、0からaaa
+
+
+
+
+
+
+
+### 課題：1から6までの数字をランダムに返すサイコロを作れ
+
+今度はちゃんと乱数を使って、1から6までランダムに`結果を返す`関数を作りましょう。
+ヒントとしては、[第五回](ch5.md)の「課題: 6面サイコロを作れ」のあたりを参考にすると良いでしょう。
+
+あと、第五回では変数名でsaikoroとしてましたが、今回は既に関数の名前がsaikoroなので違う名前の方が無難です（`rannsuu`とかにしましょうか）。
+
+<script>
+var qobj = {
+    id: "q5",
+    scenarios: [],
+    sampleNum: 200
+}
+
+
+function verifyDice(intp, expects) {
+  if(scenarioLogs.length == 0 || scenarioLogs[0].name != 'alert') {
+    return "結果が表示されていません。MessageBox.show使ってね。";
+  }
+
+  var counts = countElem(scenarioLogs.map((res)=> res.val));
+  var resKeys = Object.keys(counts);
+  if(resKeys.length != expects.length) {
+    if(resKeys.length < expects.length) {
+      return "サイコロの目が" + resKeys.length +"個しかありません。足りない！";
+    }else {
+        return "サイコロの目が" + resKeys.length +"個もあります。多すぎ！";
+    }
+  }
+  var checkKey = _verifyArrayEqualInternal(expects, resKeys);
+  if(checkKey != true) {
+    return checkKey + "の目がずっと出ません";
+  }
+  var enough = true;
+  for(var i = 0; i < resKeys.length; i++) {
+    if(counts[resKeys[i]] < 5) {
+      return resKeys[i] + "の目が十分出てないです。";
+    }
+  }
+  return true;  
+}
+
+
+qobj.scenarios.push({
+    setup: ()=> {},
+    verify: (intp) => verifyDice(intp, [1, 2, 3, 4, 5, 6])
+});
+  questions.push(qobj);
+ </script>
+
+
+<div id="q4">
+    <input type="button" value="実行" />
+    <textarea>
+// TODO:以下を書き換えて、1から6の数字をランダムに返すようにせよ
+var saikoro = function() {
+};
+
+// 以下はいじらないでください。
+var kekka = saikoro();
+MessageBox.show(kekka);</textarea>
+    <b>結果:</b> <span class="console"></span><br>
+    <span class="result"></span><br>
+    <input type="button" value="答えを見る" />
+    <div class="answer hideanswer">
+答え:<br>
+var saikoro = function() { <br>
+&nbsp;&nbsp;&nbsp;&nbsp;var ransuu = Math.randomInt(6);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;return ransuu+1;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;// 分かるなら return Math.randomInt(6)+1;でもいいです。<br>
+}<br>
+    </div>        
+</div>
+  
+　  
+ちょっとこの問題は難しいかもしれませんね。
+この辺まで来ると普通のプログラマという感じ。
+
+
 
 ### 結果を返す、もらう、まとめ
 
