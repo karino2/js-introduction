@@ -1229,6 +1229,7 @@ MessageBox.show(nakigoe);</textarea>
 ### 課題： こちんこちん？って聞いて、麦茶かこーしーを返す関数を作れ
 
 さて、自分でも書いてみましょう。これは難しい…ということで、問題の後ろに、いつもよりちょっと多くヒントを出します。
+また、一発では分からないと思うので、似たような課題を幾つか並べてみます。
 
 関数`lucy`の中で`MessageBox.yesNo`を使ってプレーヤーに「こちんこちん？」と質問し、
 結果に応じて`返す`文字を`"麦茶！"`か`"こーしー"`か変えてください。
@@ -1239,13 +1240,7 @@ yesとnoのラベルは「はい」と「いいえ」にしておきますか。
 
 
 <script>
-var qobj = {
-    id: "q4",
-    scenarios: []
-}
-qobj.scenarios.push({
-    setup: ()=> returnValues.push(1),
-    verify: () => {
+function veriyYesNoAlert_Yes(expect, label) {
         if(scenarioLogs.length == 0) {
           return "質問されませんでした。";
         }
@@ -1261,32 +1256,14 @@ qobj.scenarios.push({
         if(scenarioLogs[1].name == "yesNo") {
           return "「はい」を選んだ時、二回質問されました。なんで？";
         }
-
-        
-        // {name:"yesNo", val:{msg, yeslabel, nolabel}}
-        var res = scenarioLogs[0].val;
-        /*
-        if(res.msg != "こちんこちん？") {
-          return "メッセージが違いそうです。";
-        }
-        if(res.yeslabel != "はい") {
-          return "最初のボタンが「はい」じゃありません。";
-        }
-        if(res.nolabel != "いいえ") {
-          return "二番目のボタンが「いいえ」じゃありません。";
-        }
-        */
-
-        if(scenarioLogs[1].val != "麦茶！") {
-          return "こちんこちんなのに麦茶！になってない！";
+        if(scenarioLogs[1].val != expect) {
+          return label;
         }
         return true;
+    return true;
+}
 
-    }
-});
-qobj.scenarios.push({
-    setup: ()=> returnValues.push(0),
-    verify: () => {
+function verifyYesNoAlert_No(expect, label) {
         if(scenarioLogs.length == 1) {
           return "「いいえ」を選んだ時に、結果が表示されていません。MessageBox.showを使って表示してください。";
         }
@@ -1298,18 +1275,39 @@ qobj.scenarios.push({
         }
 
         
-        if(scenarioLogs[1].val != "こーしー") {
-          return "こちんこちんじゃないのにこーしーになってない！";
+        if(scenarioLogs[1].val != expect) {
+          return label;
         }
-        return true;
+    return true;
+}
 
+function yesNoAlertQuestionPush(id, yesExpect, yesFailLabel, noExpect, noFailLabel) {
+  var qobj = {
+    id: id,
+    scenarios: []
+  }
+
+  qobj.scenarios.push({
+    setup: ()=> returnValues.push(1),
+    verify: () => {
+        return verifyYesNoAlert_Yes(yesExpect, yesFailLabel);
+    }
+  });
+qobj.scenarios.push({
+    setup: ()=> returnValues.push(0),
+    verify: () => {
+        return verifyYesNoAlert_No(noExpect, noFailLabel);
     }
 });
   questions.push(qobj);
+}
+
+yesNoAlertQuestionPUsh("q4", "麦茶！", "こちんこちんなのに麦茶！になってない！",
+ "こーしー", "こちんこちんじゃないのにこーしーになってない！");
  </script>
 
 
-<div id="q5">
+<div id="q4">
     <input type="button" value="実行" />
     <textarea>
 // TODO: 以下を書き直せ
@@ -1386,14 +1384,200 @@ MessageBox.show(kekka);
 
 この課題はラストダンジョンっぽさがありますね。
 
+同じような課題をもう一つやってみましょう。
 
-### イカサマサイコロを真面目に考える
+
+### 課題： ニワトリですか？って聞いて答える奴
+
+やりとり自体はもはやおなじみですね。
+関数は`コケー`か`むぇー`を返す事にしましょう。
+
+質問は「ニワトリですか？」にしておきますか。（なんでもいいです）。
+
+これは上の課題とほとんど同じなのでノーヒントで。
+
+<script>
+yesNoAlertQuestionPUsh("q5", "コケー", "ニワトリなのに「コケー」って鳴かない！",
+ "むぇー", "ニワトリじゃないのに「むぇー」って鳴いてない！");
+</script>
+
+
+<div id="q5">
+    <input type="button" value="実行" />
+    <textarea>
+// TODO: 以下を書き直せ
+var awa = function() {
+};
+
+
+// 以下はいじらないでね。
+var kekka = awa();
+MessageBox.show(kekka);</textarea>
+    <b>結果:</b> <span class="console"></span><br>
+    <span class="result"></span><br>
+    <input type="button" value="答えを見る" />
+    <div class="answer hideanswer">
+答え:<br>
+var awa = function() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;var tumetai = MessageBox.yesNo("ニワトリですか？", "はい", "いいえ");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if(tumetai == 1) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return "コケー";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;} else {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return "むぇー";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}<br>
+    </div>        
+</div>
+  
+　  
+これもなかなか手強いですね。こういうのは数をこなすのです。
+
+
+### 課題： ニワトリですか？って聞いて答える奴、無能な執事バージョン
+
+次はまた同じような事をやるのですが、あえて関数の方は難しくしてあります。（良くないコードですね）。
+執事が無能なので、お嬢様の方がちょっと頭を使ってやる必要がある。
+無能な老いぼれなんだけどいい奴なんですよ。
+
+という事で、関数の方はいじらないで、使う側を正しく直して、上と同じ事をするプログラムにしてください。
+パズルみたいな物としてお嬢様側のコードを考えてみてください。
+
+<script>
+yesNoAlertQuestionPUsh("q6", "コケー", "ニワトリなのに「コケー」って鳴かない！",
+ "むぇー", "ニワトリじゃないのに「むぇー」って鳴いてない！");
+</script>
+
+
+<div id="q6">
+    <input type="button" value="実行" />
+    <textarea>
+// 以下はいじらない。
+var awa = function() {
+   var niwatori = MessageBox.yesNo("ニワトリですか？", "はい", "いいえ");
+   if(niwatori == 1) {
+      return 100;
+   }
+   return 500;
+};
+
+
+// TODO: 以下を書き換えて、むぇーとこコケーをそれぞれ表示せよ。ifが必要です。
+// また、awa()を使ってください。
+var kekka = 1;
+MessageBox.show(”むぇー”);</textarea>
+    <b>結果:</b> <span class="console"></span><br>
+    <span class="result"></span><br>
+    <input type="button" value="答えを見る" />
+    <div class="answer hideanswer">
+答え:<br>
+if(kekka == 100) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;MessageBox.show("コケー");<br>
+} else { <br>
+&nbsp;&nbsp;&nbsp;&nbsp;MessageBox.show("むぇー");<br>
+}<br>
+    </div>        
+</div>
+  
+　  
+500の方でifしてもいいです。（そちらでも「正解」になるようにしてあるので興味があればやってみてください）。
+勉強の為に、あえて変なコードになるような問題にしてみました。
+
+### 課題：るーしーの奴、別バージョン
+
+さて、るーしーも似たような事やってみましょう。
+
+まず関数のコードを読んで、こいつが何を差し出すのかを考える。
+で、それが分かったら、使う側のコードを書く訳です。
+
+<script>
+yesNoAlertQuestionPUsh("q7", "麦茶！", "こちんこちんなのに麦茶！になってない！",
+ "こーしー", "こちんこちんじゃないのにこーしーになってない！");
+ </script>
+
+
+<div id="q7">
+    <input type="button" value="実行" />
+    <textarea>
+// 以下はいじらない
+var lucy = function() {
+    // こんな書き方も出来る！
+    if(1 == MessageBox.yesNo("こちんこちん？", "はい", "いいえ")) {
+         return "麦茶！";
+    }
+    return "こーしー";
+};
+
+
+// TODO: 以下を適当に直せ。lucy関数を使ってね。
+MessageBox.show("むぇー");</textarea>
+    <b>結果:</b> <span class="console"></span><br>
+    <span class="result"></span><br>
+    <input type="button" value="答えを見る" />
+    <div class="answer hideanswer">
+答え:<br>
+var kekka = lucy();<br>
+MessageBox.show(kekka);<br>
+    </div>        
+</div>
+  
+　  
+答えのコード自体は短いのですが、スラスラっと出てくるには少し修行が必要でしょうね。
+という事でもっとやっていきましょう。
+
+### 課題：るーしーの奴、無能な執事バージョン
+
+無能な執事のパターンです。
+またヘンテコな関数に対して、使う側で工夫してどうにか目的を達成しましょう。
+
+<script>
+yesNoAlertQuestionPUsh("q8", "麦茶！", "こちんこちんなのに麦茶！になってない！",
+ "こーしー", "こちんこちんじゃないのにこーしーになってない！");
+ </script>
+
+
+<div id="q8">
+    <input type="button" value="実行" />
+    <textarea>
+// 以下はいじらない
+var lucy = function() {
+    if(1 == MessageBox.yesNo("こちんこちん？", "はい", "いいえ")) {
+         return 1234;
+    }
+    return 5678;
+};
+
+
+// TODO: 以下を適当に直せ。lucy関数を使ってね。
+MessageBox.show("むぇー");</textarea>
+    <b>結果:</b> <span class="console"></span><br>
+    <span class="result"></span><br>
+    <input type="button" value="答えを見る" />
+    <div class="answer hideanswer">
+答え:<br>
+var kekka = lucy();<br>
+if(kekka == 1234) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;MessageBox.show("麦茶！");<br>
+} else { <br>
+&nbsp;&nbsp;&nbsp;&nbsp;MessageBox.show("こーしー");<br>
+}<br>
+var kekka = lucy();<br>
+MessageBox.show(kekka);<br>
+    </div>        
+</div>
+  
+　  
+無能な執事の時には、この老いぼれでも出来そうな事を考えてやって、
+優しく命令してやりましょう。菅平ゆりかさんも根はいい奴なのです（誰？）。
+
+
+## イカサマサイコロを真面目に考える
 
 本題とは関係無いのですが、読んでる人が気になってそうなので、これも真面目に説明しておきましょう。
-第八回の内容とはあまり関係無いのですが。
+第八回の内容とはあまり関係無いので、分からなくても別に構いませんが、
+レベル上げの一貫として、いろいろコードを見ていきます。新しい要素は別段出てきません。
 
 例えば、1から6までのサイコロで、6がちょっと多めに出る物を作るとします。
-何も考えずに作ると、以下のようになります。
+第五回の内容を元に、何も考えずに作ると、以下のようになります。
 
 
 <div id="ex13">
@@ -1434,12 +1618,24 @@ if(ransuu == 0) {
 　  
 なんかおんなじようなのがたくさん並ぶと、目がチカチカして良くわからなくなりますね。（なりません？）
 
-これはransuuが0から11のうちどれかに応じて、4までならそれぞれの目を表示し、5より上は全部6と表示します。
-なんで一つずれているかというと乱数は0から始まりますが、サイコロは普通0の目は無くて1の目からだからです。
+まず、最初の所で、以下のようにしています。
 
-ちょっと頭を使うと以下のようにも書けます。
+```
+var ransuu = Math.randomInt(12);
+```
 
-<div id="ex13">
+これで、ransuuには0から11までの数字が入ります。
+
+その後のコードで、ransuuが0から4までならそれぞれの目を表示し、5より上は全部6と表示します。
+なんで一つずれているかというと乱数は0から始まり、サイコロは1の目から始まるからです。
+
+これを、以下では何段階か簡単にしていきます。
+
+### 第五回までの内容の変形
+
+ちょっと頭を使うと、同じ事を以下のようにも書けます。
+
+<div id="ex14">
 <input type="button" value="実行" />
 <textarea>
 
@@ -1455,31 +1651,181 @@ if(ransuu == 0) {
    MessageBox.show("4");
 } else if (ransuu == 4) {
    MessageBox.show("5");
-}  else { // ここがelse ifじゃないのに注意！
+} else { // ここがelse ifじゃないのに注意！
    MessageBox.show("6");   
 }</textarea>
 <b>結果:</b> <span class="console"></span><br>
 </div>
   
 　  
-こうすると、0からaaa
+5, 6, 7, 8, 9, 10, 11の時は全部同じ内容なので、この場合はelse一発で書けます。
 
+さて、さらにこのメッセージだけを変数にして、最後に`MessageBox.show`するように直す事も出来ます。
 
+<div id="ex15">
+<input type="button" value="実行" />
+<textarea>
 
+var ransuu = Math.randomInt(12);
 
+var saikoronome;
 
+if(ransuu == 0) {
+   saikoronome = 1;
+} else if (ransuu == 1) {
+   saikoronome = 2;
+} else if (ransuu == 2 ) {
+   saikoronome = 3;
+} else if (ransuu == 3) {
+   saikoronome = 4;
+} else if (ransuu == 4) {
+   saikoronome = 5;
+} else { 
+   saikoronome = 6;
+}
 
+MessageBox.show(saikoronome);</textarea>
+<b>結果:</b> <span class="console"></span><br>
+</div>
+  
+　  
+ifの外に`var saikoronome;`と書かなくてはいけない理由などはあまり真面目に解説してこなかったので、分からなくてもOKです。ここはこういう物だと現時点では思っておいてください。  
+で、それ以外の部分は理屈は分かるはずです。
+
+さて、ここまででも大分短くなりましたが、この内容はさらに0から4までは1ずつずれるだけだ、という事実を考えると、もっと短く書けます。
+
+例えば以下みたいなコードでも良いはずです。
+
+<div id="ex16">
+<input type="button" value="実行" />
+<textarea>
+
+var ransuu = Math.randomInt(12);
+
+var saikoronome;
+
+if(ransuu < 5) {
+   saikoronome = ransuu + 1;
+} else { 
+   saikoronome = 6;
+}
+
+MessageBox.show(saikoronome);</textarea>
+<b>結果:</b> <span class="console"></span><br>
+</div>
+  
+　  
+`if(ransuu < 5)`というのは初めて出てきましたが、似たようなのはツクールでもあると思います。
+「ransuuが5より小さかったら」という意味です。
+
+### ここまで、全部第五回！
+
+ここまでの説明、ずいぶん難しい話だな、と思うかもしれませんが、ここまではなんと、第五回の内容です。
+それが証拠に、`function`という文字は一切出てきていない。
+
+ただ、新しい要素が出てきてないから全部分かるか、っていうとそんな事も無いはずです。
+個々の要素を説明したからといって、それを組み合わせた事が全部分かる、という程世の中簡単じゃない。
+これはプログラムどうこう、という問題では無いですが。
+
+結局、組み合わせた時の難しさは、こういうような事をちまちまやりながら学んでいく事になります。
+
+さて、ポエムはこの位にして、このコードをさらに関数にしてみましょう。
+
+### 第八回の内容を使ってさらに変更
+
+これを関数にすると、以下のようになります。
+
+<div id="ex17">
+<input type="button" value="実行" />
+<textarea>
+
+var ikasama_saikoro = function() {
+    var ransuu = Math.randomInt(12);
+
+    var saikoronome;
+
+    if(ransuu < 5) {
+        saikoronome = ransuu + 1;
+    } else { 
+        saikoronome = 6;
+    }
+    return saikoronome;
+}
+
+var kekka = ikasama_saikoro();
+MessageBox.show(kekka);</textarea>
+<b>結果:</b> <span class="console"></span><br>
+</div>
+  
+　  
+一つ前のバージョンと見比べてみると、`function()`をつけて最後にreturnをつけた、位のちょっとした違いです。
+
+さて、これで最初の方に課題で挙げたコードとほぼ同じ物になりましたが、ちょっとだけ違います。
+この関数をもうちょっと短く出来ます。
+
+関数にしたら、いちいち`saikoronome`なんて変数に入れずに、返す物が決まった所でreturnしてしまっても良い、という事実を使うのです。すると、以下のように変えられます。
+
+<div id="ex18">
+<input type="button" value="実行" />
+<textarea>
+
+var ikasama_saikoro = function() {
+    var ransuu = Math.randomInt(12);
+
+    if(ransuu < 5) {
+        return ransuu + 1;
+    } else { 
+        return 6;
+    }
+}
+
+var kekka = ikasama_saikoro();
+MessageBox.show(kekka);</textarea>
+<b>結果:</b> <span class="console"></span><br>
+</div>
+  
+　  
+この関数はさらにちょっとだけ最初に挙げたコードと違いますが、ここから先はどちらでも良いか、というレベルの話なので解説はしません。
+
+### こんなの分かるかー！と思ったら
+
+ここまでの説明をふんふんなるほど、別に大した話じゃないな、と思ったらそれで良いのですが、
+最初のコードから最後のコードまでたどり着くのは結構大変と思います。
+
+実際プログラムの入門者に最初のコードを見せて、「関数を使って短くしろ」と言ったら、
+最後のコードはなかなか出てこない。
+これはしばらくは出来なくても良いかな、と思います。
+
+ただこういう感じで変形していく、というのは勉強にはなるので、ここでは軽く実演してみました。
+
+ただ、最後のコードを誰かが書いた時に、それを理解するのはもうちょっと簡単と思います。
+ゲームを作るのは難しくても、それをプレーする事は出来ますよね。
+それと同じで、コードを思いつくのは難しくても、出来たコードを理解するのは比較的簡単です。
+
+という事で、最後の結果だけを理解するのは頑張ってみてもいいかな、という気はします。
+
+また、ikasama_saikoroを自分で作るのは難しくても、お嬢様の立場で使う事さえ出来ればかなりいろいろな事は出来ます。以下のようにやれば
+
+```
+var kekka = ikasama_saikoro();
+```
+
+`kekka`には1から6までのどれかの数字が入って、しかも6が多めなんだろう、という事さえ分かれば入門的には十分かもしれません。
+なんだか分からないが使えればいいか、というのも時には大切です。
+気持ち悪いかもしれませんが、えいって飲み込むのです。
 
 ### 課題：1から6までの数字をランダムに返すサイコロを作れ
 
-今度はちゃんと乱数を使って、1から6までランダムに`結果を返す`関数を作りましょう。
-ヒントとしては、[第五回](ch5.md)の「課題: 6面サイコロを作れ」のあたりを参考にすると良いでしょう。
+せっかくここまでやったので、サイコロを作るというのをやってみましょう。
+
+今回はイカサマじゃなくて、ちゃんと1から6までランダムに`結果を返す`関数を作りましょう。
+サイコロ自体のヒントとしては、[第五回](ch5.md)の「課題: 6面サイコロを作れ」のあたりを参考にすると良いでしょう。
 
 あと、第五回では変数名でsaikoroとしてましたが、今回は既に関数の名前がsaikoroなので違う名前の方が無難です（`rannsuu`とかにしましょうか）。
 
 <script>
 var qobj = {
-    id: "q5",
+    id: "q9",
     scenarios: [],
     sampleNum: 200
 }
@@ -1521,7 +1867,7 @@ qobj.scenarios.push({
  </script>
 
 
-<div id="q4">
+<div id="q9">
     <input type="button" value="実行" />
     <textarea>
 // TODO:以下を書き換えて、1から6の数字をランダムに返すようにせよ
@@ -1545,8 +1891,104 @@ var saikoro = function() { <br>
 </div>
   
 　  
-ちょっとこの問題は難しいかもしれませんね。
+答えは短くても、ちょっとこの問題は難しいですね。
 この辺まで来ると普通のプログラマという感じ。
+
+せっかくなので、もっと違う事をいろいろやってみますか。
+
+### 課題：蕎麦充せよ。
+
+るーしーはしゅるしゅるするだけとは限りません。
+そうです。蕎麦充する事もあるのです。
+
+そこでここでは、ランダムに、
+
+1. `蕎麦充した`
+2. `こーしーをしゅるしゅるした`
+
+と表示するプログラムを作ってください。
+ただし、関数はこっちが作ったlucy関数を使う事。
+
+この問題もラストダンジョン感あります。
+
+<script>
+var qobj = {
+    id: "q10",
+    scenarios: [],
+    sampleNum: 200
+}
+
+
+function verifyDice(intp, expects) {
+  if(scenarioLogs.length == 0 || scenarioLogs[0].name != 'alert') {
+    return "結果が表示されていません。MessageBox.show使ってね。";
+  }
+
+  var counts = countElem(scenarioLogs.map((res)=> res.val));
+  var resKeys = Object.keys(counts);
+  if(resKeys.length != expects.length) {
+    if(resKeys.length < expects.length) {
+      return "サイコロの目が" + resKeys.length +"個しかありません。足りない！";
+    }else {
+        return "サイコロの目が" + resKeys.length +"個もあります。多すぎ！";
+    }
+  }
+  var checkKey = _verifyArrayEqualInternal(expects, resKeys);
+  if(checkKey != true) {
+    return checkKey + "の目がずっと出ません";
+  }
+  var enough = true;
+  for(var i = 0; i < resKeys.length; i++) {
+    if(counts[resKeys[i]] < 5) {
+      return resKeys[i] + "の目が十分出てないです。";
+    }
+  }
+  return true;  
+}
+
+
+qobj.scenarios.push({
+    setup: ()=> {},
+    verify: (intp) => {
+  if(scenarioLogs.length == 0 || scenarioLogs[0].name != 'alert') {
+    return "結果が表示されていません。MessageBox.show使ってね。";
+  }
+  var resDict = {};
+  scenarioLogs.map((res)=>res.val);
+
+}
+});
+  questions.push(qobj);
+ </script>
+
+
+<div id="q10">
+    <input type="button" value="実行" />
+    <textarea>
+// ここはいじらないでね。
+var lucy = function() {
+    var ransuu = Math.randomInt(2);
+    if(ransuu == 0) {
+        return "こーしー";
+    }
+    return "蕎麦";
+};
+
+// TODO: 以下を直して、目的を果たせ。lucy()使ってね。
+MessageBox.show("むぇー");</textarea>
+    <b>結果:</b> <span class="console"></span><br>
+    <span class="result"></span><br>
+    <input type="button" value="答えを見る" />
+    <div class="answer hideanswer">
+答え:<br>
+var saikoro = function() { <br>
+&nbsp;&nbsp;&nbsp;&nbsp;var ransuu = Math.randomInt(6);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;return ransuu+1;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;// 分かるなら return Math.randomInt(6)+1;でもいいです。<br>
+}<br>
+    </div>        
+</div>
+
 
 
 
