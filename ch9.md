@@ -528,13 +528,144 @@ if(niwatori == 1) {
 
 
 
+### 課題：「当たり！」を出せ
+
+次はセバスチャンはこちらで用意したものを使う事にして、お嬢様側を書く、という課題をやってみましょう。
+
+今回はtakarakuji関数のコードを読んで、「当たり！」がでるように渡す物を考えて関数を呼び出します。
+複雑に見えるようにしてますが、こけおどしなので騙されてはいけません。
+
+<script>
+var qobj = {
+    id: "q4",
+    scenarios: []
+}
+
+
+qobj.scenarios.push({
+    setup: ()=> {},
+    verify: (intp) => {
+        if(scenarioLogs.length != 1 || scenarioLogs[0].name != 'alert') {
+          return "結果が表示されていません。takarakujiが呼び出せてない？";
+        }
+        if("当たり！" != scenarioLogs[0].val) {
+                return `当たり！って表示されてません。`;
+        }
+        return true;
+    }
+});
+  questions.push(qobj);
+ </script>
+
+
+<div id="q4">
+    <input type="button" value="実行" />
+    <textarea>
+var takarakuji = function() {
+    if(arguments[0] == 1) {
+        MessageBox.show("ハズレ！");
+    } else if(arguments[0] < 3) {
+        MessageBox.show("ハズレ！");
+    } else if(arguments[0] == 5132) {
+        MessageBox.show("当たり！");
+    } else {
+        MessageBox.show("ハズレ！");
+    }
+};
+
+// TODO: 以下を書き換えて「当たり！」と表示せよ
+takarakuji(0);</textarea>
+    <b>結果:</b> <span class="console"></span><br>
+    <span class="result"></span><br>
+    <input type="button" value="答えを見る" />
+    <div class="answer hideanswer">
+答え:<br>
+takarakuji(5132);<br>
+    </div>        
+</div>
+  
+　  
+もうひとつお嬢様側を書く課題をやってみましょう。
+
 ### 課題：安心と信頼の雲鯖
 
 
+プレーヤーに「twitterとmastodon、どっちが安定している？」と質問して、
+twitterって答えたら`"鳥はオワコン"`と表示し、mastodonと答えたら`"安心と信頼の雲鯖"`と表示するように、
+関数kumosabaを呼び出すコードを書いてください。
+
+普通に書くとif文が要ります。（配列を使ってif文無しでも解けます）
 
 
-```
+<script>
+// dup from ch8.md
 
+function verifyYesNoAlert_Yes(expect, label) {
+    if(scenarioLogs.length == 0) {
+        return "質問されませんでした。";
+    }
+    if(scenarioLogs[0].name != "yesNo") {
+        return "最初が質問じゃありませんでした。";
+    }
+    if(scenarioLogs.length == 1) {
+        return "「はい」を選んだ時に、結果が表示されていません。MessageBox.showを使って表示してください。";
+    }
+    if(scenarioLogs.length >= 3) {
+        return "「はい」を選んだ時、たぶん二回表示されています。";
+    }
+    if(scenarioLogs[1].name == "yesNo") {
+        return "「はい」を選んだ時、二回質問されました。なんで？";
+    }
+    if(scenarioLogs[1].val != expect) {
+        return label;
+    }
+    return true;
+}
+
+function verifyYesNoAlert_No(expect, label) {
+    if(scenarioLogs.length == 1) {
+        return "「いいえ」を選んだ時に、結果が表示されていません。MessageBox.showを使って表示してください。";
+    }
+    if(scenarioLogs.length >= 3) {
+        return "「いいえ」を選んだ時、たぶん二回表示されています。";
+    }
+    if(scenarioLogs[1].name == "yesNo") {
+        return "「いいえ」を選んだ時、二回質問されました。なんで？";
+    }
+
+    
+    if(scenarioLogs[1].val != expect) {
+        return label;
+    }
+    return true;
+}
+
+function yesNoAlertQuestionPush(id, yesExpect, yesFailLabel, noExpect, noFailLabel) {
+    var qobj = {
+        id: id,
+        scenarios: []
+    };
+
+    qobj.scenarios.push({
+        setup: ()=> returnValues.push(1),
+        verify: () => verifyYesNoAlert_Yes(yesExpect, yesFailLabel)
+    });
+    qobj.scenarios.push({
+        setup: ()=> returnValues.push(0),
+        verify: () => verifyYesNoAlert_No(noExpect, noFailLabel)
+    });
+    questions.push(qobj);
+}
+
+yesNoAlertQuestionPush("q5", "鳥はオワコン", "twitter選んでも「鳥はオワコン」って出てない！",
+ "安心と信頼の雲鯖", "mastodonを選んでも「安心と信頼の雲鯖」って出てない！");
+
+ </script>
+
+
+<div id="q5">
+    <input type="button" value="実行" />
+    <textarea>
 // 以下はいじらないでください。
 var kumosaba = function() {
     if(arguments[0] == "雲鯖") {
@@ -551,18 +682,31 @@ var docchi = MessageBox.yesNo("twitterとmastodon、どっちが安定してる�
  "twitter", "mastodon");
 
 // TODO: 以下をdocchiを使って書き直せ。（ヒント：ifが要ります）
-kumosaba("雲鯖");
+kumosaba();
 
-
-
-```
-
-
-
-**コラムの例**  
-最初のブロック  
+</textarea>
+    <b>結果:</b> <span class="console"></span><br>
+    <span class="result"></span><br>
+    <input type="button" value="答えを見る" />
+    <div class="answer hideanswer">
+答え:<br>
+if(docchi == 1) { <br>
+&nbsp;&nbsp;&nbsp;&nbsp;kumosaba("鳥");<br>
+} else {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;kumosaba("雲鯖");<br>
+}<br>
+    </div>        
+</div>
+  
 　  
-二つ目のブロック
-{: .column}
+課題はちょっと難しいですね。
+
+# まとめ
+
+1. 関数を使う側（お嬢様側）は、文字や数字を`渡せる`。
+2. 関数を作る側（セバスチャン側）は、文字や数字を`arguments`という変数で受け取る事が出来る
+
+なお、この渡す物を`引数`と呼びます。読み方は「ひきすう」です。
+別にこんな言葉は使わなくてもいいですが、よその解説読む時に知ってると便利なので一応触れておきます。
 
 
