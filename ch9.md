@@ -52,14 +52,15 @@ document.body.onload = function() {
 第九回では、関数にいろいろ`渡す`事について説明していきます。
 JavaScriptの用語では`arguments`の説明となります。
 
-第八回の`reurn`とはちょうど対照的な話です。
+第八回の`return`とはちょうど対照的な話です。
+もともと一回だったものを二つに分けたので、こっちは短めです。たまにはいいでしょう。
 
 ### 「渡す」とお嬢様とセバスチャン
 
-[第八回](8.md)で見た「お嬢様とセバスチャン」という話で考えると、
-関数に何かを`渡す`というのは、お嬢様からセバスチャンに呼びかける時に渡す物、という事になります。
+今回の内容を[第八回](8.md)で見た「お嬢様とセバスチャン」というたとえで説明すると、
+関数に何かを`渡す`というのは、お嬢様からセバスチャンに「呼びかける時に渡す物」という事になります。
 
-例えば欲しい物のメモとかをさらさら書いて、「セバスチャン、これよろしくね」と渡す感じですね。
+例えば欲しい物のメモとかをお嬢様がさらさら書いて、「セバスチャン、これよろしくね」と渡す感じですね。
 
 それをセバスチャンが受け取って、そこに書いてあることを元にいろいろやる、という事になります。
 
@@ -217,7 +218,6 @@ var awa = function() {
    MessageBox.show(arguments[0]);
 };
 
-
 awa("むぇーー");</textarea>
 <b>結果:</b> <span class="console"></span><br>
 </div>
@@ -257,7 +257,6 @@ var awa = function() {
    MessageBox.show(arguments[0]);
 };
 
-
 awa(5, "コケーー");</textarea>
 <b>結果:</b> <span class="console"></span><br>
 </div>
@@ -275,7 +274,6 @@ var gyaku = function() {
    MessageBox.show(arguments[1]);
    MessageBox.show(arguments[0]);
 };
-
 
 gyaku("こちんこちんに", "冷えた", "麦茶");</textarea>
 <b>結果:</b> <span class="console"></span><br>
