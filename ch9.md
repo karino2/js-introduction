@@ -307,14 +307,256 @@ gyaku("こちんこちんに", "冷えた", "麦茶");
 
 という順番に文字を渡しているので、これを2, 1, 0の順番に表示すると、上のような結果となります。
 
+ま、いろいろやっていくと分かってくる部分もあると思うので、幾つか実際にやってみましょう。
 
-### 課題：なんか受け取る奴
+### 課題：むぇーと表示せよ
 
-何か勘変える。
+渡された`"むぇー"`を表示してください。
+渡されてない物を表示しても正解って出ちゃいますが、ズルしないで！
+
+
+<script>
+var qobj = {
+    id: "q1",
+    scenarios: []
+}
+
+
+qobj.scenarios.push({
+    setup: ()=> {},
+    verify: (intp) => {
+        if(scenarioLogs.length == 0 || scenarioLogs[0].name != 'alert') {
+          return "結果が表示されていません。MessageBox.show使ってね。";
+        }
+        var actual = scenarioLogs[0].val;
+        if(actual != "むぇー") {
+          return "表示されたメッセージが違います。";
+        }
+        return true;
+    }
+});
+  questions.push(qobj);
+ </script>
+
+
+<div id="q1">
+    <input type="button" value="実行" />
+    <textarea>
+// TODO: 以下をargumentsを使って書き換えよ
+var awa = function() {
+};
+
+awa("むぇー");</textarea>
+    <b>結果:</b> <span class="console"></span><br>
+    <span class="result"></span><br>
+    <input type="button" value="答えを見る" />
+    <div class="answer hideanswer">
+答え:<br>
+var awa = function() { <br>
+&nbsp;&nbsp;&nbsp;&nbsp;MessageBox.show(arguments[0]);<br>
+}<br>
+    </div>        
+</div>
+  
+　  
+これだと単純過ぎて何をやってるのか分かりにくいので、次はもうちょっと複雑なのをやってみましょう。
+
 
 ### 課題：こちんこちんに、麦茶、冷えたと受け取る奴
 
-課題作る。
+以下を書き換えて、
+
+1. `"こちんこちんに"`
+2. `"麦茶"`
+3. `"冷えた"`
+
+の順に表示せよ。
+
+ヒント： 上の`gyaku`と似てる。
+
+
+<script>
+var qobj = {
+    id: "q2",
+    scenarios: []
+}
+
+
+qobj.scenarios.push({
+    setup: ()=> {},
+    verify: (intp) => {
+        if(scenarioLogs.length != 3 || scenarioLogs[0].name != 'alert') {
+          return "結果が表示されていません。MessageBox.show使ってね。";
+        }
+        var expects = ["こちんこちんに", "麦茶", "冷えた"];
+        for(var i = 0; i < expects.length; i++) {
+            if(expects[i] != scenarioLogs[i].val) {
+                return `${i}番目に表示された物が"${expects[i]}"ではありません。`;
+            }
+        }
+        return true;
+    }
+});
+  questions.push(qobj);
+ </script>
+
+
+<div id="q2">
+    <input type="button" value="実行" />
+    <textarea>
+// TODO: 以下を書き換えよ
+var lucy = function() {
+};
+
+
+lucy("こちんこちんに", "冷えた", "麦茶");</textarea>
+    <b>結果:</b> <span class="console"></span><br>
+    <span class="result"></span><br>
+    <input type="button" value="答えを見る" />
+    <div class="answer hideanswer">
+答え:<br>
+var lucy = function() { <br>
+&nbsp;&nbsp;&nbsp;&nbsp;MessageBox.show(arguments[0]);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;MessageBox.show(arguments[2]);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;MessageBox.show(arguments[1]);<br>
+}<br>
+    </div>        
+</div>
+  
+　  
+次はもっと難しいのもやってみますか。
+
+
+### 課題: ニワトリか餅かに応じて、「むぇー」か「コケー」を表示せよ
+
+今度はランダムで`"ニワトリ"`か`"餅"`が渡ってきます。
+`"ニワトリ"`だったら`"コケー"`と表示し、`"餅"`だったら`"むぇー"`と表示してください。
+
+これは第九回の内容どうこうよりも、これまでやってきた所が難しい、という課題ですね。
+
+
+**ヒント**
+
+- argumentsを使います
+- 関数の中でif文が必要です
+- お嬢様側のコードは理解しなくても、何が渡されてくるかだけ気をつければ書けるはずだし、そうやって反対側を考えない方がむしろ良い。（その為、わざとお嬢様側は難しく書いてます）
+
+
+<script>
+var qobj = {
+    id: "q3",
+    scenarios: [],
+    sampleNum: 50
+}
+
+
+
+
+qobj.scenarios.push({
+    setup: ()=> {},
+    verify: (intp) => {
+        if(scenarioLogs.length == 0 || scenarioLogs[0].name != 'alert') {
+            return "結果が表示されていません。MessageBox.show使ってね。";
+        }
+
+        var counts = countElem(scenarioLogs.map((res)=> res.val));
+        var resKeys = Object.keys(counts);
+        if(resKeys.length != 2) {
+            return "結果が2通りじゃありません。";
+        }
+        expects = ["むぇー", "コケー"];
+        if(expects[0] != resKeys[0]) {
+            if(expects[0] != resKeys[1]) {
+               return `"${expects[0]}"が表示されていません。`;
+            }
+        }
+        if(expects[1] != resKeys[0]) {
+            if(expects[1] != resKeys[1]) {
+               return `"${expects[1]}"が表示されていません。`;
+            }
+        }
+        return true;  
+    }
+});
+  questions.push(qobj);
+ </script>
+
+
+<div id="q3">
+    <input type="button" value="実行" />
+    <textarea>
+// TODO; 以下を渡される物に応じて表示を変えよ
+var awa = function() {
+}
+
+
+// 以下はいじらないでね。
+var labels = ["餅", "ニワトリ"];
+
+awa(labels[Math.randomInt(2)]);</textarea>
+    <b>結果:</b> <span class="console"></span><br>
+    <span class="result"></span><br>
+    <input type="button" value="答えを見る" />
+    <div class="answer hideanswer">
+答え:<br>
+var awa = function() { <br>
+&nbsp;&nbsp;&nbsp;&nbsp;if(arguments[0] == "餅") {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MessageBox.show("むぇー");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;} else {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MessageBox.show("コケー");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}<br>
+    </div>        
+</div>
+  
+　  
+もしこのままでは分からない場合の追加のヒント。お嬢様側は以下と同じコードになります。
+
+```
+var niwatori = Math.randomInt(2);
+if(niwatori == 1) {
+   awa("ニワトリ");
+} else {
+   awa("餅");
+}
+```
+
+一見難しいですが、理解しなくてはいけないのは、以下の2つがランダムに呼ばれる、という事だけ！
+
+- `awa("ニワトリ");`
+- `awa("餅");`
+
+
+
+### 課題：安心と信頼の雲鯖
+
+
+
+
+```
+
+// 以下はいじらないでください。
+var kumosaba = function() {
+    if(arguments[0] == "雲鯖") {
+       MessageBox.show("安心と信頼の雲鯖");
+    } else if(arguments[1] == "鳥") {
+       MessageBox.show("鳥はオワコン");
+    } else {
+       // ここには来ないように！
+       MessageBox.show("むぇー");
+    }
+};
+
+var docchi = MessageBox.yesNo("twitterとmastodon、どっちが安定してる？",
+ "twitter", "mastodon");
+
+// TODO: 以下をdocchiを使って書き直せ。（ヒント：ifが要ります）
+kumosaba("雲鯖");
+
+
+
+```
+
 
 
 **コラムの例**  
