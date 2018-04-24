@@ -834,7 +834,11 @@ function setupQuestionWithScnario(qobj) {
                     }
                     return false;
                 }catch(err) {
-                    cons.innerText = "なにかおかしいです。 (" + err.message + ")";
+                    if(qobj.genericError != undefined) {
+                        cons.innerText = qobj.genericError;
+                    } else {
+                        cons.innerText = "なにかおかしいです。 (" + err.message + ")";
+                    }
                     initInterpreter();
                     return false;
                 }
