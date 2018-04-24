@@ -750,6 +750,14 @@ function initFunc(interpreter, scope) {
 };
 
 
+function printGeneralError(qobj, cons, err) {
+    if(qobj.genericError != undefined) {
+        cons.innerText = qobj.genericError;
+    } else {
+        cons.innerText = "なにかおかしいです。 (" + err.message + ")";
+    }
+}
+
 function setupQuestionWithScnario(qobj) {
     var id = qobj.id;
     var [runButton, editor, cons, resultSpan] = setupQuestionElems(id);
@@ -834,11 +842,7 @@ function setupQuestionWithScnario(qobj) {
                     }
                     return false;
                 }catch(err) {
-                    if(qobj.genericError != undefined) {
-                        cons.innerText = qobj.genericError;
-                    } else {
-                        cons.innerText = "なにかおかしいです。 (" + err.message + ")";
-                    }
+                    printGeneralError(qobj, cons, err);
                     initInterpreter();
                     return false;
                 }
@@ -847,7 +851,7 @@ function setupQuestionWithScnario(qobj) {
             runInterpreterProgress();
             
         }catch(err) {
-            cons.innerText = "なにかおかしいです。 (" + err.message + ")";
+            printGeneralError(qobj, cons, err);
             initInterpreter();            
         }
     };
