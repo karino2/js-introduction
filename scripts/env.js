@@ -715,13 +715,13 @@ function verifyLocalDictVar(intp, lvalName, expect) {
     return verifyDictEqual(expect, actual);
 }
 
-function verifyMessageBoxOne(expect) {
+function verifyMessageBoxOne(expect, errorMsg="表示されたメッセージが違います。") {
     if(scenarioLogs.length == 0 || scenarioLogs[0].name != 'alert') {
         return "結果が表示されていません。MessageBox.show使ってね。";
     }
     var actual = scenarioLogs[0].val;
     if(actual != expect) {
-        return "表示されたメッセージが違います。";
+        return errorMsg;
     }
     return true;    
 }
