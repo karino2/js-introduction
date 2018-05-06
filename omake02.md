@@ -43,7 +43,7 @@ document.body.onload = function() {
   initInterpreter();
 
 
-  // setupAllREPL2(1);
+  setupAllREPL2(5);
   setupAllQuestionsWithScnario(questions);
 }
 </script>
@@ -51,10 +51,10 @@ document.body.onload = function() {
 
 # クリティカルのアニメーション追加プラグイン
 
-もう一つ位、簡単なプラグインを見てみましょう。
-[Javascriptが苦手な私によるプラグイン作成講座](http://ktnhmv.jugem.jp/?eid=12)にあるプラグインです。
+前回に引き続き、もう一つ、簡単なプラグインを見てみましょう。
+今回は[Javascriptが苦手な私によるプラグイン作成講座](http://ktnhmv.jugem.jp/?eid=12)にあるプラグインを見ていきます。
 
-このサイトのプラグインはもう一つの流儀である、「元のコードコピペ型」プラグインとなっています。
+このサイトのプラグインは、プラグインのもう一つの流儀である、「元のコードコピペ型」プラグインとなっています。
 
 
 ## 元のコードコピペ型の仕組み
@@ -392,14 +392,153 @@ Sprite_Damage.prototype.setup = function(target) {
 どうですか？この位なら大した事無く無いですか？
 
 
-## trueとfalseと「どちらか（||）」または「どちらも（&&）」
+# もっとif文を本格的に
 
 今回`||`と`&&`が出てきたので、良い機会なのでif文のこの辺の話をしておきます。
 [第四回](ch04.md)でif文についてやりましたが、必要最小限な事しかやっていませんでした。
 基本さえ分かれば普段ツクール使ってれば、必要になった時に調べればだいたい分かるだろう、という事で。
 
-でも最終回なのでその辺の事もまとめておきます。
+でもそろそろ経験を積んだので、この辺をまとめてしっかりやっておいてもいい頃かもしれないので一通り解説しておきます。
 
+
+## trueとfalse
+
+さて、以下のようなif文があったとします。
+
+<div id="ex1">
+<input type="button" value="実行" />
+<textarea>
+var niwatori = 1;
+
+if(niwatori == 1) {
+    MessageBox.show("コケー");
+}</textarea>
+<b>結果:</b> <span class="console"></span><br>
+</div>
+  
+　  
+今となってはゾーマ倒したパーティでラーミアで移動してたら偶然スライムつむりにあった程度の難易度ですね（分かりにくい比喩）。
+
+さて、このifの所のかっこ、上のコードだと`if(niwatori == 1) {`のうちの`(niwatori == 1)`の部分ですが、
+実はここだけを実行する事が出来ます。
+
+そしてこのifの所のかっこの所を実行すると、trueかfalseのどちらかの値になります。
+というより、trueかfalseのどちらかになる物しかif文には書けない決まりになっているのです。
+
+言葉にすると分かりにくいので実際に動かしてみましょう。例えば以下みたいなコードです。
+
+<div id="ex2">
+<input type="button" value="実行" />
+<textarea>
+var niwatori = 1;
+
+MessageBox.show(niwatori==1);</textarea>
+<b>結果:</b> <span class="console"></span><br>
+</div>
+  
+　  
+これを実行すると`true`と表示されたと思います。
+結果を一旦変数に入れる事も出来ます。
+
+<div id="ex3">
+<input type="button" value="実行" />
+<textarea>
+var niwatori = 1;
+
+var kekka = (niwatori==1);
+MessageBox.show(kekka);</textarea>
+<b>結果:</b> <span class="console"></span><br>
+</div>
+  
+　  
+上のコードで`var kekka = (niwatori==1);`とかっこに入れてますが、これは必須ではありません。
+ただイコールがいっぱい入って来ると、どのイコールが何なのか良く分からなkなって来るので、ここにかっこをつけるのは良い書き方です。
+
+さて、とにかく、`==`の左と右に何か数字とか文字を置いておくと、trueかfalseのどちらかになるのです。
+
+そしてifは、実はtrueだったらそのすぐ下を、falseだったらelse側を実行する、という機能しか持ってないのです。
+`niwatori == 1`とか、`name=="あじゃ"`とか、`saikoro > 5`とかは全部trueかfalseのどちらかの値になり、
+if文はかっこの中がどういう風に書かれているかは一切気にしません。実行してtrueかfalseの値にして、その結果だけを気にします。
+
+難しいですか？でもこの辺の説明はそんな重要じゃないのでおまけでやってるんで、分からなくても気にしなくてOKです。
+だいたいここは言語による所で、JavaScriptがたまたまそういう言語だ、というだけなので。
+
+### ==以外の良く使う
+
+これまで`==`と`<`くらいしか出てきませんでしたが、だいたいツクールの条件分岐とかにありそうなのは全部あります。
+
+| 記号 | 意味 |
+| ---- | ---- |
+| `==` | 左と右が同じだとtrue |
+| `!=` | 左と右が別だとtrue |
+| `<` | 左の方が右より小さいとtrue |
+| `<=` | 左の方が右より小さいとtrue、でも同じでもtrue |
+| `>` | 左の方が大きいとtrue |
+| `>=` | だいたい分かるでしょう |
+
+あと、trueだったらfalseに、falseだったらtrueにする、`!`というのもあります。
+
+例えば `!(niwatori == 1)`とか書けます。この辺はJavaScript関連のサイトに普通に細かい解説があるので、ちゃんと知りたければ[MDN：比較演算子](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Operators/Comparison_Operators)などを読めば良いでしょう（ただしこれはもう上級者向けです）。
+
+簡単に例だけ示しておきましょう。
+
+<div id="ex4">
+<input type="button" value="実行" />
+<textarea>
+var saikoro = 3;
+
+MessageBox.show(saikoro == 3);
+MessageBox.show(saikoro == 4);
+MessageBox.show(saikoro != 3);
+MessageBox.show(saikoro != 4);
+
+MessageBox.show(saikoro < 4);
+MessageBox.show(saikoro < 2);
+MessageBox.show(saikoro < 3);
+
+MessageBox.show(saikoro <= 3);
+MessageBox.show(saikoro <= 2);
+MessageBox.show(!(saikoro != 3));</textarea>
+<b>結果:</b> <span class="console"></span><br>
+</div>
+  
+　  
+この辺はだいたいツクールと一緒でしょ？知らないけど。
+
+### ===と!==というのもある（けどあんま重要じゃない）
+
+JavaSCriptでは、`==`と`!=`と似たような物として、`===`と`!==`というものがあります。
+ほとんど`===`と`==`は同じ物で、`!=`と`!==`は同じ物なのですが、文字と数字を比べる時などに違いがでます。
+
+一応違いが出るケースを簡単に作っておきます。
+
+<div id="ex5">
+<input type="button" value="実行" />
+<textarea>
+
+// 同じ
+MessageBox.show(3== 3);
+MessageBox.show(3=== 3);
+
+// 違う
+MessageBox.show(3== "3");
+MessageBox.show(3=== "3");</textarea>
+<b>結果:</b> <span class="console"></span><br>
+</div>
+  
+　  
+違うのはこういう場合だけで、だいたいは`===`の方が望ましい動作をするのでこっちの方が良い、という人も居ますが、
+ツクールで自分でゲーム作っててこの違いが出るケースは無いはずです。
+
+そしてJavaScriptと類似の言語では普通`===`は無いので、このシリーズの入門の時点では自分は`==`の方だけを使う方が良いと思っています。
+（例えばSecond LifeのLSLには`==`しかありません）。
+
+という事でこのシリーズでは`===`は説明してきませんでしたが、他人のコードを読む時は使っている場合もあるので簡単に説明しておきました。
+
+
+### 「どちらか（||）」または「どちらも（&&）」
+
+JavaScriptでは
 
 
 
