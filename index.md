@@ -36,7 +36,7 @@ layout: page
 
 ### おまけ
 
-- [工事中](ch12.md)
+- [工事中](omake01.md)
 
 
 
