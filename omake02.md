@@ -391,6 +391,34 @@ Sprite_Damage.prototype.setup = function(target) {
 
 どうですか？この位なら大した事無く無いですか？
 
+### パラメータ取得の所のコードも一応読む
+
+このあと、このプラグインをUIからアニメーションIDを指定出来るように、パラメータというものを使っています。
+プラグインのパラメータがどういう物かは読んでる人の方が私より詳しいと思うので説明しませんが、
+コメントにアットマークで埋め込んでおくとプラグインを使う人がUIから値を入れられるみたいですね。
+
+で、その値は以下のように取っています。
+
+```
+ var parameters = PluginManager.parameters('CriticalAnimation');
+ var AnimationID = Number(parameters['AnimationID']); 
+```
+
+まず一行目、`PluginManager.parameters('CriticalAnimation')`という所から。
+
+`'CriticalAnimation'`というのはこのプラグインの名前でしょうね。
+`PluginManager.parameters`という関数にプラグイン名を指定して呼ぶと、
+指定した名前のプラグインのパラメータが全部、一つの辞書で返ってくる、という物のようです。
+
+だから一行目の`var parameters`にはこのプラグインのパラメータが全部入っている。
+キーは各パラメータの名前でしょうね。
+
+だからたぶん、`parameters['AnimationID']`で、このプラグインを使う人が指定した数字が取れる。
+
+
+なのだけど、なんかNumberとかいう良く分からない物がありますね。
+
+
 
 # もっとif文を本格的に
 
@@ -587,6 +615,10 @@ if(saikoro >= 2 && saikoro <= 4) {
 
 さて、この`||`、本来はtrueかfalseを左右に置いて使うのですが、
 それを実現する為にJavaScriptではちょっとした手抜きが行われていました。
+で、それを使った裏技が流行りました。
+
+裏技なのであんま細かい説明をしても仕方ないので結果だけ覚えればいいのですが、いい機会なので一応理屈も説明しておきます。
+
 
 この`||`、実は左が「falseっぽかったら右の値になる」、という振る舞いをします。
 trueとfalseだけを置いておけば当初の意図通り「どちらか」という意味になるのですが、
@@ -624,26 +656,7 @@ MessageBox.show("コケー" || "むぇー");
 さて、上の中でundefinedというのがあります。これは、まだ作ってない変数を触ったり、
 辞書に入ってないキーを使ったりするとこの値になる、という物です。虚無、みたいな感じですね。
 
-ちょっとここで試してみたいのですが、このシリーズの評価システムがundefinedの挙動がちょっとバグっててうまく試せません（すみません…）
-
-コードだけ示しておくと、たとえば、
-
-
-```
-var awa = {
-    mochi: "むぇー",
-    niwatori: "コケー"
-};
-
-// nakigoe1には"むぇー"が入る
-var nakigoe1 = awa["mochi"];
-
-// fusigidaneというキーは無いので、nakigoe2にはundefinedが入る
-var nakigoe2 = awa["fusigidane"];
-
-
-```
-
+例えば以下みたいに、辞書にfusigidaneなんて入ってないのに取ろうとするとundefinedが取れます。
 
 
 <div id="ex8">
@@ -664,9 +677,6 @@ MessageBox.show(awa["fusigidane"]);</textarea>
 </div>
   
 　  
-0
-
-
 これを使って、「辞書に値が入ってなかったらこの値」というような処理をするのが良くやられます。
 
 
@@ -684,28 +694,40 @@ MessageBox.show(nakigoe1);
 
 // awa["fusigidane]
 var nakigoe2 = awa["fusigidane"] || "ダネー";
-
-
-// 左がfalseっぽい物の例
-MessageBox.show(false || "むぇー");
-MessageBox.show(0 || "むぇー");
-MessageBox.show("" || "むぇー");
-// 後で説明します
-MessageBox.show(undefined || "むぇー");
-
-
-MessageBox.show("区切り");
-
-// 左がfalseっぽくない例。
-MessageBox.show(true || "むぇー");
-MessageBox.show(1 || "むぇー");
-MessageBox.show("コケー" || "むぇー");
-</textarea>
+MessageBox.show(nakigoe2);</textarea>
 <b>結果:</b> <span class="console"></span><br>
 </div>
   
 　  
-0
+さて、これを、プラグインマネージャーからパラメータ取る時に使う、というコードが結構あります。具体的には以下みたいなコードです。
+(以下のコードは[ひきも記](http://hikimoki.sakura.ne.jp/plugin/plugin_menu.html)の「さよならコマンド」から一部取り出して改変しています)
+
+```
+var paramJisyo = PluginManager.parameters('TMByeCommand');
+var byeCommand = paramJisyo['byeCommand'] || '別れる';
+```
+
+`PluginManager.parameters('TMByeCommand')`については別の所で説明しますが、たぶんツクールMVのプラグインのパラメータをこうやって取るのでしょう。
+
+このプラグインは「別れる」というコマンドを追加するものです。
+で、メニューにそのメニュー項目をなんと表示するかはパラメータでUIから指定出来るのでしょうね。
+
+で、ちゃんと使う人が指定してくれていればそのラベルを使うのですが、何も指定されなかったら一番普通のラベル、`"別れる"`というラベルを使う、という意味になります。
+
+以下のコードと同じ意味ですね。
+
+```
+var paramJisyo = PluginManager.parameters('TMByeCommand');
+var byeCommand;
+if(paramJisyo['byeCommand'] == undefined) {
+    byeComamnd = "別れる";
+} else {
+    byeCommand = paramJisyo['byeCommand'];
+}
+```
+
+これはここまでの理屈を頑張って理解するよりは、プラグインのコードで実際に出てきたらそういうものだ、と覚えてしまう方が良いと思いますが、一応解説してみました。
+
 
 
 ## 難しすぎてボツにした解読手順
