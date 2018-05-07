@@ -43,7 +43,7 @@ document.body.onload = function() {
   initInterpreter();
 
 
-  setupAllREPL2(5);
+  setupAllREPL2(9);
   setupAllQuestionsWithScnario(questions);
 }
 </script>
@@ -550,8 +550,162 @@ JavaScriptでは、上の`==`とかの条件を複数組み合わせて、「ど
 日本語は「どちらか」と「どちらも」と似ててややこしいですが、意味は結構違いますよね。
 
 
+<div id="ex6">
+<input type="button" value="実行" />
+<textarea>
+
+MessageBox.show(false || false);
+MessageBox.show(true || false);
+MessageBox.show(false || true);
+MessageBox.show(true || true );
+
+MessageBox.show("区切り");
+MessageBox.show(false && false);
+MessageBox.show(true && false);
+MessageBox.show(false && true);
+MessageBox.show(true && true );</textarea>
+<b>結果:</b> <span class="console"></span><br>
+</div>
+  
+　  
+これを使えば、例えば、
+
+```
+if(nakigoe == "むぇー" || nakigoe == "コケー"){
+```
+
+というように書けたり、サイコロの目が2以上4以下を、
+
+```
+if(saikoro >= 2 && saikoro <= 4) {
+```
+
+と書けたりします。この辺はまぁツクールとあんま変わらんと思うので、一回みりゃ十分でしょう。
 
 
+### ||を使ってパラメータが無い場合の処理をするトリック
+
+さて、この`||`、本来はtrueかfalseを左右に置いて使うのですが、
+それを実現する為にJavaScriptではちょっとした手抜きが行われていました。
+
+この`||`、実は左が「falseっぽかったら右の値になる」、という振る舞いをします。
+trueとfalseだけを置いておけば当初の意図通り「どちらか」という意味になるのですが、
+他の文字や数字を使っても使えてしまいます。
+
+で、この手抜きを使った、裏技のような物がJavaScript界では横行しています。
+
+まず、trueとfalse以外で使う例をやってみましょう。
+
+<div id="ex7">
+<input type="button" value="実行" />
+<textarea>
+
+// 左がfalseっぽい物の例
+MessageBox.show(false || "むぇー");
+MessageBox.show(0 || "むぇー");
+MessageBox.show("" || "むぇー");
+// 後で説明します
+MessageBox.show(undefined || "むぇー");
+
+
+MessageBox.show("区切り");
+
+// 左がfalseっぽくない例。
+MessageBox.show(true || "むぇー");
+MessageBox.show(1 || "むぇー");
+MessageBox.show("コケー" || "むぇー");
+</textarea>
+<b>結果:</b> <span class="console"></span><br>
+</div>
+  
+　  
+0とか、中身が空の文字とかはfalseっぽいと思うようです。
+
+さて、上の中でundefinedというのがあります。これは、まだ作ってない変数を触ったり、
+辞書に入ってないキーを使ったりするとこの値になる、という物です。虚無、みたいな感じですね。
+
+ちょっとここで試してみたいのですが、このシリーズの評価システムがundefinedの挙動がちょっとバグっててうまく試せません（すみません…）
+
+コードだけ示しておくと、たとえば、
+
+
+```
+var awa = {
+    mochi: "むぇー",
+    niwatori: "コケー"
+};
+
+// nakigoe1には"むぇー"が入る
+var nakigoe1 = awa["mochi"];
+
+// fusigidaneというキーは無いので、nakigoe2にはundefinedが入る
+var nakigoe2 = awa["fusigidane"];
+
+
+```
+
+
+
+<div id="ex8">
+<input type="button" value="実行" />
+<textarea>
+var awa = {
+    mochi: "むぇー",
+    niwatori: "コケー"
+};
+
+
+// mochiはある。
+MessageBox.show(awa["mochi"]);
+
+// fusigidaneなんて無い。
+MessageBox.show(awa["fusigidane"]);</textarea>
+<b>結果:</b> <span class="console"></span><br>
+</div>
+  
+　  
+0
+
+
+これを使って、「辞書に値が入ってなかったらこの値」というような処理をするのが良くやられます。
+
+
+<div id="ex9">
+<input type="button" value="実行" />
+<textarea>
+var awa = {
+    mochi: "むぇー",
+    niwatori: "コケー"
+};
+
+
+var nakigoe1 = awa["mochi"] || "ダネー";
+MessageBox.show(nakigoe1);
+
+// awa["fusigidane]
+var nakigoe2 = awa["fusigidane"] || "ダネー";
+
+
+// 左がfalseっぽい物の例
+MessageBox.show(false || "むぇー");
+MessageBox.show(0 || "むぇー");
+MessageBox.show("" || "むぇー");
+// 後で説明します
+MessageBox.show(undefined || "むぇー");
+
+
+MessageBox.show("区切り");
+
+// 左がfalseっぽくない例。
+MessageBox.show(true || "むぇー");
+MessageBox.show(1 || "むぇー");
+MessageBox.show("コケー" || "むぇー");
+</textarea>
+<b>結果:</b> <span class="console"></span><br>
+</div>
+  
+　  
+0
 
 
 ## 難しすぎてボツにした解読手順
