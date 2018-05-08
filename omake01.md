@@ -152,8 +152,7 @@ Game_Interpreter.prototype.pluginCommand = function(command, args)
 するとこうなります。
 
 ```
-var motomoto =
-    ゲーム主.prototype.pluginCommand;
+var motomoto = ゲーム主.prototype.pluginCommand;
 
 ゲーム主.prototype.pluginCommand = function(command, その他)
 {
@@ -181,8 +180,7 @@ var motomoto =
 最初の二行をまず見てみます。
 
 ```
-var motomoto =
-    ゲーム主.prototype.pluginCommand;
+var motomoto = ゲーム主.prototype.pluginCommand;
 ```
 
 ゲーム主(本来の名前は`Game_Interpreter`)は、ツクールMVが用意してくれている辞書です。
@@ -208,8 +206,7 @@ prototypeの詳細は最後にちょろっと解説しますが、現時点で�
 つまり以下のコード
 
 ```
-var motomoto =
-    ゲーム主.prototype.pluginCommand;
+var motomoto = ゲーム主.prototype.pluginCommand;
 ```
 
 で、`ゲーム主.prototype`という辞書から`pluginCommand`というキーで中身を取り出しています。
@@ -312,6 +309,8 @@ function() {
     var その他 = arguments[1];
 ```
 
+これは前に見ました。
+
 その次の行はちょっと新しい。
 
 ```
@@ -337,8 +336,7 @@ motomoto.call(偽造したい辞書, command, その他);
 以下みたいなコードでしたね。
 
 ```
-var motomoto =
-    ゲーム主.prototype.pluginCommand;
+var motomoto = ゲーム主.prototype.pluginCommand;
 ```
 
 つまり、もともとからあった関数をこのmotomotoに退避しておいて、自分の関数を新しくこの`ゲーム主.prototype.pluginCommand`に差し替えているのです。
@@ -424,8 +422,7 @@ commandというのが何かはツクールMV側の資料を調べないと分�
 まず戻す前のコードをもう一度読みます。
 
 ```
-var motomoto =
-    ゲーム主.prototype.pluginCommand;
+var motomoto = ゲーム主.prototype.pluginCommand;
 
 ゲーム主.prototype.pluginCommand = function(command, その他)
 {
