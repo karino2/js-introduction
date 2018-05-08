@@ -743,6 +743,24 @@ if(paramJisyo['byeCommand'] == undefined) {
 ここまでの解説をどうやって自分が考えたのかの仕組みを最初書いていたのだけれど、さすがに上級者向けの内容だろう、という事でボツにしました。
 でもせっかくなので途中までですが残しておきます。興味があったら読んでみてください（読まなくてもいいです）。
 
+以下のコードをどう解読するか、という話です。
+
+```
+Sprite_Damage.prototype.setup = function(target) { 
+    var result = target.result(); 
+    if (result.missed || result.evaded) { 
+        this.createMiss(); 
+    } else if (result.hpAffected) { 
+        this.createDigits(0, result.hpDamage); 
+    } else if (target.isAlive() && result.mpDamage !== 0) { 
+        this.createDigits(2, result.mpDamage); 
+    } 
+    if (result.critical) { 
+        this.setupCriticalEffect(); 
+    } 
+};
+```
+
 ### 名前からいろいろ推測する
 
 まず最初にこのコードから以下の三つが何かを推測する必要があります。
@@ -752,6 +770,7 @@ if(paramJisyo['byeCommand'] == undefined) {
 3. resultとは何か
 
 これは本当に野生の勘で「たぶんこうだ！」ってひらめくしかありません。
+ヒントとしては、英単語の意味、ifの条件での使われ方（全部を並列的に見て考える）、ifの本体の実行されるコードの使われ方（全体を並列的に眺める）というあたりから推測します。
 
 で、私が先程のコードをうーん、と眺めて思った予想は、
 
@@ -760,9 +779,6 @@ if(paramJisyo['byeCommand'] == undefined) {
 3. resultは今回の攻撃なりなんなりの、この数字を出すきっかけとなった事
 
 というあたりです。
-
-この辺の予想する力は経験がものを言う所で、最初からコード眺めるだけでここまで分かるほど世の中は甘く無いと思います。
-その辺は解説記事などを参考にしたり実際に動かしたりいろいろやって頑張りましょう。
 
 で、コナン並みの推理力を誇る私の推測が正しいとして先に進みます。
 
