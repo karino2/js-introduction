@@ -52,7 +52,7 @@ document.body.onload = function() {
 といっても今回もおまけとして簡単なプラグインを読んでみよう、という事には変わりません。
 
 第一回と第二回がどちらも突然新しい話だったので、もう一回くらい読んでみて終わりにしよう、という趣旨の回となります。
-
+今回は第二回よりは簡単だと思います。
 
 # クリティカル時のステート付与プラグイン
 
@@ -67,12 +67,11 @@ document.body.onload = function() {
 オリジナルのリンクはこちら。[github:Mano_CriticalHook.js](https://github.com/Sigureya/RPGmakerMV/blob/master/Mano_CriticalHook.js)
 
 ```
-(function (global) {
+(function () {
     'use strict';
-    var stateID=4;
     var Manosasayaki_criticalHook={name:'Manosasayaki_criticalHook'};
     var params = PluginManager.parameters('Mano_CriticalHook');
-    stateID = Number(params['StateID'] || 4);
+    var stateID = Number(params['StateID'] || 4);
 
     var zz_Game_Action_prototype_makeDamageValue_preDef = Game_Action.prototype.makeDamageValue;
     Game_Action.prototype.makeDamageValue　=function (target,critical) {
@@ -84,4 +83,42 @@ document.body.onload = function() {
 
 })();
 ```
+
+### 英単語の話
+
+前回同様、単語の表を作っておきます。
+
+なお、use, strict, applyはプログラムの話になるので本文で解説します。(といっても大して解説しませんが)
+
+**カタカナ対応表**
+
+| 英単語 | カタカナ |
+| ---- | ----- |
+| critical | クリティカル |
+| PluginManager | プラグインマネージャー |
+| parameters | パラメータ |
+| Game | ゲーム |
+| Action | アクション（行動） |
+| Damage | ダメージ |
+| target | ターゲット |
+
+だいたい前にも出た奴ですね。結局似たような単語しか出てこないんですよ。
+
+
+**辞書**
+
+この表は見ながらコード読んでOK。本文でも解説します。
+
+| 英単語 | 意味 |
+| ---- | ----- |
+| preDef(previously definedの略かな) | 前に定義されていた（もともと、という意味） |
+| hook | フック(意味はあとで解説します) |
+
+**これは頑張って覚える！**
+
+| 英単語 | 意味 |
+| ---- | ----- |
+| make | 作る |
+| value | 値 |
+| state | 状態（ステートの事だけど、ちゃんと覚えたい） |
 
