@@ -370,7 +370,7 @@ Game_Action.prototype.makeDamageValue　=function (target,critical) {
 ```
 Game_Action.prototype.ダメージ計算　=function (target,critical) {
     クリティカルの時だけStateIDのステートを付与
-    return もともとのダメージ計算;
+    return もともとのダメージ計算を実行;
 };
 ```
 
