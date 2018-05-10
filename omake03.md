@@ -255,18 +255,22 @@ Game_Action.prototype.makeDamageValue　=function (target,critical) {
 
 applyとcallは凄く似た物で、なんとなく読んでる段階では区別してなくてもOKです。callみたいな物なんだな、と思っておいてください。
 
+**callとapplyの違い**  
 一応説明しておくと、セバスチャンに何かを言いつける時に、渡す物を「,」で区切って並べて渡すか、配列に入れて渡すかの違いしかありません。
-callは「,」で区切って、applyは配列で渡します。
-
+callは「,」で区切って、applyは配列で渡します。  
+　  
 この場合、以下の三つは全く同じ意味になります。
+{: .column}
 
 - `motomoto.call(this, target, critical)`
 - `motomoto.apply(this, [target, critical])`
 - `motomoto.apply(this, arguments)`
 
-使っていればやがて違いは分かるので、最初のうちは同じようなもんだ、と思っておいてOK.
+と、一応説明はしましたが、使っていればやがて違いは分かるので、最初のうちは同じようなもんだ、と思っておいてOKです。
+なお、arguments使ってる時はだいたいapply、それ以外はだいたいcallです。
+{: .column}
 
-という事で、このコードはapplyを使って元の関数を呼ぶ、というパターンのコードなのです。
+という事で話を戻すと、このコードはapplyを使って元の関数を呼ぶ、というパターンのコードなのです。
 
 ただ最終回なので、元のなんだか長い変数名でもひるまない訓練をしておきましょう。
 motomotoと置き換えたコードじゃなくて、元のままで頑張って読みます。
