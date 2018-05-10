@@ -266,7 +266,7 @@ callは「,」で区切って、applyは配列で渡します。
 - `motomoto.apply(this, [target, critical])`
 - `motomoto.apply(this, arguments)`
 
-と、一応説明はしましたが、使っていればやがて違いは分かるので、最初のうちは同じようなもんだ、と思っておいてOKです。
+と、一応説明はしましたが、使っていればやがて違いは分かるので、最初のうちは同じようなもんだ、と思っておいてOKです。  
 なお、arguments使ってる時はだいたいapply、それ以外はだいたいcallです。
 {: .column}
 
