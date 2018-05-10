@@ -64,12 +64,9 @@ document.body.onload = function() {
 
 の、Mano_CriticalHook.jsというプラグインを、解説の為に少し簡略化した物を見ていきたいと思います。（ほとんど同じ内容です）
 
-オリジナルのリンクはこちら。[github:Mano_CriticalHook.js](https://github.com/Sigureya/RPGmakerMV/blob/master/Mano_CriticalHook.js)
-
 ```
 (function () {
     'use strict';
-    var Manosasayaki_criticalHook={name:'Manosasayaki_criticalHook'};
     var params = PluginManager.parameters('Mano_CriticalHook');
     var stateID = Number(params['StateID'] || 4);
 
@@ -83,6 +80,10 @@ document.body.onload = function() {
 
 })();
 ```
+
+プラグインの名前は「`Mano_CriticalHook`」です。Manoはハンドル名の一部っぽいですね。もともと魔のささやきという名前だったのを、短くManoだけ残したようです。
+
+オリジナルのリンクはこちら。[github:Mano_CriticalHook.js](https://github.com/Sigureya/RPGmakerMV/blob/master/Mano_CriticalHook.js)
 
 ### 英単語の話
 
@@ -122,3 +123,274 @@ document.body.onload = function() {
 | value | 値 |
 | state | 状態（ステートの事だけど、ちゃんと覚えたい） |
 
+## コードを読んで行こう
+
+では上から順番に読んで行きましょう。
+
+まず最初の行はいつもの関数を作ってすぐ実行、です。[第十一回](ch11.md)でやった奴ですね。
+という事で気にしない。
+
+### use strictは気にしない
+
+そして次の行に見慣れない物があります。
+
+```
+'use strict';
+```
+
+これはJavaScriptの落とし穴っぽい部分の挙動を変えてよりかっちり動く為に書いておく物で、
+これを書いておくと存在しない変数を触った時の挙動などが変わります。（エラーになる）
+
+ただ、2018年現在、今この辺を真面目に学ぶのは時期的にオススメしないので、
+変なコードを書いた時により厳しくエラーにする機能を有効にする為のおまじない、くらいに思っておいて先に進むのがオススメです。
+
+### StateIDという名前のパラメータの取得
+
+次のコードは以下のようになっています。
+
+```
+var params = PluginManager.parameters('Mano_CriticalHook');
+var stateID = Number(params['StateID'] || 4);
+```
+
+一行目は[おまけ第二回](omake02.md)の「パラメータ取得の所のコードも一応読む」でも解説した物ですね。
+PluginManager.parametersという関数に、プラグインの名前をつけて呼ぶと、そのプラグインのパラメータ一覧が辞書で返ってくる。
+
+二行目のNumberは数字っぽい文字を数字にする関数で、とりあえずこういう物と思っておいてください、という話を第二回でやりました。
+
+StateIDというのはパラメータの名前で、`params['StateID'] || 4`というのはパラメータが存在しない時には代わりに4を使う、
+というJavaScriptの`||`を本来の用途以外に使った裏技、という話を[おまけ第二回](omake02.md)の「`||`を使ってパラメータが無い場合の処理をするトリック」で解説しました。
+
+以上のコードを日本語に直すと、
+
+1. `'Mano_CriticalHook'`という名前のプラグインのパラメータ一覧を辞書としてもらう
+2. その辞書のStateIDが入ってたらその値を使い、入ってなかったら4を使う
+
+という意味になります。ようするにstateIDという変数にプラグインを使う人がマウスとキーボードでぽちぽち指定したパラメータが入るんですね。
+
+なお、ステートIDが4、というのはググった感じだと毒っぽい？（「ツクールMV addState」でググりました。addStateはあとで出てきます）。
+
+
+
+### applyを使ったthisの偽造
+
+次は以下のようなコードになってます。
+
+```
+var zz_Game_Action_prototype_makeDamageValue_preDef = Game_Action.prototype.makeDamageValue;
+Game_Action.prototype.makeDamageValue　=function (target,critical) {
+    if( critical ){            
+        target.addState(stateID);
+    }
+    return zz_Game_Action_prototype_makeDamageValue_preDef.apply(this,arguments);
+};
+```
+
+ぎゃー、さっぱりわからない！となるかもしれませんが、間の所を抜いてみると、
+
+```
+var zz_Game_Action_prototype_makeDamageValue_preDef = Game_Action.prototype.makeDamageValue;
+Game_Action.prototype.makeDamageValue　=function (target,critical) {
+    // ... 中略 ...
+    return zz_Game_Action_prototype_makeDamageValue_preDef.apply(this,arguments);
+};
+```
+
+このようになります。
+
+zz_Game_Action_prototype_makeDamageValue_preDefが凄い長い変数名なので「うがー！」って気がしますが、
+良く注意して見てみると、これは[おまけ第一回](ch01.md)でやった、「callを使った関数の差し替え」と凄く似たコードになっています。
+
+見比べてみましょう。
+
+```
+var motomoto = ゲーム主.prototype.pluginCommand;
+
+ゲーム主.prototype.pluginCommand = function(command, args)
+{
+    motomoto.call(this, command, args);
+
+    // 以下略
+};
+```
+zz_Game_Action_prototype_makeDamageValue_preDefという長い変数名がmotomotoにすれば、ほとんど同じコードでしょう。
+
+試しに変数名をmotomotoにしてみましょう。
+
+```
+var motomoto = Game_Action.prototype.makeDamageValue;
+Game_Action.prototype.makeDamageValue　=function (target,critical) {
+    // ... 中略 ...
+    return motomoto.apply(this,arguments);
+};
+```
+
+つまりこれは、おまけ第一回でやった、
+
+1. 何かの変数にもともとの関数を取り出す
+2. 自分の関数で差し替える
+3. 自分の関数の中で、もともとの関数を`motomoto.call(this, なんちゃら～);`と呼ぶ
+
+の、最後のcallをapplyに変えただけのコードになっています。
+
+applyとcallは凄くにた物で、なんとなく読んでる段階では区別してなくてもOKです。
+
+一応説明しておくと、セバスチャンに何かを言いつける時に、渡す物を「,」で区切って並べて渡すか、配列に入れて渡すかの違いしかありません。
+callは「,」で区切って、applyは配列で渡します。
+
+この場合、以下の三つは全く同じ意味になります。
+
+- `motomoto.call(this, target, critical)`
+- `motomoto.apply(this, [target, critical])`
+- `motomoto.apply(this, arguments)`
+
+使っていればやがて違いは分かるので、最初のうちは同じようなもんだ、と思っておいてOK.
+
+という事で、このコードはapplyを使って元の関数を呼ぶ、というパターンのコードなのです。
+
+ただ最終回なので、元のなんだか長い変数名でもひるまない訓練をしておきましょう。
+motomotoと置き換えたコードじゃなくて、元のままで頑張って読みます。
+
+```
+var zz_Game_Action_prototype_makeDamageValue_preDef = Game_Action.prototype.makeDamageValue;
+Game_Action.prototype.makeDamageValue　=function (target,critical) {
+    // ... 中略 ...
+    return zz_Game_Action_prototype_makeDamageValue_preDef.apply(this,arguments);
+};
+```
+
+zz_Game_Action_prototype_makeDamageValue_preDefはなんだか長いけど、もともとの関数を表している何かだ！と心の中で強く思って上のコードを読むのです。たそがれよりもくらきものちのながれよりあかきもの、と言われたらドラグスレイブと思うようなもんです（若い人には通じない）。
+
+### 名前から何の関数を差し替えているかを推測する
+
+さて、上のコードは関数を差し替えるパターンだ、という事は分かったとします。
+では何の関数を差し替えているのでしょうか？
+
+本来はここでググったりドキュメントを読んだりソースコードを読んだりして調べるのが正攻法ですが、
+この位なら名前から推測してしまっても良い気もします。
+
+という事で、名前から推測してみましょう。
+
+上のコードで取り出している対象は`Game_Action.prototype.makeDamageValue`ですね。
+Game_Actionというのはおいといて、`makeDamageValue`という方が重要そう。
+
+makeは作るって意味です。Damageはダメージ。Valueは値という意味ですが、この場合はどうでも良い。
+ダメージをmakeする、つまりダメージを作っている所らしいです。
+ダメージ計算をする関数なんでしょうね。
+
+で、差し替える前の関数を呼ぶとダメージが作られる。
+でもダメージを作る前に、クリティカルの時だけ今のtargetにステートを追加してからダメージを作る、という事をやりたいらしい。
+
+targetっていうのはたぶんモンスターですかね。
+
+これを踏まえて、先ほど「中略」とした所のコードを読んでみましょう
+
+
+### ステートの付与のコード（プラグインの本体）の所を読む
+
+先程抜いたコードを戻すと、以下のようになっていました。
+
+```
+var zz_Game_Action_prototype_makeDamageValue_preDef = Game_Action.prototype.makeDamageValue;
+Game_Action.prototype.makeDamageValue　=function (target,critical) {
+    if( critical ){            
+        target.addState(stateID);
+    }
+    return zz_Game_Action_prototype_makeDamageValue_preDef.apply(this,arguments);
+};
+```
+
+最後のreturnの所は「元の関数を呼ぶ」という事なので、その前のif文の所に注目します。
+
+```
+    if( critical ){            
+        target.addState(stateID);
+    }
+```
+
+日本語で読み下すと、「クリティカルだったらターゲットにstateIDをaddStateする」という感じでしょうか。
+
+stateIDはステートのID。addは追加って意味です。addStateで「ステートを追加する」という感じですね。
+
+そのIDのステートを付与する、というのはググった感じだとツクール用語っぽいので、読者はこの説明だけで分かったりするのでしょうか？
+
+毒とか防御0とか一ターン行動不能とか、そういう状態変化をするのとステートを付与する、と呼ぶらしいです。
+
+なお、この付与したステートがいつ解除されるかは元のコードのコメントに書いてありました。
+
+```
+ * ■ステートの解除条件は？
+ * ・そのターン中ずっと防御０％なら「１ターン終了時」
+ * ・会心時一回だけなら「ダメージで解除１００％」
+```
+
+まぁこの辺はそういう事、と思っておけばいいでしょう。
+
+つまり、以下のコードで、
+
+```
+Game_Action.prototype.makeDamageValue　=function (target,critical) {
+    if( critical ){            
+        target.addState(stateID);
+    }
+    return zz_Game_Action_prototype_makeDamageValue_preDef.apply(this,arguments);
+};
+```
+
+感じとしては、こんな事をしている事になります。
+
+```
+Game_Action.prototype.ダメージ計算　=function (target,critical) {
+    クリティカルの時だけStateIDのステートを付与
+    return もともとのダメージ計算;
+};
+```
+
+以上でプラグインのコードを一通り見た事になります。
+
+どうでしょう？そんなに難しくも無いと思うのですが。
+
+
+### 最後に全体を見直す
+
+いつもコマ切れに見て理解したら、最後に全体を見直して分かっているかどうかを確認しましょう。
+確認する過程で定着するものですから。
+
+コメントを追加しておきます。
+
+```
+(function () {
+    // これは気にしない
+    'use strict';
+
+    // プラグインのパラメータを取ってる所
+    var params = PluginManager.parameters('Mano_CriticalHook');
+    var stateID = Number(params['StateID'] || 4);
+
+    // 関数を差し替えるべく、元の関数をとっておく
+    var zz_Game_Action_prototype_makeDamageValue_preDef = Game_Action.prototype.makeDamageValue;
+
+    // ダメージ計算の関数を差し替える
+    Game_Action.prototype.makeDamageValue　=function (target,critical) {
+        // クリティカルだったらsateIDというステートを付与して
+        if( critical ){            
+            target.addState(stateID);
+        }
+
+        // もともとのダメージ計算を呼ぶ。applyでthisを偽装
+        return zz_Game_Action_prototype_makeDamageValue_preDef.apply(this,arguments);
+    };
+
+})();
+```
+
+こんな感じになります。
+
+こんなの全部理解出来てたら結構ちゃんとプログラム分かってる人っぽいんじゃないでしょうか。
+
+シリーズ全十一回とおまけの三回で一通りの事は説明したつもりですが、この位は分かるようになりましたか？
+
+個々の要素が分かった所で全体が分かるという物でも無いので、分からなくても不思議はないのですが、
+分かっていてくれたらここまでシリーズ頑張って書いた私としては嬉しいなぁ。
+
+なんにせよ、これだけの事を全部やったのは、なかなか大したものだと思いますよ。本当に。
