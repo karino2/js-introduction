@@ -236,6 +236,13 @@ Game_Action.prototype.makeDamageValue　=function (target,critical) {
 };
 ```
 
+違いは、以下の二か所くらいです。
+
+| 第一回のコード | 今回のコード |
+| ------- | ------ |
+| `motomoto.call` | `motomoto.apply` |
+| `ゲーム主.prototype.pluginCommand` | `Game_Action.prototype.makeDamageValue` |
+
 つまりこれは、おまけ第一回でやった、
 
 1. 何かの変数にもともとの関数を取り出す
@@ -243,6 +250,8 @@ Game_Action.prototype.makeDamageValue　=function (target,critical) {
 3. 自分の関数の中で、もともとの関数を`motomoto.call(this, なんちゃら～);`と呼ぶ
 
 の、最後のcallをapplyに変えただけのコードになっています。
+
+差し替える対象は、前回は`pluginCommand`というのを差し替えた。今回は`makeDamageValue`という物を差し替えています。
 
 applyとcallは凄くにた物で、なんとなく読んでる段階では区別してなくてもOKです。
 
