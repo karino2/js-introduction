@@ -253,7 +253,7 @@ Game_Action.prototype.makeDamageValue　=function (target,critical) {
 
 差し替える対象は、前回は`pluginCommand`というのを差し替えた。今回は`makeDamageValue`という物を差し替えています。
 
-applyとcallは凄くにた物で、なんとなく読んでる段階では区別してなくてもOKです。
+applyとcallは凄く似た物で、なんとなく読んでる段階では区別してなくてもOKです。callみたいな物なんだな、と思っておいてください。
 
 一応説明しておくと、セバスチャンに何かを言いつける時に、渡す物を「,」で区切って並べて渡すか、配列に入れて渡すかの違いしかありません。
 callは「,」で区切って、applyは配列で渡します。
