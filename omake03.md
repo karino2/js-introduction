@@ -436,4 +436,4 @@ Game_Action.prototype.ダメージ計算　=function (target,critical) {
 
 ### 本シリーズのおわりに
 
-せっかくの最終回なので、[おわりに](ending.md)を書きました。
+せっかくの最終回なので、[おわりに](pending.md)を書きました。
