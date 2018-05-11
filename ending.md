@@ -131,10 +131,11 @@ JavaScriptはいろんな用途に使える言語なので、ツクールMV以�
 難しい事は大してないので、そこまで行けば結構すぐ覚えられるはずです。
 
 
-### 参考になりそうなサイト
+## 参考になりそうなサイト
 
 以下では参考になりそうなサイトを幾つか挙げます。
 
+### ツクールMVのプラグイン関連
 
 **プラグイン入門サイト**
 
@@ -169,11 +170,11 @@ JavaScriptはいろんな用途に使える言語なので、ツクールMV以�
 ただプログラム入門者は、こういった物を見るよりも前に、やはり最初はある程度自分で書いて、経験を積むのが先です。
 それから読む事で分かる、そういうものです。
 
-**JavaScriptの中級以上向けサイト**
+### JavaScriptの中級以上向けサイト
 
 JavaScriptで分からない事が増えてきたら、以下のサイトなどで調べるのが良いでしょう。
 
-[MDNのJavaScriptガイド](https://developer.mozilla.org/ja/docs/Web/JavaScript/Guide)
+**[MDNのJavaScriptガイド](https://developer.mozilla.org/ja/docs/Web/JavaScript/Guide)**
 
 このMDNのサイトは網羅的に書かれていて、このサイトで見つからない事は無いといっても過言では無い。
 ググった時もMDNのサイトが引っかかっていたらまずそれを読むのがオススメな位、解説の質も高いです。
@@ -203,7 +204,7 @@ JavaScriptは2015年に大きなバージョンアップがありました。こ
 という訳でその時に新しい知識を学ぶのがオススメです。
 {: .column}
 
-[ECMAScript 2017時代のJavaScript入門書](https://asciidwango.github.io/js-primer/)
+**[ECMAScript 2017時代のJavaScript入門書](https://asciidwango.github.io/js-primer/)**
 
 2018年現在では幾つかの項目が書きかけですが、内容的にはそこらの書籍よりもずっと良く書けています。
 MDNの説明よりも詳しく書かれていて、新しく学ぶ項目も理解出来るように書かれています。
