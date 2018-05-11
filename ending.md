@@ -172,7 +172,7 @@ JavaScriptはいろんな用途に使える言語なので、ツクールMV以�
 
 ### JavaScriptの中級以上向けサイト
 
-JavaScriptで分からない事が増えてきたら、以下のサイトなどで調べるのが良いでしょう。
+JavaScriptで分からない事が増えてきたら、以下のサイトなどで調べるのが良いでしょう。二つ程紹介しておきます。
 
 **[MDNのJavaScriptガイド](https://developer.mozilla.org/ja/docs/Web/JavaScript/Guide)**
 
