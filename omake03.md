@@ -66,6 +66,8 @@ document.body.onload = function() {
 
 の、Mano_CriticalHook.jsというプラグインを、解説の為に少し簡略化した物を見ていきたいと思います。（ほとんど同じ内容です）
 
+読んで行くコードは以下になります。
+
 ```
 (function () {
     'use strict';
@@ -134,6 +136,12 @@ document.body.onload = function() {
 | value | 値 |
 | state | 状態（ステートの事だけど、ちゃんと覚えたい） |
 
+valueは今回は大した意味が無いのですが、大した意味が無い物も覚えておく方が読む時の脳の負荷が下げられるので覚えておきましょう。
+
+stateは「ステートの付与」という事自体がツクールMVの用語としてあるようなのでカタカナで「ステート」でいいのですが、
+「状態」という意味もちゃんと覚えておく方が読む時に楽になると思います。
+この機会に覚えておきましょう。
+
 ## コードを読んで行こう
 
 では上から順番に読んで行きましょう。
@@ -153,7 +161,8 @@ document.body.onload = function() {
 これを書いておくと存在しない変数を触った時の挙動などが変わります。（エラーになる）
 
 ただ、2018年現在、今この辺を真面目に学ぶのは時期的にオススメしないので、
-変なコードを書いた時により厳しくエラーにする機能を有効にする為のおまじない、くらいに思っておいて先に進むのがオススメです。
+間違ったコードを書いた時により厳しくエラーにする機能を有効にする為のおまじないで、普通に書いているコードには影響無い、
+くらいに思っておいて先に進むのがオススメです。
 
 ### StateIDという名前のパラメータの取得
 
@@ -169,15 +178,17 @@ PluginManager.parametersという関数に、プラグインの名前をつけ�
 
 二行目のNumberは数字っぽい文字を数字にする関数で、とりあえずこういう物と思っておいてください、という話を第二回でやりました。
 
+この二行はプラグインのパラメータを使う時のお決まりの書き方なので、このパターン自体に慣れてしまうとプラグインのコードを読むのが楽になります。
+
 StateIDというのはパラメータの名前で、`params['StateID'] || 4`というのはパラメータが存在しない時には代わりに4を使う、
 というJavaScriptの`||`を本来の用途以外に使った裏技、という話を[おまけ第二回](omake02.md)の「`||`を使ってパラメータが無い場合の処理をするトリック」で解説しました。
 
 以上のコードを日本語に直すと、
 
-1. `'Mano_CriticalHook'`という名前のプラグインのパラメータ一覧を辞書としてもらう
+1. `'Mano_CriticalHook'`という名前のプラグインのパラメータの一覧を辞書としてもらう
 2. その辞書のStateIDが入ってたらその値を使い、入ってなかったら4を使う
 
-という意味になります。ようするにstateIDという変数にプラグインを使う人がマウスとキーボードでぽちぽち指定したパラメータが入るんですね。
+という意味になります。ようするにこの二行のコードでstateIDという変数にプラグインを使う人がマウスとキーボードでぽちぽち指定したパラメータが入るんですね。
 
 なお、ステートIDが4、というのはググった感じだと毒っぽい？（「ツクールMV addState」でググりました。addStateはあとで出てきます）。
 
@@ -209,7 +220,7 @@ Game_Action.prototype.makeDamageValue　=function (target,critical) {
 
 このようになります。
 
-zz_Game_Action_prototype_makeDamageValue_preDefが凄い長い変数名なので「うがー！」って気がしますが、
+zz_Game_Action_prototype_makeDamageValue_preDefが凄い長い変数名なので「やっぱり分からない！」って気がしますが、
 良く注意して見てみると、これは[おまけ第一回](ch01.md)でやった、「callを使った関数の差し替え」と凄く似たコードになっています。
 
 見比べてみましょう。
@@ -226,7 +237,7 @@ var motomoto = ゲーム主.prototype.pluginCommand;
 ```
 zz_Game_Action_prototype_makeDamageValue_preDefという長い変数名がmotomotoにすれば、ほとんど同じコードでしょう。
 
-試しに変数名をmotomotoにしてみましょう。
+試しに今回のコードも変数名をmotomotoにしてみましょう。
 
 ```
 var motomoto = Game_Action.prototype.makeDamageValue;
@@ -236,12 +247,12 @@ Game_Action.prototype.makeDamageValue　=function (target,critical) {
 };
 ```
 
-違いは、以下の二か所くらいです。
+こうしてみると、違いは、以下の二か所くらいです。
 
-| 第一回のコード | 今回のコード |
-| ------- | ------ |
-| `motomoto.call` | `motomoto.apply` |
-| `ゲーム主.prototype.pluginCommand` | `Game_Action.prototype.makeDamageValue` |
+|| 第一回のコード | 今回のコード |
+|------| ------- | ------ |
+| もともとの関数を呼び出す所 | `motomoto.call` | `motomoto.apply` |
+| 差し替えている対象 | `ゲーム主.prototype.pluginCommand` | `Game_Action.prototype.makeDamageValue` |
 
 つまりこれは、おまけ第一回でやった、
 
