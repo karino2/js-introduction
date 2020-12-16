@@ -372,12 +372,16 @@ builder.push(`<b>以下の配列を生成せよ</b>
 
 }
 
+function getGlobalVal(intp, valname) {
+    return intp.pseudoToNative(intp.getProperty(intp.globalObject, valname));
+}
+
 
 function generateArrayQuestionObject(id, expect) {
     return generateQuestionObject(id, (intp) => {
         var valname = "kotae";
 
-        var actual = intp.pseudoToNative(intp.getProperty(intp.global, valname));
+        var actual = getGlobalVal(intp, valname);
         if(actual == undefined) {
             return "変数 " + valname + " がどっかいっちゃった？";
         }
@@ -413,7 +417,7 @@ function generateArrayElemQuestionObject(id, expect) {
     return generateQuestionObject(id, (intp) => {
         var valname = "kotae";
 
-        var actual = intp.pseudoToNative(intp.getProperty(intp.global, valname));
+        var actual = getGlobalVal(intp, valname);
         if(actual == undefined) {
             return "変数 " + valname + " がどっかいっちゃった？";
         }
@@ -467,7 +471,7 @@ function generateArrayElemSubQuestionObject(id, expect) {
     return generateQuestionObject(id, (intp) => {
         var valname = "kotae";
 
-        var actual = intp.pseudoToNative(intp.getProperty(intp.global, valname));
+        var actual = getGlobalVal(intp, valname);
         if(actual == undefined) {
             return "変数 " + valname + " がどっかいっちゃった？";
         }
@@ -528,7 +532,7 @@ function generateDictQuestionObject(id, expect) {
     return generateQuestionObject(id, (intp) => {
         var valname = "kotae";
 
-        var actual = intp.pseudoToNative(intp.getProperty(intp.global, valname));
+        var actual = getGlobalVal(intp, valname);
         if(actual == undefined) {
             return "変数 " + valname + " がどっかいっちゃった？";
         }
@@ -565,7 +569,7 @@ function generateDictElemQuestionObject(id, expect) {
     return generateQuestionObject(id, (intp) => {
         var valname = "kotae";
 
-        var actual = intp.pseudoToNative(intp.getProperty(intp.global, valname));
+        var actual = getGlobalVal(intp, valname);
         if(actual == undefined) {
             return "変数 " + valname + " がどっかいっちゃった？";
         }
@@ -620,7 +624,7 @@ function generateDictElemSubQuestionObject(id, expect) {
     return generateQuestionObject(id, (intp) => {
         var valname = "kotae";
 
-        var actual = intp.pseudoToNative(intp.getProperty(intp.global, valname));
+        var actual = getGlobalVal(intp, valname);
         if(actual == undefined) {
             return "変数 " + valname + " がどっかいっちゃった？";
         }
@@ -713,7 +717,7 @@ function verifyDictEqual(expect, actual) {
 
 function verifyLocalDictVar(intp, lvalName, expect) {
     var lvalName = "toots";
-    var actual = intp.pseudoToNative(intp.getProperty(intp.global, lvalName));
+    var actual = getGlobalVal(intp, lvalName);
     if(actual == undefined) {
         return "変数 " + lvalName + "がどっかいっちゃった？";
     }

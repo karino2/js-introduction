@@ -1,0 +1,97 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.35.0/codemirror.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.35.0/codemirror.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.35.0/mode/javascript/javascript.js"></script>
+    <style>
+        .CodeMirror { height: auto; border: 1px solid #ddd; }
+        .console { border: 1px solid #333; color: rgb(48, 68, 216); padding: 0px 5px 0px 5px; }
+    
+        .answer {color: red;  }
+        .hideanswer { display: none; }
+        .result {font-size: large;}
+        .wrong {color: red;  }
+        .correct {color: rgb(0, 89, 255);  }
+    
+    
+    
+        .column{
+            padding: 0.5em 1em;
+            margin: 2em 0;
+            color: #5d627b;
+            background: white;
+            border-top: solid 5px #5d627b;
+            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.22);
+        }    
+    </style>
+    <link rel="stylesheet" href="scripts/smoke.css" />
+    <script src="scripts/smoke.min.js"></script>    
+<!--
+  何故かこちらではglobalObjectが無い。
+  <script src="https://neil.fraser.name/software/JS-Interpreter/acorn_interpreter.js"></script>
+-->
+
+<script src="https://neil.fraser.name/software/JS-Interpreter/acorn.js"></script>
+<script src="https://neil.fraser.name/software/JS-Interpreter/interpreter.js"></script>    
+    <script type="text/javascript" src="scripts/env.js"></script>
+    
+    
+    
+</head>
+    <body>
+        <script>
+            var questions = [];
+            
+            
+            document.body.onload = function() {
+              myInterpreter = new Interpreter('MessageBox = {show: SmokeAlert, yesNo: SmokeYesNo}; Math = {randomInt: _randomInt};',initFunc);
+              scenarioPlayer = new Interpreter('MessageBox = {show: SmokeAlert, yesNo: SmokeYesNo};  Math = {randomInt: _randomInt};', initScnearioPlayerFunc);
+            
+            
+              // setupAllREPL2(8);
+              setupAllQuestionsWithScnario(questions);
+            }
+            </script>
+        
+にほんご
+<script>
+var qobj = {
+    id: "q1",
+    scenarios: []
+}
+
+
+qobj.scenarios.push({
+    setup: ()=> {},
+    verify: (intp) => {
+        var tmp = intp.pseudoToNative(intp.getProperty(intp.globalObject, "yare"));
+        var actual = getGlobalVal(intp, "yare");
+        if(actual == undefined) {
+          return "変数 yareがどっかいっちゃった？";
+        }
+        var expect = ["筋トレしろ", "自意識チェックをしろ", "聴け！"];
+        return verifyArrayEqual(expect, actual);
+    }
+});
+  questions.push(qobj);
+ </script>
+
+
+<div id="q1">
+    <input type="button" value="実行" />
+    <textarea>
+// この行を書き換えて、指定された配列を作れ。
+var yare = [];
+
+MessageBox.show(yare);</textarea>
+    <b>結果:</b> <span class="console"></span><br>
+    <span class="result"></span><br>
+    <input type="button" value="答えを見る" />
+    <div class="answer hideanswer">
+答え:<br>
+var yare = ["筋トレしろ", "自意識チェックをしろ", "聴け！"];
+    </div>        
+</div>
+</body>
+</html>

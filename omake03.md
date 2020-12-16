@@ -29,7 +29,13 @@ layout: page
 </style>
 <link rel="stylesheet" href="https://rawgit.com/karino2/js-introduction/master/scripts/smoke.css" />
 <script src="https://rawgit.com/karino2/js-introduction/master/scripts/smoke.min.js"></script>                    
-<script src="https://neil.fraser.name/software/JS-Interpreter/acorn_interpreter.js"></script>
+<!--
+  何故かこちらではglobalObjectが無い。
+  <script src="https://neil.fraser.name/software/JS-Interpreter/acorn_interpreter.js"></script>
+-->
+
+<script src="https://neil.fraser.name/software/JS-Interpreter/acorn.js"></script>
+<script src="https://neil.fraser.name/software/JS-Interpreter/interpreter.js"></script>
 
 <script type="text/javascript" src="https://rawgit.com/karino2/js-introduction/master/scripts/env.js"></script>
 
