@@ -291,7 +291,6 @@ function _verifyArrayEqualInternal(expect, actual) {
             return expect[i];        
     }
     return true;
-    
 }
 
 function verifyArrayEqual(expect, actual) {
@@ -310,8 +309,42 @@ function verifyArrayEqual(expect, actual) {
     if(res == true) {
         return true;
     }
-    return JSON.stringify(res) + " が入っていません。";
-    
+    return JSON.stringify(res) + " が入っていません。";    
+}
+
+function _verifyArrayElemEqualInternal(expect, actual) {
+    var dict = {};
+    for(var i = 0; i < actual.length; i++) {
+        dict[actual[i]] = true;
+    }
+    for(var i = 0;i < expect.length; i++) {
+        if (dict[expect[i]] != true) {
+            return expect[i];    
+        }        
+    }
+
+    return true;
+}
+
+
+// 順番は違っていても、中身が同じ
+function verifyArrayElemEqual(expect, actual) {
+    if(actual.length == undefined) {
+        return "配列じゃないです。";
+    }
+    if(expect.length != actual.length) {
+        if(actual.length > expect.length) {
+            return "配列に"+ expect.length+" 個よりたくさん要素が入ってます！";
+        } else {
+            var dif = expect.length-actual.length;
+            return "配列に"+ expect.length+"個、要素が入ってないです。"+dif + "個足りない...";
+        }         
+    }
+    var res = _verifyArrayElemEqualInternal(expect, actual);
+    if(res == true) {
+        return true;
+    }
+    return JSON.stringify(res) + " が入っていません。";    
 }
 
 function questionFormTemplate(id, initSent, answer) {
