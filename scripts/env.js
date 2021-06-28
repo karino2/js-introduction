@@ -270,7 +270,9 @@ function countElem(arrs) {
 function elemEqual(one, other) {
     if(typeof one == "string" ||
         typeof one == "number") {
-            return one === other;
+            var one_n = one.replaceAll("～", "〜");
+            var other_n = other.replaceAll("～", "〜");
+            return one_n === other_n;
     }
     if(Array.isArray(one)) {
         return _verifyArrayEqualInternal(one, other) == true;
