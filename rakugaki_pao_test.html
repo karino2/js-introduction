@@ -254,14 +254,17 @@
         }
 
         function startDrawingTouch(e) {
+            e.preventDefault();
             startDrawingMouse(e.touches[0]);
         }
 
         function drawTouch(e) {
+            e.preventDefault();
             drawMouse(e.touches[0]);
         }
             
         function updateCursorTouch(e) {
+            e.preventDefault();
             updateCursorMouse(e.touches[0]);
         }
 
