@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rakugaki_pao</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        #app {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        #canvas-container {
+            position: relative;
+            width: 720px;
+            height: 720px;
+        }
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            border: 1px solid #000;
+        }
+        #cursor {
+            position: absolute;
+            pointer-events: none;
+            border: 1px solid #000;
+            border-radius: 50%;
+        }
+        #controls {
+            margin-top: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            max-width: 720px;
+        }
+        button {
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        .color-btn {
+            width: 30px;
+            height: 30px;
+            border: 1px solid #000;
+            border-radius: 5px;
+        }
+        .active {
+            border: 3px solid #000;
+        }
+        #pen-size {
+            width: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div id="canvas-container">
+            <canvas id="backgroundLayer" width="720" height="720"></canvas>
+            <canvas id="colorLayer" width="720" height="720"></canvas>
+            <canvas id="blackLayer" width="720" height="720"></canvas>
+            <div id="cursor"></div>
+        </div>
+        <div id="controls">  
+            <input type="number" id="pen-size" min="1" max="100" value="2">
+            <button id="blackPen">黒ペン</button>
+            <button id="eraserBlack">黒ペン消し</button>
+            色ブラシ
+            <div id="colorButtons"></div>
+            <input id="palette" type="color" value="#F7DFC5">
+            <div id="colorPalette"></div>
+            <button id="eraserColor">色ブラシ消し</button>
+            <button id="undo">元に戻す</button>
+            <button id="clear">クリア</button>
+            <button id="save">保存</button>
+            <button id="post">マストドンに投稿</button>
+            <button id="getToken">トークンの取得</button>
+        </div>
+        
+        現在はテスト中ですのでご了承くださいまし。色選択はまだ機能しませんわ。<BR>
+        ページを開いたら、お絵かきする前にまず「トークンの取得」を押してくださいね。（押すと絵が消えちゃいますの）
+
+    </div>
+    <script>
+        const app_info = {
+            "client_id":"fAPnpTwYhXj8DpeGxY-brBtnM43Yw-0Tzjvi6iw1DBs",
+            "client_secret":"CTufqdnM6j3Cxx3FZPIH8O4Vnqg9BIJohvZybCbfBqo",
+            "vapid_key":"BCMA3J7dkSc4NYWbGKgzgqqHIkkwTKJmJkWZRfkxPI9Poh4msHmnb0LGnUMxM5oVTX4-3qF5WElseplSwxmKkYk="
+        };
+        const serverUrl = "https://mistodon.cloud"; // 霧鯖だけですわ
+
+        const blackLayer = document.getElementById('blackLayer');
+        const colorLayer = document.getElementById('colorLayer');
+        const backgroundLayer = document.getElementById('backgroundLayer');
+        const ctxBlack = blackLayer.getContext('2d');
+        const ctxColor = colorLayer.getContext('2d');
+        const ctxBg = backgroundLayer.getContext('2d');
+        const cursor = document.getElementById('cursor');
+        const penSizeInput = document.getElementById('pen-size');
+        const colorButtons = document.getElementById('colorButtons');
+        const colorPalette = document.getElementById('palette');
+        const blackPenButton = document.getElementById('blackPen');
+        const eraserBlack = document.getElementById('eraserBlack');
+        const eraserColor = document.getElementById('eraserColor');
+        const undoButton = document.getElementById('undo');
+        const clearButton = document.getElementById('clear');
+        const saveButton = document.getElementById('save');
+        const postButton = document.getElementById('post');
+        const getTokenButton = document.getElementById('getToken');
+
+        let colors = [
+            "#BEBDBB", "#F8D4CB", "#F7DFC5", "#F8F4CB", "#D3ECC1", "#D3E4F0", "#F0E7F2"
+        ];
+
+        let isDrawing = false;
+        let lastX = 0;
+        let lastY = 0;
+        let currentLayer = ctxBlack;
+        const blackpenColor = "#36364A";
+        const backgroundColor = "#F2EEE6";
+        let currentColor = blackpenColor;
+        let currentColorindex = 0;
+        let isEraser = false;
+        let undoStack = [];
+        const undoLimit = 1;
+        let accessToken = null;
+
+        ctxBg.fillStyle = backgroundColor;
+        ctxBg.fillRect(0,0,backgroundLayer.width,backgroundLayer.height);
+
+        const toolSizes = {
+            blackPen: 4,
+            colorPen: 32,
+            blackEraser: 32,
+            colorEraser: 32
+        };
+
+        function createColorButtons() {
+            colors.forEach(color => {
+                const button = document.createElement('button');
+                button.className = 'color-btn';
+                button.style.backgroundColor = color;
+                button.dataset.color = color;  // データ属性を追加
+                button.addEventListener('click', () => setColor(color));
+                colorButtons.appendChild(button);
+            });
+        }
+
+
+        function setColor(color) {
+            currentColor = color;
+            if(color == blackpenColor){
+                currentLayer = ctxBlack;
+            }else{
+                currentLayer = ctxColor;
+                colorPalette.value = color;
+            }
+            
+            isEraser = false;
+            updateActiveButton();
+            updatePenSize();
+        }
+
+        function updateActiveButton() {
+            document.querySelectorAll('.color-btn, #blackPen, #eraserBlack, #eraserColor').forEach(btn => btn.classList.remove('active'));
+            if (isEraser) {
+                if (currentLayer === ctxBlack) {
+                    eraserBlack.classList.add('active');
+                } else {
+                    eraserColor.classList.add('active');
+                }
+            } else if (currentColor === blackpenColor) {
+                blackPenButton.classList.add('active');
+            } else {
+                const activeColorBtn = document.querySelector(`.color-btn[data-color="${currentColor}"]`);
+                if (activeColorBtn) {
+                    activeColorBtn.classList.add('active');
+                }
+            }
+        }
+
+        function updatePenSize() {
+            if (isEraser) {
+                penSizeInput.value = currentLayer === ctxBlack ? toolSizes.blackEraser : toolSizes.colorEraser;
+            } else {
+                penSizeInput.value = currentLayer === ctxBlack ? toolSizes.blackPen : toolSizes.colorPen;
+            }
+        }
+
+        function startDrawing(x, y) {
+            isDrawing = true;
+            [lastX, lastY] = [x, y];
+            saveState();
+        }
+
+        function draw(x, y) {
+            if (!isDrawing) return;
+            currentLayer.beginPath();
+            currentLayer.moveTo(lastX, lastY);
+            currentLayer.lineTo(x, y);
+            if (isEraser) {
+                currentLayer.globalCompositeOperation = 'destination-out';
+            } else {
+                currentLayer.globalCompositeOperation = 'source-over';
+                currentLayer.strokeStyle = currentColor;
+            }
+            currentLayer.lineWidth = parseInt(penSizeInput.value);
+            currentLayer.lineCap = 'round';
+            currentLayer.stroke();
+            [lastX, lastY] = [x, y];
+        }
+
+        function stopDrawing() {
+            isDrawing = false;
+            currentLayer.globalCompositeOperation = 'source-over';
+        }
+
+        function updateCursor(x, y) {
+            const size = parseInt(penSizeInput.value);
+            cursor.style.width = `${size}px`;
+            cursor.style.height = `${size}px`;
+            cursor.style.left = `${x - size / 2}px`;
+            cursor.style.top = `${y - size / 2}px`;
+        }
+
+        function saveState() {
+            undoStack.push({
+                black: ctxBlack.getImageData(0, 0, blackLayer.width, blackLayer.height),
+                color: ctxColor.getImageData(0, 0, colorLayer.width, colorLayer.height)
+            });
+            if (undoStack.length > undoLimit) {
+                undoStack.shift();
+            }
+        }
+
+        function startDrawingMouse(e) {
+            startDrawing(e.offsetX, e.offsetY);
+        }
+
+        function drawMouse(e) {
+            draw(e.offsetX, e.offsetY);
+        }
+            
+        function updateCursorMouse(e) {
+            updateCursor(e.offsetX, e.offsetY);
+        }
+
+        function startDrawingTouch(e) {
+            startDrawingMouse(e.touches[0]);
+        }
+
+        function drawTouch(e) {
+            drawMouse(e.touches[0]);
+        }
+            
+        function updateCursorTouch(e) {
+            updateCursorMouse(e.touches[0]);
+        }
+
+        function undo() {
+            if (undoStack.length === 0) return;
+            const state = undoStack.pop();
+            ctxBlack.putImageData(state.black, 0, 0);
+            ctxColor.putImageData(state.color, 0, 0);
+        }
+
+        function clearCanvas() {
+            saveState();
+            ctxBlack.clearRect(0, 0, blackLayer.width, blackLayer.height);
+            ctxColor.clearRect(0, 0, colorLayer.width, colorLayer.height);
+        }
+
+        function saveImage() {
+            const combinedCanvas = document.createElement('canvas');
+            combinedCanvas.width = 720;
+            combinedCanvas.height = 720;
+            const ctx = combinedCanvas.getContext('2d');
+            ctx.drawImage(backgroundLayer, 0, 0);
+            ctx.drawImage(colorLayer, 0, 0);
+            ctx.drawImage(blackLayer, 0, 0);
+            
+            const dataURL = combinedCanvas.toDataURL('image/png');
+            const link = document.createElement('a');
+            link.download = 'drawing.png';
+            link.href = dataURL;
+            link.click();
+        }
+
+        function postImage(dataURL, accessToken) {
+            fetch(`${serverUrl}/api/v1/media`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`,
+                    },
+                    body: (() => {
+                        const formData = new FormData();
+                        formData.append('file', dataURLToBlob(dataURL), 'drawing.png');
+                        return formData;
+                    })()
+            })
+            .then(response => response.json())
+            .then(data => {
+                return fetch(`${serverUrl}/api/v1/statuses`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`,
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        status: '#rakugaki_pao',
+                        media_ids: [data.id],
+                    }),
+                });
+            })
+            .then(() => alert('投稿できましたわ！'))
+            .catch(error => {
+                console.error('Error:', error);
+                alert('投稿中にエラーが発生しましたわ。');
+            });
+
+        }
+
+        function postToMastodon() {
+            const combinedCanvas = document.createElement('canvas');
+            combinedCanvas.width = 720;
+            combinedCanvas.height = 720;
+            const ctx = combinedCanvas.getContext('2d');
+            ctx.drawImage(backgroundLayer, 0, 0);
+            ctx.drawImage(colorLayer, 0, 0);
+            ctx.drawImage(blackLayer, 0, 0);
+            
+            const dataURL = combinedCanvas.toDataURL('image/png');
+
+
+
+            const params = new URLSearchParams(document.location.search);
+            const code = params.get('code');
+
+            if (!code) { 
+                alert('先に「トークンの取得」ボタンを押してくださいませ。');
+                return;
+            }
+
+            if (accessToken) {
+                postImage(dataURL, accessToken);
+            } else {
+                fetch(`${serverUrl}/oauth/token`, 
+                    {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body: `code=${code}&client_id=${app_info.client_id}&client_secret=${app_info.client_secret}&grant_type=authorization_code&redirect_uri=https://kurajo.ivory.ne.jp/rakugaki_pao/index.html&scope=write%20read`
+                    }
+                )
+                .then(response => response.json())
+                .then(data=>{
+                    accessToken = data.access_token;
+                    postImage(dataURL, accessToken);
+                    return data.access_token;
+                })
+            }
+        }
+
+        function getTokenRedirect() {
+            document.location = `https://mistodon.cloud/oauth/authorize?response_type=code&redirect_uri=https://kurajo.ivory.ne.jp/rakugaki_pao/index.html&scope=write%20read&client_id=${app_info.client_id}`;
+        }
+
+        function dataURLToBlob(dataURL) {
+            const parts = dataURL.split(';base64,');
+            const contentType = parts[0].split(':')[1];
+            const raw = window.atob(parts[1]);
+            const rawLength = raw.length;
+            const uInt8Array = new Uint8Array(rawLength);
+            for (let i = 0; i < rawLength; ++i) {
+                uInt8Array[i] = raw.charCodeAt(i);
+            }
+            return new Blob([uInt8Array], { type: contentType });
+        }
+
+        blackLayer.addEventListener('mousedown', startDrawingMouse);
+        blackLayer.addEventListener('mousemove', drawMouse);
+        blackLayer.addEventListener('mouseup', stopDrawing);
+        blackLayer.addEventListener('mouseout', stopDrawing);
+        blackLayer.addEventListener('mousemove', updateCursorMouse);
+
+        colorLayer.addEventListener('mousedown', startDrawingMouse);
+        colorLayer.addEventListener('mousemove', drawMouse);
+        colorLayer.addEventListener('mouseup', stopDrawing);
+        colorLayer.addEventListener('mouseout', stopDrawing);
+        colorLayer.addEventListener('mousemove', updateCursorMouse);
+
+        blackLayer.addEventListener('touchstart', startDrawingTouch);
+        blackLayer.addEventListener('touchmove', drawTouch);
+        blackLayer.addEventListener('touchend', stopDrawing);
+        blackLayer.addEventListener('touchcancel', stopDrawing);
+        blackLayer.addEventListener('touchmove', updateCursorTouch);
+
+        colorLayer.addEventListener('touchstart', startDrawingTouch);
+        colorLayer.addEventListener('touchmove', drawTouch);
+        colorLayer.addEventListener('touchend', stopDrawing);
+        colorLayer.addEventListener('touchcancel', stopDrawing);
+        colorLayer.addEventListener('touchmove', updateCursorTouch);
+
+        blackPenButton.addEventListener('click', () => {
+            currentLayer = ctxBlack;
+            setColor(blackpenColor);
+            isEraser = false;
+            updateActiveButton();
+            updatePenSize();
+        });
+
+        eraserBlack.addEventListener('click', () => {
+            currentLayer = ctxBlack;
+            isEraser = true;
+            updateActiveButton();
+            updatePenSize();
+        });
+
+        eraserColor.addEventListener('click', () => {
+            currentLayer = ctxColor;
+            isEraser = true;
+            updateActiveButton();
+            updatePenSize();
+        });
+
+        penSizeInput.addEventListener('change', () => {
+            const size = parseInt(penSizeInput.value);
+            if (isEraser) {
+                if (currentLayer === ctxBlack) {
+                    toolSizes.blackEraser = size;
+                } else {
+                    toolSizes.colorEraser = size;
+                }
+            } else {
+                if (currentLayer === ctxBlack) {
+                    toolSizes.blackPen = size;
+                } else {
+                    toolSizes.colorPen = size;
+                }
+            }
+        });
+
+        colorPalette.addEventListener('input', () => {
+            const inputColorval = colorPalette.value;
+        }, false);
+
+        undoButton.addEventListener('click', undo);
+        clearButton.addEventListener('click', clearCanvas);
+        saveButton.addEventListener('click', saveImage);
+        postButton.addEventListener('click', postToMastodon);
+        getTokenButton.addEventListener('click', getTokenRedirect);
+
+        createColorButtons();
+        updateActiveButton();
+        updatePenSize();
+    </script>
+</body>
+</html>
+
