@@ -256,7 +256,7 @@
         function touchToOffsetXY(e) {
             const target = e.touches[0].target;
             const r = target.getBoundingClientRect();
-            return [e.touches[0].pageX - r.left, e.touches[0].pageY - r.top];
+            return [e.touches[0].clientX - r.left, e.touches[0].clientY - r.top];
         }
 
         function startDrawingTouch(e) {
