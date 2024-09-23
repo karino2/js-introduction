@@ -261,7 +261,7 @@
         function drawTouch(e) {
             e.preventDefault();
             drawMouse(e.touches[0]);
-            alert("draw touch end");
+            alert(`draw touch end, ${e.touches[0].offsetX} `);
         }
             
         function updateCursorTouch(e) {
