@@ -536,7 +536,7 @@
                         headers: {
                             'Content-Type': 'application/x-www-form-urlencoded'
                         },
-                        body: `code=${code}&client_id=${app_info.client_id}&client_secret=${app_info.client_secret}&grant_type=authorization_code&redirect_uri=${app_info.redirect_uri}&scope=write%20read`
+                        body: `code=${code}&client_id=${app_info.client_id}&client_secret=${app_info.client_secret}&grant_type=authorization_code&redirect_uri=${app_info.redirect_uri}&scope=write`
                     }
                 )
                 .then(response => response.json())
@@ -549,7 +549,7 @@
         }
 
         function getTokenRedirect() {
-            document.location = `${serverUrl}/oauth/authorize?response_type=code&redirect_uri=${app_info.redirect_uri}&scope=write%20read&client_id=${app_info.client_id}`;
+            document.location = `${serverUrl}/oauth/authorize?response_type=code&redirect_uri=${app_info.redirect_uri}&scope=write&client_id=${app_info.client_id}`;
         }
 
         function dataURLToBlob(dataURL) {
