@@ -150,7 +150,7 @@
     </style>
 </head>
 <body>
-    deb2
+    deb3
     <div id="app">
         <div id="canvas-container">
             <canvas id="backgroundLayer" width="720" height="720"></canvas>
@@ -495,7 +495,14 @@
                         return formData;
                     })()
             })
-            .then(response => response.json())
+            .then(response => { 
+                if (!response.ok) {
+                    alert("エラー、もう一度codeの取り直しが必要です。");
+                    getAuthCodeRedirect()
+                    return;
+                }
+                return response.json()
+            })
             .then(data => {
                 return fetch(`${serverUrl}/api/v1/statuses`, {
                     method: 'POST',
