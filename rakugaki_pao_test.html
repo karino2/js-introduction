@@ -150,7 +150,7 @@
     </style>
 </head>
 <body>
-    deb4
+    deb5
     <div id="app">
         <div id="canvas-container">
             <canvas id="backgroundLayer" width="720" height="720"></canvas>
@@ -497,9 +497,9 @@
             })
             .then(response => { 
                 if (!response.ok) {
-                    alert("エラー、もう一度codeの取り直しが必要です。");
+                    alert("ポストエラー、トークンが駄目っぽいのでもう一度codeの取り直しが必要です。");
                     accessToken = null;
-                    window.localStorage.setItem(localstorageKeyAccessToken, null);
+                    window.localStorage.removeItem(localstorageKeyAccessToken);
 
                     getAuthCodeRedirect()
                     return;
@@ -762,7 +762,7 @@
                 )
                 .then(response => {
                     if (!response.ok) {
-                        alert("エラー、もう一度codeの取り直しが必要です。");
+                        alert("トークンエラー、codeが駄目っぽいのでもう一度codeの取り直しが必要です。");
                         getAuthCodeRedirect()
                         return;
                     }
