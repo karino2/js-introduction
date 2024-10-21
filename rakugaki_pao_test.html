@@ -150,7 +150,7 @@
     </style>
 </head>
 <body>
-    deb1
+    deb2
     <div id="app">
         <div id="canvas-container">
             <canvas id="backgroundLayer" width="720" height="720"></canvas>
@@ -523,39 +523,7 @@
         function postToMastodon() {
             combineCanvas();
             const dataURL = combinedCanvas.toDataURL('image/png');
-
-            if (!code) { 
-                alert(`初回のみ認証が必要ですの。\n[OK]を押すと ${hostName} の認証画面に移動しますので、承認をお願いいたします。その後 rakugaki_pao の画面に戻りますので、もう一度投稿ボタンを押してくださいませ。\n\n次回以降は投稿ボタンを押すだけで投稿できますわ。\n\n認証から時間がたつと、投稿ボタンを押しても投稿されないことがありますの。\nそのときは、投稿ボタン右側のトークン再取得ボタン🔄️を押してから、もう投稿ボタンを押してくださいませ。`);
-                getTokenRedirect();
-                return;
-            }
-
-            if (accessToken) {
-                postImage(dataURL, accessToken);
-            } else {
-                fetch(`${serverUrl}/oauth/token`, 
-                    {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded'
-                        },
-                        body: `code=${code}&client_id=${app_info.client_id}&client_secret=${app_info.client_secret}&grant_type=authorization_code&redirect_uri=${app_info.redirect_uri}&scope=write`
-                    }
-                )
-                .then(response => {
-                    if (!response.ok) {
-                        alert("エラー、もう一度codeの取り直しが必要です。");
-                        getAuthCodeRedirect()
-                        return;
-                    }
-                    return response.json()
-                })
-                .then(data=>{
-                    accessToken = data.access_token;
-                    postImage(dataURL, accessToken);
-                    return data.access_token;
-                })
-            }
+            postImage(dataURL, accessToken);
         }
 
         function getAuthCodeRedirect() {
@@ -641,6 +609,12 @@
             updateActiveButton();
             updateToolSize();
             updateToolOpacity();
+        }
+
+        function enablePostButton() {
+            getTokenButton.style.display = 'none';
+            postButton.style.display = '';
+            postButton.style.backgroundColor = '#0E6AE4';
         }
 
         blackLayer.addEventListener('mousedown', startDrawingMouse);
@@ -746,7 +720,7 @@
 
         saveButton.addEventListener('click', saveImage);
         postButton.addEventListener('click', postToMastodon);
-        getTokenButton.addEventListener('click', getTokenRedirect);
+        getTokenButton.addEventListener('click', getAuthCodeRedirect);
 
         copyTextButton.addEventListener('click', () => {
             if (navigator.clipboard) {
@@ -765,9 +739,7 @@
 
 
         if (accessToken) {
-            getTokenButton.style.display = 'none';
-            postButton.style.display = '';
-            postButton.style.backgroundColor = '#0E6AE4';
+            enablePostButton();            
         } else if(code) {
             fetch(`${serverUrl}/oauth/token`, 
                     {
@@ -789,6 +761,7 @@
                 .then(data=>{
                     accessToken = data.access_token;
                     window.localStorage.setItem(localstorageKeyAccessToken, accessToken);
+                    enablePostButton();
                 })
         } else {
             getAuthCodeRedirect();
