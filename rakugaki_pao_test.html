@@ -150,7 +150,7 @@
     </style>
 </head>
 <body>
-    deb5
+    deb6
     <div id="app">
         <div id="canvas-container">
             <canvas id="backgroundLayer" width="720" height="720"></canvas>
@@ -497,12 +497,9 @@
             })
             .then(response => { 
                 if (!response.ok) {
-                    alert("ポストエラー、トークンが駄目っぽいのでもう一度codeの取り直しが必要です。");
                     accessToken = null;
                     window.localStorage.removeItem(localstorageKeyAccessToken);
-
-                    getAuthCodeRedirect()
-                    return;
+                    throw "PostError";
                 }
                 return response.json()
             })
@@ -524,8 +521,16 @@
                 // document.location = currentPageUrl;
             })
             .catch(error => {
-                console.error('Error:', error);
-                alert('投稿中にエラーが発生しましたの‥‥');
+                if (error == "PostError")
+                {
+                    alert("ポストエラー、トークンが駄目っぽいのでもう一度codeの取り直しが必要です。");
+                    getAuthCodeRedirect();
+                }
+                else
+                {
+                    console.error('Error:', error);
+                    alert('投稿中に良くわからないエラーが発生しましたの‥‥');
+                }
             });
 
         }
@@ -764,7 +769,7 @@
                     if (!response.ok) {
                         alert("トークンエラー、codeが駄目っぽいのでもう一度codeの取り直しが必要です。");
                         getAuthCodeRedirect()
-                        return;
+                        throw "TokenError";
                     }
                     return response.json()
                 })
