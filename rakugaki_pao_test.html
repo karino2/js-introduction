@@ -150,7 +150,7 @@
     </style>
 </head>
 <body>
-    deb3
+    deb4
     <div id="app">
         <div id="canvas-container">
             <canvas id="backgroundLayer" width="720" height="720"></canvas>
@@ -498,6 +498,9 @@
             .then(response => { 
                 if (!response.ok) {
                     alert("エラー、もう一度codeの取り直しが必要です。");
+                    accessToken = null;
+                    window.localStorage.setItem(localstorageKeyAccessToken, null);
+
                     getAuthCodeRedirect()
                     return;
                 }
